@@ -1,0 +1,14 @@
+{
+  "name": "pasoapasolaravel",
+  "version": "0.0.1",
+  "authors": [
+    "Ricardo Uricoechea"
+  ],
+  "description": "Paso a Paso Laravel",
+  "license": "MIT",
+  "homepage": "pasoapasolaravel.ur",
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "bootstrap-material-design": "~0.3.0"
+  }
+}
