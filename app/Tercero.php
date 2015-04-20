@@ -6,4 +6,9 @@ class Tercero extends Model {
 
 	protected $table = 'terceros';
 
+	protected $fillable = array (
+		'nit', 'nombre', 'rol', 'direccion', 'telefono', 'email', 'notas'
+	      );
+
+
 }
