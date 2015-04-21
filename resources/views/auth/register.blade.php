@@ -24,7 +24,14 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">Nombre</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
+								<input type="text" class="form-control" name="first_name" value="{{ old('first_name') }}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label">Apellido</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}">
 							</div>
 						</div>
 
@@ -48,6 +55,15 @@
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
+
+						<div class="form-group">
+					{!! Form::select('type',
+					['admin'=>'Admin','user'=>'User'],
+					null,
+					['class'=>'form-control floating-label','placeholder'=>'Tipo:'])!!}
+					</div>
+					
+						
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">

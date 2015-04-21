@@ -1,4 +1,6 @@
+
 <div class="col sm-6">
+
 	
 		<div class="form-group">
 			{!! Form::text('nit',null,['class'=>'form-control floating-label','placeholder'=>'NIT:'])!!}
@@ -34,5 +36,6 @@
 		<div class="form-group">
 			{!! Form::textarea('notas',null,['class'=>'form-control floating-label','rows'=>'8','placeholder'=>'Notas:'])!!}
 		</div>
+		
 
 </div>{{--/.col-sm-6--}}

@@ -5,13 +5,17 @@ use App\Http\Controllers\Controller;
 use App\Tercero;
 use Illuminate\Http\Request;
 
-class TerceroController extends Controller {
+class PruebaController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
+	public function getindex()
+	{
+		return 'user Index';
+	}
 	public function index()
 	{
 		//
@@ -24,8 +28,7 @@ class TerceroController extends Controller {
 	 */
 	public function create()
 	{
-		return view('terceros.create');
-		return view('pruebas.usuarioprueba');
+		return view('pruebas.create');
 	}
 
 	/**
@@ -33,10 +36,9 @@ class TerceroController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store()
 	{
-		$tercero = Tercero::create($request->all());
-		return "El tercero $tercero->nombre se ha creado en la base de datos.";
+		//
 	}
 
 	/**
