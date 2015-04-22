@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
@@ -21,3 +22,8 @@ Thank you for considering contributing to the Laravel framework! The contributio
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+=======
+## Proyecto Paso a paso Laravel
+
+Estoy agregando una linea desde https://github.com
+>>>>>>> 50dbd029d28110ea995bfcbcf99af0bc30358d26

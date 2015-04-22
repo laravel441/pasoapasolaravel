@@ -30,7 +30,6 @@ class CreateLlenadosTable extends Migration {
    				  ->references('id')->on('cilindros')
    				  ->onUpdate('CASCADE')
    				  ->onDelete('CASCADE');
-
 		});
 	}
 

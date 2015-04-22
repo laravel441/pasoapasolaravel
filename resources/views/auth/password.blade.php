@@ -14,8 +14,8 @@
 					@endif
 
 					@if (count($errors) > 0)
-						<div class="alert alert-danger text-center">
-							<strong>Ooops!</strong> Ocurrio un problema con tu ingreso..<br><br>
+						<div class="alert alert-danger" text-center>
+							<strong>Oops!</strong> Ocurrio algun problema con su Ingreso.<br><br>
 							<ul>
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -28,7 +28,7 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
+							<label class="col-md-4 control-label">E-Mail</label>
 							<div class="col-md-6">
 								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 							</div>

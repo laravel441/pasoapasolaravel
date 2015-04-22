@@ -139,7 +139,6 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-
 		'Collective\Html\HtmlServiceProvider',
 
 		'App\Providers\AppServiceProvider',
@@ -196,7 +195,7 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form' => 'Collective\Html\FormFacade',
-      'Html' => 'Collective\Html\HtmlFacade',
+     	'Html' => 'Collective\Html\HtmlFacade',
 
 	],
 

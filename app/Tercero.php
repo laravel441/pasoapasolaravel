@@ -6,3 +6,5 @@ class Tercero extends Model {
 		'nit', 'nombre', 'rol', 'direccion', 'telefono', 'email', 'notas'
 	      );
 }
+
+

@@ -8,8 +8,8 @@
 				<div class="panel-heading">Reset Password</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Ooops!</strong> Ocurrio un problema con tu ingreso.<br><br>
+						<div class="alert alert-danger" text-center>
+							<strong>Ooops!</strong> Ocurrio algun problema con su Ingreso.<br><br>
 							<ul>
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -23,7 +23,7 @@
 						<input type="hidden" name="token" value="{{ $token }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
+							<label class="col-md-4 control-label">E-Mail</label>
 							<div class="col-md-6">
 								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 							</div>
@@ -37,7 +37,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
+							<label class="col-md-4 control-label">Confirmar Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Paso a paso Laravel</title>
+	<title>@section('title')Pasoapasolaravel @show</title>
 
-{!! Html::style('bower_components/bootstrap/dist/css/bootstrap.min.css') !!}
-{!! Html::style('bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css') !!}
-{!! Html::style('bower_components/bootstrap-material-design/dist/css/material.min.css') !!}
-{!! Html::style('bower_components/bootstrap-material-design/dist/css/ripples.min.css') !!}
-{!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!}
+	{!! Html::style('bower_components/bootstrap/dist/css/bootstrap.min.css') !!}
+	{!! Html::style('bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css') !!}
+	{!! Html::style('bower_components/bootstrap-material-design/dist/css/material.min.css') !!}
+	{!! Html::style('bower_components/bootstrap-material-design/dist/css/ripples.min.css') !!}
+	{!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!} 
+
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css' />
@@ -42,13 +43,13 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						<li><a href="{!! url('/auth/login') !!}">Iniciar Sesión</a></li>
-						<li><a href="{!! url('/auth/register') !!}">Registrarse</a></li>
+						<li><a href="{!! url('/auth/login') !!}">Entrar</a></li>
+						<li><a href="{!! url('/auth/register') !!}">Registrarme</a></li>
 					@else
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->first_name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>                                                                                      
+								<li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
 							</ul>
 						</li>
 					@endif
@@ -57,20 +58,19 @@
 		</div>
 	</nav>
 
-	@yield('content')
+	<div class="container">
+		@yield('content')
+	</div>
 	
 	{!! Html::script('bower_components/jquery/dist/jquery.min.js') !!}
 	{!! Html::script('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/material.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
-	
-	
-	<script type="text/javascript">
+<script type="text/javascript">
 		$(document).on('ready', function(){
 			$.material.init();
 		});
+</script>
 
-
-	</script>	
 </body>
 </html>

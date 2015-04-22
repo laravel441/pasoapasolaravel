@@ -8,7 +8,7 @@
 				<div class="panel-heading">Home</div>
 
 				<div class="panel-body">
-					Estas Adentro!
+					Estás Adentro!
 				</div>
 			</div>
 		</div>

@@ -23,7 +23,6 @@ class CreateTercerosTable extends Migration {
 			$table->string('email')->unique()->nullable();
 			$table->string('notas',1000)->nullable();
 			$table->timestamps();
-
 		});
 	}
 

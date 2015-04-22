@@ -5,11 +5,11 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
+				<div class="panel-heading">Iniciar Sesión</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger text-center">
-							<strong>Oops!</strong> Ocurrio un problema con tu ingreso.<br><br>
+							<strong>Oops!</strong> Las credenciales que ingresaste no coinciden con nuestros registros.<br><br>
 							<ul>
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -25,8 +25,7 @@
 							<div class="col-md-6">
 								{!! Form::email('email', old('email'),
 								['class'=>'form-control']
-									)!!}
-
+								)!!}
 							</div>
 						</div>
 
