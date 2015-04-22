@@ -55,19 +55,18 @@
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
-
 						<div class="form-group">
-							
+
+							<label class="col-md-4 control-label">Rol</label>
 							<div class="col-md-6">
-								{!! Form::select('type',
-							['admin'=>'Admin','user'=>'User'],
-							null,
-							['class'=>'form-control floating-label','placeholder'=>'Tipo:'])!!}
+								<select name="type" class="form-control" name="type" value="{{ old('type') }}">
+  								<option value="admin">Admin</option> 
+  								<option value="user" selected>User</option>
+  								</select>
 							</div>
 						</div>
 
-						
-						
+				
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">

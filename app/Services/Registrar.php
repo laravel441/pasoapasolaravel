@@ -1,11 +1,8 @@
 <?php namespace App\Services;
-
 use App\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
-
 class Registrar implements RegistrarContract {
-
 	/**
 	 * Get a validator for an incoming registration request.
 	 *
@@ -22,7 +19,6 @@ class Registrar implements RegistrarContract {
 			'type' => 'required|max:255',
 		]);
 	}
-
 	/**
 	 * Create a new user instance after a valid registration.
 	 *
@@ -39,5 +35,4 @@ class Registrar implements RegistrarContract {
 			'password' => bcrypt($data['password']),
 		]);
 	}
-
 }

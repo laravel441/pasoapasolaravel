@@ -22,5 +22,15 @@ class AdminTableSeeder extends Seeder {
          'updated_at' => new DateTime,
 		// $this->call('UserTableSeeder');
 	));
+
+		\DB::table('user_profiles')->insert(array(
+			'user_id'=>1,
+			'birthdate'=>'1990/07/12',
+			'created_at' => new DateTime,   
+      	   'updated_at' => new DateTime,
+
+
+
+			));
 }
 }

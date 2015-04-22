@@ -16,9 +16,18 @@ Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@index');
 
 
+
+
+
 Route::controllers([
+	'users' => 'UsersController',
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+	
+
 ]);
 	resource('terceros','TerceroController');
-	resource('pruebas','PruebaController');
+Route::group(['prefix'=>'admin','namespace'=>'Admin'], function()
+{
+	Route::resource('users','UsersController');
+});

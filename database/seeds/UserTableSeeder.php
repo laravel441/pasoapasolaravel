@@ -34,8 +34,10 @@ class UserTableSeeder extends Seeder {
 		'bio'=>$faker->paragraph(rand(2,5)),
 		'website'=>'http://www.'. $faker->domainName,
 		'twitter'=>'http://www.twitter.com/'. $faker->userName,
+		'birthdate'=>$faker->dateTimeBetween('-40 years', $endDate = '-18 years')->format('Y-m-d'),
 		'created_at' => new DateTime,   
-        'updated_at' => new DateTime
+        'updated_at' => new DateTime,
+
 		// $this->call('UserTableSeeder');
 		));
 

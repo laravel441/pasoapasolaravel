@@ -1,10 +1,7 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateUserProfilesTable extends Migration {
-
 	/**
 	 * Run the migrations.
 	 *
@@ -18,19 +15,16 @@ class CreateUserProfilesTable extends Migration {
 			$table->mediumText('bio')->nullable();
 			$table->string('twitter')->nullable();
 			$table->string('website')->nullable();
-
+			$table->date('birthdate')->nullable();
 			$table->integer('user_id')->unsigned();
-
 			$table->foreign('user_id')
 				  ->references('id')
 				  ->on('users')
 				  ->onDelete('CASCADE')
 				  ->onUpdate('CASCADE');
-
 			$table->timestamps();
 		});
 	}
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -40,5 +34,4 @@ class CreateUserProfilesTable extends Migration {
 	{
 		Schema::drop('user_profiles');
 	}
-
 }

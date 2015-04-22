@@ -141,7 +141,6 @@ return [
 		 */
 		'Collective\Html\HtmlServiceProvider',
 
-
 		'App\Providers\AppServiceProvider',
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
@@ -195,8 +194,6 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-
-
 		'Form' => 'Collective\Html\FormFacade',
      	'Html' => 'Collective\Html\HtmlFacade',
 

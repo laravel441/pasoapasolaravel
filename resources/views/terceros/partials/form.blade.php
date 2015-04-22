@@ -1,4 +1,3 @@
-
 <div class="col sm-6">
 
 	
@@ -26,6 +25,8 @@
 		</div>
 		
 </div>{{--/.col-sm-6--}}
+
+
 
 <div class="col sm-6">
 

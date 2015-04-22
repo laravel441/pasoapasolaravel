@@ -25,7 +25,6 @@ class TerceroController extends Controller {
 	public function create()
 	{
 		return view('terceros.create');
-		return view('pruebas.usuarioprueba');
 	}
 
 	/**

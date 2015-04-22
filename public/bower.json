@@ -1,10 +1,17 @@
 {
   "name": "pasoapasolaravel",
   "version": "0.0.1",
+<<<<<<< HEAD
+  "authors": [
+    "Ricardo Uricoechea"
+  ],
+  "description": "Paso a Paso Laravel",
+=======
   "description": "Paso a Paso Laravel",
   "authors": [
     "Ricardo Uricoechea"
   ],
+>>>>>>> 50dbd029d28110ea995bfcbcf99af0bc30358d26
   "license": "MIT",
   "homepage": "pasoapasolaravel.ur",
   "dependencies": {
