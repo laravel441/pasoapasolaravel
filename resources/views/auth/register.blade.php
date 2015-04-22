@@ -57,12 +57,16 @@
 						</div>
 
 						<div class="form-group">
-					{!! Form::select('type',
-					['admin'=>'Admin','user'=>'User'],
-					null,
-					['class'=>'form-control floating-label','placeholder'=>'Tipo:'])!!}
-					</div>
-					
+							
+							<div class="col-md-6">
+								{!! Form::select('type',
+							['admin'=>'Admin','user'=>'User'],
+							null,
+							['class'=>'form-control floating-label','placeholder'=>'Tipo:'])!!}
+							</div>
+						</div>
+
+						
 						
 
 						<div class="form-group">
