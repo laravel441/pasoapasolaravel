@@ -8,7 +8,7 @@
 				<div class="panel-heading text-center"><h2>Usuarios</h2> </div>
 
 				<div class="panel-body">
-					<p>Hay{{$users->total()}} usuarios</p>
+					<p>Hay {{$users->total()}} usuarios</p>
 					
 					<table class="table table-hover">
     			<thead>
