@@ -2,10 +2,10 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Tercero;
+use App\User;
+use Illuminate\Http\Request;
 
-
-class TerceroController extends Controller {
+class BuscarUsuarioController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -14,8 +14,8 @@ class TerceroController extends Controller {
 	 */
 	public function index()
 	{
-		$terceros = Tercero::orderBy('nombre','asc')->paginate();
-        return view ('terceros.index', compact('terceros'));
+        $buscar_usuario = User::paginate();
+        return view('buscar_usuario.busuario',compact('buscar_usuario'));
 	}
 
 	/**
@@ -25,7 +25,7 @@ class TerceroController extends Controller {
 	 */
 	public function create()
 	{
-		return view('terceros.create');
+		//
 	}
 
 	/**
@@ -33,10 +33,9 @@ class TerceroController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Requests\CreateTerceroRequest $request)
+	public function store()
 	{
-		$tercero = Tercero::create($request->all());
-		return redirect ('terceros');
+		//
 	}
 
 	/**

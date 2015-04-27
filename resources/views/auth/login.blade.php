@@ -10,24 +10,30 @@
 					@if (count($errors) > 0)
 						<div class="alert alert-danger text-center">
 							<strong>Oops!</strong> Las credenciales que ingresaste no coinciden con nuestros registros.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
+                            <ul>
+                            		@foreach ($errors->all() as $error)
+                            		<li>{{ $error }}</li>
+                            		@endforeach
+                            </ul>
 						</div>
 					@endif
 
 					{!! Form::open(['url'=> 'auth/login','role'=>'form','class'=>'form-horizontal'])!!}
 
-						<div class="form-group">
-							{!! Form::label('email','Email:',['class'=>'col-md-4 control-label'])!!}
-							<div class="col-md-6">
-								{!! Form::email('email', old('email'),
-								['class'=>'form-control']
-								)!!}
-							</div>
-						</div>
+						{{--<div class="form-group">--}}
+							{{--{!! Form::label('user_name','Usuario:', ['class'=>'col-md-4 control-label'])!!}--}}
+							{{--<div class="col-md-6">--}}
+								{{--{!! Form::text('user_name', old('user_name'),--}}
+								{{--['class'=>'form-control', 'placeholder'=>'nombre.apellido']--}}
+								{{--)!!}--}}
+							{{--</div>--}}
+						{{--</div>--}}
+                        <div class="form-group">
+                        	{!! Form::label('user_name','Usuario:', ['class'=>'col-md-4 control-label'])!!}
+					       	<div class="col-md-6">
+                        			{!! Form::text('user_name',null,['class'=>'form-control floating-label','placeholder'=>'nombre.apellido','required'])!!}
+                                </div>
+                        </div>
 
 						<div class="form-group">
 							{!! Form::label('password','Password:',['class'=> 'col-md-4 control-label' ])!!}

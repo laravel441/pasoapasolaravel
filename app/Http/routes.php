@@ -23,6 +23,7 @@ Route::controllers([
 	'users' => 'UsersController',
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+    'buscar_usuario'=>'BuscarUsuarioController',
 	
 
 ]);
@@ -31,3 +32,4 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'], function()
 {
 	Route::resource('users','UsersController');
 });
+

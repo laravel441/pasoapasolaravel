@@ -23,7 +23,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	
-	protected $fillable = array ('first_name', 'last_name', 'email', 'password','type');
+	protected $fillable = array ('first_name', 'last_name','user_name' , 'email', 'password','type');
 
 
 	/**
@@ -43,5 +43,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->first_name . ' ' . $this->last_name;
 	}
+
 
 }

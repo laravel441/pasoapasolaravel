@@ -14,11 +14,12 @@ class AdminTableSeeder extends Seeder {
 	{
 		\DB::table('users')->insert(array(
 		'first_name'=>'Ricardo',
-		'last_name' =>'Uricoechea',	
+		'last_name' =>'Uricoechea',
+        'user_name'=>'ricardo.uricoechea',
 		'email'=>'ur@gmail.com',
 		'password'=>\Hash::make('urico'),
 		'type'=> 'admin',
-		'created_at' => new DateTime,   
+		'created_at' => new DateTime,
          'updated_at' => new DateTime,
 		// $this->call('UserTableSeeder');
 	));

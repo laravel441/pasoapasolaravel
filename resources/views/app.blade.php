@@ -16,20 +16,10 @@
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css' />
 
-	{!! Html::style('bower_components/easyui-jquery/themes/bootstrap/easyui.css') !!}
-	{!! Html::style('bower_components/easyui-jquery/themes/icon.css') !!}
-	{!! Html::style('bower_components/easyui-jquery/demo/demo/demo.css') !!} 
-
-	
-	
-
-
-
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
 	<![endif]-->
 </head>
 <body>
@@ -54,6 +44,8 @@
 					@if (Auth::guest())
 						<li><a href="{!! url('/auth/login') !!}">Entrar</a></li>
 						<li><a href="{!! url('/auth/register') !!}">Registrarme</a></li>
+						<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>
+
 					@else
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->first_name }} <span class="caret"></span></a>
@@ -75,10 +67,7 @@
 	{!! Html::script('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/material.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
-	
 
-	{!! Html::script('bower_components/easyui-jquery/jquery.min.js') !!}
-	{!! Html::script('bower_components/easyui-jquery/jquery.easyui.min.js') !!}
 
 	
 <script type="text/javascript">
