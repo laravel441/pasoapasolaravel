@@ -1,3 +1,8 @@
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-default">
+		<div class="panel-body">
+				
+
 <div class="col sm-6">
 
 	
@@ -24,11 +29,6 @@
 			{!! Form::text('telefono',null,['class'=>'form-control floating-label','placeholder'=>'Telefono:'])!!}
 		</div>
 		
-</div>{{--/.col-sm-6--}}
-
-
-
-<div class="col sm-6">
 
 		<div class="form-group">
 			{!! Form::email('email',null,['class'=>'form-control floating-label','placeholder'=>'Email:'])!!}
@@ -40,3 +40,8 @@
 		
 
 </div>{{--/.col-sm-6--}}
+	
+		
+	</div>
+</div>
+	

@@ -20,6 +20,7 @@ class CreateTercerosTable extends Migration {
 			$table->enum('rol',['cliente','proveedor','yo']);
 			$table->string('direccion');
 			$table->string('telefono',100);
+			$table->string('celular',100);
 			$table->string('email')->unique()->nullable();
 			$table->string('notas',1000)->nullable();
 			$table->timestamps();
