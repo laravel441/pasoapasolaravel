@@ -7,31 +7,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
                       <div class="panel-body">
-                      <p>Hay {{$users->total()}} usuarios</p>
-                        <table class="table table-hover">
-                            <thead>
-                              <tr>
-                                    <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Acciones</th>
-                              </tr>
-                            </thead>
-                               <tbody>
-                                    @foreach ($users as $user)
-                                      <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->full_name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>
-                                        <a href="">Editar</a>
-                                        <a href="">Eliminar</a>
-                                        </td>
-                                      </tr>
-                                    @endforeach
-                              </tbody>
-                        </table>
+                           <div class="form-group">
+                           	<div class="col-md-8 col-md-offset-4">
+                           <a href="{{route('admin.users.create')}}" class="btn btn-primary btn-lg active" role="button">Nuevo Usuario</a>
+                               </div>
+                               </div>
+
+                        <p>Hay {{$users->total()}} usuarios</p>
+
+                            @include('admin.users.partials.table')
                       {!!$users->render()!!}
+
                     </div>
                 </div>
             </div>

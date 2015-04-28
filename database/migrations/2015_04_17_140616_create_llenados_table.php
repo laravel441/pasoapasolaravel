@@ -15,7 +15,7 @@ class CreateLlenadosTable extends Migration {
 		Schema::create('llenados', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('cilindro_id')->unsigned();
+            $table->integer('cilindro_id')->unsigned();
 			$table->integer('tercero_id')->unsigned();
 			$table->enum('estado',['llenado','lleno']);
 			$table->string('notas',1000)->nullable;
