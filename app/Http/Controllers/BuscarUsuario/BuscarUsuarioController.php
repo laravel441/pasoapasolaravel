@@ -14,8 +14,7 @@ class BuscarUsuarioController extends Controller {
 	 */
 	public function index()
 	{
-        $buscar_usuario = User::paginate();
-        return view('buscar_usuario.busuario',compact('buscar_usuario'));
+
 	}
 
 	/**

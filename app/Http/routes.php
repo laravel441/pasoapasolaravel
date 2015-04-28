@@ -23,7 +23,7 @@ Route::controllers([
 	'users' => 'UsersController',
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
-    'buscar_usuario'=>'BuscarUsuarioController',
+
 	
 
 ]);
