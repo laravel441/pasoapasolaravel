@@ -49,7 +49,7 @@
 						{{--<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>--}}
 
 					@else
-                        <li><a href="{!! url('/register') !!}">Registrarme</a></li>
+                        <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
                          <li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>
 						<li class="dropdown">
 
@@ -74,13 +74,10 @@
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/material.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
 
+@yield('scripts')
 
-	
-<script type="text/javascript">
-		$(document).on('ready', function(){
-			$.material.init();
-		});
-</script>
+{{--los voy hacer en el Index de Admin/Users(Van los de bootstrap--}}
+
 
 </body>
 </html>

@@ -16,6 +16,7 @@ class AdminTableSeeder extends Seeder {
 		'first_name'=>'Ricardo',
 		'last_name' =>'Uricoechea',
         'user_name'=>'ricardo.uricoechea',
+         'full_name'=>'Ricardo Uricoechea',
 		'email'=>'ur@gmail.com',
 		'password'=>\Hash::make('urico'),
 		'type'=> 'admin',

@@ -55,5 +55,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     }
 
+    public function scopeName($query, $name)
+    {
+
+        if(trim($name) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
+        {
+            //$query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");//consulta Db::raw
+            $query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");
+        }
+
+    }
+
 
 }

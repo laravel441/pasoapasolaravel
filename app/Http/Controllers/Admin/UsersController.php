@@ -5,8 +5,12 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+
 
 
 class UsersController extends Controller {
@@ -16,11 +20,22 @@ class UsersController extends Controller {
 	 *
 	 * @return Response
 	 */
+    public function __construct()
+    {
+        $this->beforeFilter('@findUser',['only'=>['show', 'update', 'edit', 'destroy']]);
+    }
 
+    public function findUser(Route $route)
+    {
+        //dd($route->getParameter('users'));
+        $this->user = User::findOrFail($route->getParameter('users'));
+    }
 
-	public function index()
+	public function index(Request $request)
 	{
-        $users = User::paginate();
+        $users= User::name($request->get('name'))->orderBy('id','DESC')->paginate();
+        //dd($request->get('user_name'));
+        //$users = User::orderBy('id','DESC')->paginate();
         return view('admin.users.index',compact('users'));
 	}
 
@@ -58,6 +73,7 @@ class UsersController extends Controller {
 
 
         $user = User::create($request->all());
+        Session::flash('message',$user->full_name.' Se ha creado' );
         return redirect()->route('admin.users.index');
 
 	}
@@ -81,8 +97,9 @@ class UsersController extends Controller {
 	 */
 	public function edit($id)
 	{
-        $user = User::findOrFail($id);
-		return view('admin.users.edit', compact('user'));
+        //$user = User::findOrFail($id);
+		//return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit')->with ('user',$this->user);
 	}
 
 	/**
@@ -93,9 +110,10 @@ class UsersController extends Controller {
 	 */
 	public function update(EditUserRequest $request,$id)
 	{
-        $user = User::findOrFail($id);
-        $user ->fill($request->all());
-        $user ->save();
+        //$user = User::findOrFail($id);
+        $this->user ->fill($request->all());
+        $this->user ->save();
+        Session::flash('message',$this->user->full_name.' Se ha modificado en nuestros registros' );
          return redirect()->back();
 
 
@@ -107,9 +125,26 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($id, Request $request)
 	{
-		//
+        $this->user->delete();
+        $message = $this->user->full_name . ' fue eliminado de nuestros registros';
+        if ($request->ajax()) {
+            return response()->json([
+                'id'      => $this->user->id,
+                'message' => $message
+            ]);
+        }
+        Session::flash('message', $message);
+        return redirect()->route('admin.users.index');
+
+        //return $id;
+		//dd($id);
+        //$user = User::findOrFail($id);
+        //$this->user->delete();
+        //Session::flash('message',$this->user->full_name.' fue eliminado de nuestros registros' );
+        //User::destroy($id);
+        //return redirect()->route('admin.users.index');
 	}
 
 }

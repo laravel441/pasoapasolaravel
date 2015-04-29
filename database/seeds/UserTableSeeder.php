@@ -11,12 +11,15 @@ class UserTableSeeder extends Seeder {
 public function run()
 {
 $faker = Faker::create();
-for($i = 0; $i < 100; $i ++)
+for($i = 0; $i < 1000; $i ++)
 {
+$firstname=$faker->firstName;
+$lastname=$faker->firstName;
 $id = \DB::table('users')->insertGetId(array(
-'first_name'=>$faker->firstName,
-'last_name'=>$faker->lastName,
-'user_name'=>$faker->userName,
+'first_name'=>$firstname,
+'last_name'=>$lastname,
+'full_name'=>"$firstname $lastname",
+'user_name'=>$faker->unique()->userName,
 'email'=>$faker->unique()->email,
 'password'=>\Hash::make('urico'),
 'type'=> 'user',
