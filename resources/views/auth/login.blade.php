@@ -9,7 +9,7 @@
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger text-center">
-							<strong>Oops!</strong> Las credenciales que ingresaste no coinciden con nuestros registros.<br><br>
+							<strong>Oops!</strong> Ocurrio algun problema con su Ingreso.<br><br>
                             <ul>
                             		@foreach ($errors->all() as $error)
                             		<li>{{ $error }}</li>

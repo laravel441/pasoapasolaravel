@@ -32,25 +32,31 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
+				<a class="navbar-brand" href="#">Swcapital</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="{!! url('/') !!}">Inicio</a></li>
+
+
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						<li><a href="{!! url('/auth/login') !!}">Entrar</a></li>
-						<li><a href="{!! url('/auth/register') !!}">Registrarme</a></li>
-						<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>
+						{{--<li><a href="{!! url('/auth/login') !!}">Entrar</a></li>--}}
+						{{--<li><a href="{!! url('/auth/register') !!}">Registrarme</a></li>--}}
+						{{--<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>--}}
 
 					@else
+                        <li><a href="{!! url('/register') !!}">Registrarme</a></li>
+                         <li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->first_name }} <span class="caret"></span></a>
+
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->full_name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+
 							</ul>
 						</li>
 					@endif
