@@ -22,6 +22,7 @@ class UsersController extends Controller {
 	 */
     public function __construct()
     {
+        $this->middleware('auth');
         $this->beforeFilter('@findUser',['only'=>['show', 'update', 'edit', 'destroy']]);
     }
 
@@ -33,7 +34,9 @@ class UsersController extends Controller {
 
 	public function index(Request $request)
 	{
-        $users= User::name($request->get('name'))->orderBy('id','DESC')->paginate();
+        $users= User::filterAndPaginate($request->get('name'),$request->get('type'));//Creacion de un patron de repositorio en el modelo User.php
+
+        //$users= User::name($request->get('name'))->type($request->get('type'))->orderBy('id','DESC')->paginate();
         //dd($request->get('user_name'));
         //$users = User::orderBy('id','DESC')->paginate();
         return view('admin.users.index',compact('users'));

@@ -40,6 +40,7 @@ class Authenticate {
 			}
 			else
 			{
+                //dd('Perro no sea intenso');
 				return redirect()->guest('auth/login');
 			}
 		}

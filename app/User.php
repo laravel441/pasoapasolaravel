@@ -33,7 +33,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-	public function profile()
+
+    public static function FilterAndPaginate ($name, $type)
+    {
+        return $users= User::name($name)
+            ->type($type)
+            ->orderBy('id','DESC')
+            ->paginate();
+    }
+    public function profile()
 	{
 		return $this->hasOne('App\UserProfile');
 	}
@@ -61,10 +69,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if(trim($name) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
         {
             //$query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");//consulta Db::raw
-            $query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");
+            $query->where('full_name',"LIKE", "%$name%");
         }
 
     }
+
+    public function scopeType($query, $type)
+    {
+        $types = config('options.types');
+
+        if($type != "" && isset ($types[$type]))
+        {
+            $query->where('type', '=', $type);
+        }
+
+
+
+    }
+
 
 
 }

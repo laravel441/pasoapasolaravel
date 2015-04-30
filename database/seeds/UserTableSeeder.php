@@ -22,7 +22,7 @@ $id = \DB::table('users')->insertGetId(array(
 'user_name'=>$faker->unique()->userName,
 'email'=>$faker->unique()->email,
 'password'=>\Hash::make('urico'),
-'type'=> 'user',
+'type'=> $faker->randomElement(['editor','contributor','subscriber','user']),
 'created_at' => new DateTime,
 'updated_at' => new DateTime
 // $this->call('UserTableSeeder');

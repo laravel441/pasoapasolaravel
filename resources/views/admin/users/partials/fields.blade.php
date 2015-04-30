@@ -43,7 +43,7 @@
 
                 		<div class="form-group">
                 			{!! Form::select('type',
-                			[''=>'','admin'=>'Admin','user'=>'User'],
+                			config('options.types'),
                 			null,
                 			['class'=>'form-control floating-label','placeholder'=>'Seleccione Tipo','required'])!!}
                 			@if($errors -> has('type'))

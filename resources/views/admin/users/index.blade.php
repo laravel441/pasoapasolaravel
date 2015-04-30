@@ -12,31 +12,43 @@
                         @endif
                      </div>
                       <div class="panel-body">
-                           <div class="form-group">
-                           	<div class="col-md-0 col-md-offset-0">
-                           <a href="{{route('admin.users.create')}}" class="btn btn-primary " role="button">Nuevo Usuario</a>
 
-                            {!! Form::open(['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
-                                 <div class="form-group">
 
-                                   {!! Form::text('name',null,['class'=>'form-control floating-label','placeholder'=>'Buscar Usuario'])!!}
-                                 </div>
-                                 <button type="submit" class="btn btn-primary">Buscar</button>
-                               </form>
-                                </div>
+                           <a href="{{route('admin.users.create')}}" class="btn btn-primary col-md-2.5 " role="button">Nuevo Usuario</a>
+
+                            {!! Form::model(Request::all(),['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
+
+                            <div class="form-group">
+                           {!! Form::text('name',null,['class'=>'form-control floating-label','placeholder'=>'Buscar Usuario'])!!}
                               </div>
+                              <div class="form-group">
+
+                            {!! Form::select('type',config('options.types'),null, ['class'=>'form-control'])!!}
+                            {{--creo un archivo (options.php) dentro del folder config y le cargo el array--}}
+
+                              </div>
+
+
+                                 <button type="submit" class="btn btn-primary">Buscar</button>
+                            </div>
+
+
+
                             {!! Form::close()!!}
 
                         <p class="col-md-12 col-md-offset-0">Hay {{$users->total()}} registros</p>
 
                             @include('admin.users.partials.table')
-                      {!!$users->render()!!}
 
-                    </div>
-                </div>
+
+                      {!! $users->appends(Request::only(['name', 'type']))->render() !!}
+                        </div>
+                     </div>
+                  </div>
+
             </div>
         </div>
-    </div>
+
  {!! Form::open(['route' => ['admin.users.destroy', ':USER_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
  {!! Form::close() !!}
 

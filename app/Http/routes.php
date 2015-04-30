@@ -28,7 +28,7 @@ Route::controllers([
 
 ]);
 	resource('terceros','TerceroController');
-Route::group(['prefix'=>'admin','namespace'=>'Admin'], function()
+Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], function()
 {
 	Route::resource('users','UsersController');
 });
