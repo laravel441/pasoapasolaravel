@@ -13,16 +13,15 @@ public function run()
 $faker = Faker::create();
 for($i = 0; $i < 1000; $i ++)
 {
-$firstname=$faker->firstName;
-$lastname=$faker->firstName;
+
 $id = \DB::table('users')->insertGetId(array(
-'first_name'=>$firstname,
-'last_name'=>$lastname,
-'full_name'=>"$firstname $lastname",
+'first_name'=>$faker->firstName,
+'last_name'=>$faker->lastName,
 'user_name'=>$faker->unique()->userName,
 'email'=>$faker->unique()->email,
 'password'=>\Hash::make('urico'),
 'type'=> $faker->randomElement(['editor','contributor','subscriber','user']),
+'remember_token'=> $faker->sha1,
 'created_at' => new DateTime,
 'updated_at' => new DateTime
 // $this->call('UserTableSeeder');

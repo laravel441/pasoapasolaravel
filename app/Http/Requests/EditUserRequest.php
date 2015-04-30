@@ -36,8 +36,10 @@ class EditUserRequest extends Request {
             'user_name' => 'required|max:255|unique:users,user_name,'. $this->route->getParameter('users'),
             'email' => 'required|email|max:255|unique:users,email,'. $this->route->getParameter('users'),
             'password' => 'min:6',
-            'type' => 'required|in:user,admin',
-		];
+            'type' => 'required|in:user,admin,editor,contributor,subscriber,',
+
+
+        ];
 	}
 
 }

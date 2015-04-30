@@ -68,8 +68,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         if(trim($name) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
         {
-            //$query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");//consulta Db::raw
-            $query->where('full_name',"LIKE", "%$name%");
+            $query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");//consulta Db::raw
+            //$query->where('full_name',"LIKE", "%$name%");
         }
 
     }
@@ -78,14 +78,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $types = config('options.types');
 
-        if($type != "" && isset ($types[$type]))
-        {
+        if ($type != "" && isset ($types[$type])) {
             $query->where('type', '=', $type);
         }
-
-
-
     }
+
+    public function is($type)
+    {
+        return $this->type === $type;
+    }
+
+    public function isAdmin()
+    {
+        return $this->type === 'admin';
+    }
+
+
 
 
 

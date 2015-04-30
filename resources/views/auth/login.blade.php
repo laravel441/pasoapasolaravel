@@ -7,6 +7,9 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Iniciar Sesión</div>
 				<div class="panel-body">
+
+
+
 					@if (count($errors) > 0)
 						<div class="alert alert-danger text-center">
 							<strong>Oops!</strong> Ocurrio algun problema con su Ingreso.<br><br>
@@ -19,6 +22,7 @@
 					@endif
 
 					{!! Form::open(['url'=> 'auth/login','role'=>'form','class'=>'form-horizontal'])!!}
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						{{--<div class="form-group">--}}
 							{{--{!! Form::label('user_name','Usuario:', ['class'=>'col-md-4 control-label'])!!}--}}
@@ -42,21 +46,26 @@
 							</div>
 						</div>
 
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="remember"> Recuérdame
-									</label>
-								</div>
-							</div>
-						</div>
+                        <div class="form-group">
+                        	<div class="col-md-6 col-md-offset-4">
+                        	    <div class="checkbox">
+                        			<label>
+                        				<input type="checkbox" name="remember"> Recuérdame
+                        		    </label>
+                        		</div>
+                        	</div>
+                        </div>
+
+
+
+
+
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">Entrar</button>
 
-								<a href="{ !! url('/password/email')!! }"> ¿Olvidaste tu Password? </a>
+								<a href="/password/email"> ¿Olvidaste tu Password? </a>
 							</div>
 						</div>
 					{!! Form::close() !!}

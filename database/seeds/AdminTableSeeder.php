@@ -16,10 +16,11 @@ class AdminTableSeeder extends Seeder {
 		'first_name'=>'Ricardo',
 		'last_name' =>'Uricoechea',
         'user_name'=>'ricardo.uricoechea',
-         'full_name'=>'Ricardo Uricoechea',
+
 		'email'=>'ur@gmail.com',
 		'password'=>\Hash::make('urico'),
 		'type'=> 'admin',
+        'remember_token'=> 'adpamdpmapdfaifmpfjipf64654654654846',
 		'created_at' => new DateTime,
          'updated_at' => new DateTime,
 		// $this->call('UserTableSeeder');

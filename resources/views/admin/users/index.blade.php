@@ -54,11 +54,7 @@
 
 @endsection
 @section('scripts')
-<script type="text/javascript">
-		$(document).on('ready', function(){
-			$.material.init();
-		});
-</script>
+
 <script>
 $(document).ready(function () {
     $('.btn-delete').click(function (e) {

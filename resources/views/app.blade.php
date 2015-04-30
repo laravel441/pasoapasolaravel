@@ -44,21 +44,30 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						{{--<li><a href="{!! url('/auth/login') !!}">Entrar</a></li>--}}
-						{{--<li><a href="{!! url('/auth/register') !!}">Registrarme</a></li>--}}
-						{{--<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>--}}
 
-					@else
-                        <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
-                         <li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>
-						<li class="dropdown">
+					@elseif((Auth::user()->type !='admin'))
+                    <li class="dropdown">
 
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->full_name }} <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->full_name }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
 
-							</ul>
-						</li>
+                                </ul>
+                        </li>
+
+						@else
+						 <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
+                                                 {{--<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>--}}
+                        						<li class="dropdown">
+
+                        							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->full_name }} <span class="caret"></span></a>
+                        							<ul class="dropdown-menu" role="menu">
+                        								<li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+
+                        							</ul>
+                        						</li>
+
+
 					@endif
 				</ul>
 			</div>
@@ -77,7 +86,11 @@
 @yield('scripts')
 
 {{--los voy hacer en el Index de Admin/Users(Van los de bootstrap--}}
-
+<script type="text/javascript">
+		$(document).on('ready', function(){
+			$.material.init();
+		});
+</script>
 
 </body>
 </html>

@@ -76,7 +76,9 @@ class UsersController extends Controller {
 
 
         $user = User::create($request->all());
+
         Session::flash('message',$user->full_name.' Se ha creado' );
+
         return redirect()->route('admin.users.index');
 
 	}

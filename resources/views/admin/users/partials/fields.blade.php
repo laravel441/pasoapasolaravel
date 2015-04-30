@@ -10,10 +10,13 @@
 
                         <div class="form-group">
                 			{!! Form::text('last_name',null,['class'=>'form-control floating-label','placeholder'=>'Apellido:','required'])!!}
+
                 			@if($errors -> has('last_name'))
                 			    <p class="text-danger">{{$errors->first('last_name')}} </p>
                 			@endif
                 		</div>
+
+
 
                 		<div class="form-group">
                 			{!! Form::text('user_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:','required'])!!}
@@ -22,10 +25,8 @@
                             @endif
                 		</div>
 
-                        {{--<div style="display: none">--}}
-                			{{--{!! Form::hidden('user_name_c',null,['class'=>'form-control floating-label'])!!}--}}
 
-                		{{--</div>--}}
+
 
                         <div class="form-group">
                 			{!! Form::email('email',null,['class'=>'form-control floating-label','placeholder'=>'Email:','required'])!!}
@@ -45,7 +46,7 @@
                 			{!! Form::select('type',
                 			config('options.types'),
                 			null,
-                			['class'=>'form-control floating-label','placeholder'=>'Seleccione Tipo','required'])!!}
+                			['class'=>'form-control floating-label','placeholder'=>'','required'])!!}
                 			@if($errors -> has('type'))
                                 <p class="text-danger">{{$errors->first('type')}} </p>
                              @endif

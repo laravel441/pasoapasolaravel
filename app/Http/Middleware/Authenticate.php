@@ -32,7 +32,7 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->auth->guest())
+		if ($this->auth->guest())//usuario como invitado
 		{
 			if ($request->ajax())
 			{
@@ -40,7 +40,7 @@ class Authenticate {
 			}
 			else
 			{
-                //dd('Perro no sea intenso');
+
 				return redirect()->guest('auth/login');
 			}
 		}
