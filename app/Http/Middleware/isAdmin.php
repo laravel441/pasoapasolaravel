@@ -7,7 +7,7 @@
  */
 
 namespace App\Http\Middleware;
-class IsAdmin extends IsType {
+class IsAdmin extends isType {
     public function getType()
     {
         return 'admin';

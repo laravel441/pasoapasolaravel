@@ -65,7 +65,7 @@
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">Entrar</button>
 
-								<a href="/password/email"> ¿Olvidaste tu Password? </a>
+								<a href="../password/email"> ¿Olvidaste tu Password? </a>
 							</div>
 						</div>
 					{!! Form::close() !!}
