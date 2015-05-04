@@ -17,7 +17,7 @@ class AdminTableSeeder extends Seeder {
 		'last_name' =>'Uricoechea',
         'user_name'=>'ricardo.uricoechea',
 
-		'email'=>'ur@gmail.com',
+		'email'=>'ricardo.uricoechea@gmail.com',
 		'password'=>\Hash::make('urico'),
 		'type'=> 'admin',
         'remember_token'=> 'adpamdpmapdfaifmpfjipf64654654654846',

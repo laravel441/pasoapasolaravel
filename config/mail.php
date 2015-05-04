@@ -106,7 +106,7 @@ return [
 	|
 	*/
 
-	'sendmail' => '/usr/sbin/sendmail -bs',
+	'sendmail' => '/usr/sbin/sendmail -bs',//"\"C:\xampp\sendmail\sendmail.exe\" -t"
 
 	/*
 	|--------------------------------------------------------------------------
