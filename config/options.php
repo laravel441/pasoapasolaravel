@@ -15,6 +15,22 @@ return array(
         'subscriber'=>'Suscriptor',
         'user'=>'Usuario'
 
-    ]//los datos del select del Index de la busqueda de usuarios
+    ],//los datos del select del Index de la busqueda de usuarios
 
+'search_emp' =>[
+    ''=> 'Seleccione un tipo',
+    'emp_an8'=> 'AN8',
+    'emp_identificacion'=> 'CC',
+
+
+],
+    'emp_area_id' =>[
+        ''=> 'Seleccione un tipo',
+        '1'=> 'Facturación',
+        '2'=> 'Correspondencia',
+        '3'=> 'Desarrollo',
+        '4'=>'Tic',
+        '5'=>'Recursos Humanos'
+
+    ],//los datos del select del Index de la busqueda de usuarios
 );

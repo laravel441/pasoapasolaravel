@@ -31,5 +31,6 @@ Route::controllers([
 Route::group(['prefix'=>'admin','middleware'=>['auth','is_admin'],'namespace'=>'Admin'], function()//ejecuta los middleware en orden
 {
 	Route::resource('users','UsersController');
+    Route::resource('emps','EmpleadoController');
 });
 
