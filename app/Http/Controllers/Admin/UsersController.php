@@ -4,7 +4,8 @@ use App\Http\Requests;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\sw_empleado;
+use App\sw_usuario;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
@@ -29,17 +30,30 @@ class UsersController extends Controller {
     public function findUser(Route $route)
     {
         //dd($route->getParameter('users'));
-        $this->user = User::findOrFail($route->getParameter('users'));
+        $this->user = sw_usuario::findOrFail($route->getParameter('users'));
     }
 
-	public function index(Request $request)
+	public function index()
 	{
-        $users= User::filterAndPaginate($request->get('name'),$request->get('type'));//Creacion de un patron de repositorio en el modelo User.php
+        //$users= sw_empleado::filterAndPaginate($request->get('name'),$request->get('type'));//Creacion de un patron de repositorio en el modelo User.php
 
         //$users= User::name($request->get('name'))->type($request->get('type'))->orderBy('id','DESC')->paginate();
         //dd($request->get('user_name'));
-        //$users = User::orderBy('id','DESC')->paginate();
+        $users = sw_empleado::
+            leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
+            ->select(
+                'sw_empleados.*',
+                'sw_usuarios.usr_id as usr_id',
+                'sw_usuarios.usr_name'  )
+            ->orderBy('usr_id','DESC')
+            ->paginate();
         return view('admin.users.index',compact('users'));
+
+
+                    //->orderBy(\DB::raw('RAND()')) //Funciones de SQL
+
+                    //->leftJoin('user_profiles','users.id','=','user_profiles.user_id')
+                    //->first();
 	}
 
 	/**
@@ -75,7 +89,7 @@ class UsersController extends Controller {
 //            'type' => 'required|max:255',
 
 
-        $user = User::create($request->all());
+        $user = sw_usuario::create($request->all());
 
         Session::flash('message',$user->full_name.' Se ha creado' );
 
@@ -102,9 +116,9 @@ class UsersController extends Controller {
 	 */
 	public function edit($id)
 	{
-        //$user = User::findOrFail($id);
-		//return view('admin.users.edit', compact('user'));
+
         return view('admin.users.edit')->with ('user',$this->user);
+
 	}
 
 	/**
@@ -117,9 +131,10 @@ class UsersController extends Controller {
 	{
         //$user = User::findOrFail($id);
         $this->user ->fill($request->all());
+
         $this->user ->save();
-        Session::flash('message',$this->user->full_name.' Se ha modificado en nuestros registros' );
-         return redirect()->back();
+        Session::flash('message',$this->user->usr_name.' Se ha modificado en nuestros registros' );
+        return redirect()->back();
 
 
 	}

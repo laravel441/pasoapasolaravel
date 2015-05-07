@@ -15,15 +15,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var string
 	 */
-	protected $table = 'users';
+	protected $table = 'sw_usuarios';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	
-	protected $fillable = array ('first_name', 'last_name','user_name','email', 'password','type');
+
+
+    public $timestamps = false;
+
+    protected $fillable = array ( 'usr_id','usr_emp_id','usr_stu_id','usr_name','password','usr_caducidad','usr_flag_pass');
+
+    protected $primaryKey = 'usr_id';
+
 
 
 	/**
@@ -36,9 +42,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public static function FilterAndPaginate ($name, $type)
     {
-        return $users= User::name($name)
-            ->type($type)
-            ->orderBy('id','DESC')
+        return $users= sw_usuario::name($name)
+
+            ->orderBy('usr_id','DESC')
             ->paginate();
     }
     public function profile()
@@ -49,7 +55,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function getFullNameAttribute()
 	{
-		return $this->first_name . ' ' . $this->last_name;
+		return $this->emp_nombre . ' ' . $this->emp_apellido;
 	}
 
 
@@ -68,7 +74,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         if(trim($name) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
         {
-            $query->where(\DB::raw("CONCAT(first_name,' ',last_name)"),"LIKE", "%$name%");//consulta Db::raw
+            $query->where(\DB::raw("usr_name"),"LIKE", "%$name%");//consulta Db::raw
             //$query->where('full_name',"LIKE", "%$name%");
         }
 

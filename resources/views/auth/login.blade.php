@@ -33,9 +33,9 @@
 							{{--</div>--}}
 						{{--</div>--}}
                         <div class="form-group">
-                        	{!! Form::label('user_name','Usuario:', ['class'=>'col-md-4 control-label'])!!}
+                        	{!! Form::label('usr_name','Usuario:', ['class'=>'col-md-4 control-label'])!!}
 					       	<div class="col-md-6">
-                        			{!! Form::text('user_name',null,['class'=>'form-control floating-label','placeholder'=>'nombre.apellido','required'])!!}
+                        			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'nombre.apellido','required'])!!}
                                 </div>
                         </div>
 

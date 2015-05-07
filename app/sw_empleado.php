@@ -11,7 +11,7 @@ class sw_empleado extends Model {
 
     protected $table = 'sw_empleados';
 
-    protected $fillable = array ('emp_id','emp_an8', 'emp_area_id','emp_cod_tm','email', 'emp_identificacion','emp_nombre',
+    protected $fillable = array ('emp_id','emp_an8', 'emp_area_id','emp_cod_tm','emp_correo', 'emp_identificacion','emp_nombre',
         'emp_nombre2', 'emp_apellido','emp_apellido2','emp_direccion', 'emp_telefono','emp_celular',
         'emp_correo');
 

@@ -19,7 +19,7 @@
           @endif
 
           {!!Form::open(['route'=>'admin.emps.store', 'method'=> 'POST'])!!}
-                @include('admin.emps.partials.fields')
+                @include('admin.emps.partials.fields2')
 
 
             <div class="form-group">

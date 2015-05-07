@@ -25,6 +25,8 @@ $id = \DB::table('users')->insertGetId(array(
 'created_at' => new DateTime,
 'updated_at' => new DateTime
 // $this->call('UserTableSeeder');
+
+
 ));
 \DB::table('user_profiles')->insert(array(
 'user_id'=> $id,
@@ -36,14 +38,16 @@ $id = \DB::table('users')->insertGetId(array(
 'updated_at' => new DateTime,
 // $this->call('UserTableSeeder');
 ));
-    DB::table('sw_empleados')->insert(array(
+    $nombre=$faker->firstName;
+    $apellido=$faker->lastName;
+     $emp_id=\DB::table('sw_empleados')->insert(array(
         'emp_an8'=>$faker->unique()->numberBetween($min = 1000, $max = 3000),
         'emp_area_id'=>$faker->numberBetween($min = 1, $max = 10),
         'emp_cod_tm'=>'TM'.$faker->numberBetween($min = 1000, $max = 3000),
         'emp_identificacion'=>$faker->unique()->numberBetween($min = 100000, $max = 999999),
-        'emp_nombre'=>$faker->firstName,
+        'emp_nombre'=>$nombre,
         'emp_nombre2'=>$faker->firstName,
-        'emp_apellido'=>$faker->lastName,
+        'emp_apellido'=> $apellido,
         'emp_apellido2'=>$faker->lastName,
         'emp_direccion'=>$faker->address,
         'emp_telefono'=>$faker->phoneNumber,
@@ -61,6 +65,24 @@ $id = \DB::table('users')->insertGetId(array(
 
 // $this->call('UserTableSeeder');
     ));
+    \DB::table('sw_usuarios')->insert(array(
+
+        'usr_emp_id'=>$id,
+        'usr_stu_id'=>$faker->numberBetween($min = 1, $max = 2),
+        'usr_name'=>$nombre.'.'.$apellido,
+        'password'=>\Hash::make('urico'),
+        'usr_caducidad'=>$faker->randomElement($array = array ('10','20','30','40')),
+        'usr_flag_pass'=>$faker->randomElement($array = array ('true','false')),
+        'usr_creado_en' => new DateTime,
+        'usr_creado_por' => 'Swcapital',
+        'usr_modificado_en' => new DateTime,
+        'usr_modificado_por' => 'Swcapital',
+        'remember_token'=> $faker->sha1
+
+// $this->call('UserTableSeeder');
+
+    ));
+
 
 
 }

@@ -18,7 +18,7 @@ class CreateSwUsuariosTable extends Migration {
             $table->integer('usr_emp_id');
             $table->integer('usr_stu_id');
             $table->string('usr_name')->unique();
-            $table->string('usr_contrasena',60);
+            $table->string('password',60);
             $table->integer('usr_caducidad');
             $table->boolean('usr_flag_pass');
             $table->timestamp('usr_creado_en');

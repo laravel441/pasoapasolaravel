@@ -10,7 +10,7 @@
                                         <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
                                     @endif
 
-        <div class="panel-heading">Editar Usuario: <h2>{{$user->full_name}}</h2></div>
+        <div class="panel-heading">Editar Usuario: <h2>{{$user->usr_name}}</h2></div>
 
         <div class="panel-body">
           @if (count($errors) > 0)
@@ -35,6 +35,7 @@
                 </button>
               </div>
             </div>
+
 
           {!!Form::close()!!}
               @include('admin.users.partials.delete')
