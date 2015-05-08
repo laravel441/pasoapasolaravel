@@ -18,5 +18,11 @@ class sw_empleado extends Model {
     protected $primaryKey = 'emp_id';
     public $timestamps = false;
 
+    public function getFullNameAttribute()
+    {
+        return $this->emp_nombre . ' ' . $this->emp_apellido;
+    }
+
+
 }
 

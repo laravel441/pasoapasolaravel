@@ -25,7 +25,7 @@ return array(
 
 ],
     'emp_area_id' =>[
-        ''=> 'Seleccione un tipo',
+
         '1'=> 'Facturación',
         '2'=> 'Correspondencia',
         '3'=> 'Desarrollo',

@@ -24,7 +24,7 @@ class UsersController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->beforeFilter('@findUser',['only'=>['show', 'update', 'edit', 'destroy']]);
+        $this->beforeFilter('@findUser',['only'=>['show', 'update', 'destroy']]);
     }
 
     public function findUser(Route $route)
@@ -45,8 +45,9 @@ class UsersController extends Controller {
                 'sw_empleados.*',
                 'sw_usuarios.usr_id as usr_id',
                 'sw_usuarios.usr_name'  )
-            ->orderBy('usr_id','DESC')
+            ->orderBy('emp_id','DESC')
             ->paginate();
+
         return view('admin.users.index',compact('users'));
 
 
@@ -114,10 +115,18 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Route $route, $id)
 	{
 
-        return view('admin.users.edit')->with ('user',$this->user);
+        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
+            ->select(
+                'sw_empleados.*',
+                'sw_usuarios.usr_id as usr_id',
+                'sw_usuarios.usr_name'  )
+            ->
+        findOrFail($route->getParameter('users'));
+        //dd($users);
+        return view('admin.users.edit')->with ('user',$users);
 
 	}
 

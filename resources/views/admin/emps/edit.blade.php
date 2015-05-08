@@ -10,7 +10,7 @@
                                         <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
                                     @endif
 
-        <div class="panel-heading">Editar Usuario: <h2>{{$emp->emp_nombre}}</h2></div>
+        <div class="panel-heading">Editar Usuario: <h2>{{$emp->usr_name}}</h2></div>
 
         <div class="panel-body">
           @if (count($errors) > 0)
@@ -26,6 +26,8 @@
 
           {!!Form::model($emp,['route'=>['admin.emps.update',$emp], 'method'=> 'PUT'])!!}
                 @include('admin.emps.partials.fields')
+
+
 
 
             <div class="form-group">

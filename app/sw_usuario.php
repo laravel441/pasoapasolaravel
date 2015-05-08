@@ -53,10 +53,6 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
     }
 
 
-    public function getFullNameAttribute()
-    {
-        return $this->emp_nombre . ' ' . $this->emp_apellido;
-    }
 
 
 
