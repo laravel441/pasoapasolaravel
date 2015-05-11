@@ -52,7 +52,10 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
         return $this->hasOne('App\UserProfile');
     }
 
-
+    public function getFullNameAttribute()
+    {
+        return $this->emp_nombre . ' ' . $this->emp_apellido;
+    }
 
 
 
@@ -64,36 +67,36 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
         }
 
     }
+//
+//    public function scopeName($query, $name)
+//    {
+//
+//        if(trim($name) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
+//        {
+//            $query->where(\DB::raw("emp"),"LIKE", "%$name%");//consulta Db::raw
+//            //$query->where('full_name',"LIKE", "%$name%");
+//        }
+//
+//    }
 
-    public function scopeName($query, $name)
-    {
+//    public function scopeType($query, $type)
+//    {
+//        $types = ['ful_name','emp_an8','emp_identificacion'];
+//
+//        if ($type != "" && isset ($types[$type])) {
+//            $query->where('type', '=', $type);
+//        }
+//    }
+//
+//    public function is($type)
+//    {
+//        return $this->type === $type;
+//    }
 
-        if(trim($name) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
-        {
-            $query->where(\DB::raw("usr_name"),"LIKE", "%$name%");//consulta Db::raw
-            //$query->where('full_name',"LIKE", "%$name%");
-        }
-
-    }
-
-    public function scopeType($query, $type)
-    {
-        $types = config('options.types');
-
-        if ($type != "" && isset ($types[$type])) {
-            $query->where('type', '=', $type);
-        }
-    }
-
-    public function is($type)
-    {
-        return $this->type === $type;
-    }
-
-    public function isAdmin()
-    {
-        return $this->type === 'admin';
-    }
+//    public function isAdmin()
+//    {
+//        return $this->type === 'admin';
+//    }
 
 
 

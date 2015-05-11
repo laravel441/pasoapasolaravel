@@ -33,18 +33,18 @@ class EditUserRequest extends Request {
         //dd($this->route->getParameter('users'));
 		return [
 
-            'emp_an8' => 'required|max:255|unique:sw_empleados,emp_an8,'. $this->route->getParameter('users'),
+            'emp_an8' => 'max:255|unique:sw_empleados,emp_an8,'. $this->route->getParameter('users'),
             'emp_area_id'=>'',
-            'emp_cod_tm'=>'required|max:255|unique:sw_empleados,emp_cod_tm',
-            'emp_identificacion'=>'required|max:255|unique:sw_empleados,emp_identificacion,'. $this->route->getParameter('users'),
-            'emp_nombre'=>'required|max:255',
+            'emp_cod_tm'=>'max:255|unique:sw_empleados,emp_cod_tm',
+            'emp_identificacion'=>'max:255|unique:sw_empleados,emp_identificacion,'. $this->route->getParameter('users'),
+            'emp_nombre'=>'max:255',
             'emp_nombre2'=>'max:255',
-            'emp_apellido'=>'required|max:255',
+            'emp_apellido'=>'max:255',
             'emp_apellido2'=>'max:255',
             'emp_direccion'=>'max:255',
             'emp_telefono'=>'max:255|max:10',
             'emp_celular'=>'max:255|max:10',
-            'emp_correo'=>'required|email|max:255|unique:sw_empleados,emp_correo,'. $this->route->getParameter('users'),
+            'emp_correo'=>'email|max:255|unique:sw_empleados,emp_correo,'. $this->route->getParameter('users'),
             'emp_fecha_nacimiento'=>new DateTime,
             'emp_unidad_negocio'=>'max:255',
             'emp_fecha_ingreso'=>new DateTime,
@@ -52,7 +52,8 @@ class EditUserRequest extends Request {
             'emp_creado_en' => new DateTime,
             'emp_creado_por' => 'Swcapital',
             'emp_modificado_en' => new DateTime,
-            'emp_modificado_por' => 'Swcapital'
+            'emp_modificado_por' => 'Swcapital',
+            'usr_name' => 'required|max:255,'. $this->route->getParameter('users')
 
 
         ];

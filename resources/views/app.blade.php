@@ -10,7 +10,8 @@
 	{!! Html::style('bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css') !!}
 	{!! Html::style('bower_components/bootstrap-material-design/dist/css/material.min.css') !!}
 	{!! Html::style('bower_components/bootstrap-material-design/dist/css/ripples.min.css') !!}
-	{!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!} 
+	{!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!}
+
 
 
 	<!-- Fonts -->

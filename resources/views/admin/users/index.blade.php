@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-14 col-md-offset-0">
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
                      <div class="form-group">
@@ -19,14 +19,9 @@
                             {!! Form::model(Request::all(),['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
 
                             <div class="form-group">
-                           {!! Form::text('name',null,['class'=>'form-control floating-label','placeholder'=>'Buscar Usuario'])!!}
+                           {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado'])!!}
                               </div>
-                              <div class="form-group">
 
-                            {!! Form::select('type',config('options.types'),null, ['class'=>'form-control'])!!}
-                            {{--creo un archivo (options.php) dentro del folder config y le cargo el array--}}
-
-                              </div>
 
 
                                  <button type="submit" class="btn btn-primary">Buscar</button>
@@ -41,7 +36,7 @@
                             @include('admin.users.partials.table')
 
 
-                      {!! $users->appends(Request::only(['name', 'type']))->render() !!}
+                      {!! $users->appends(Request::only(['an8']))->render() !!}
                         </div>
                      </div>
                   </div>

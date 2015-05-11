@@ -52,7 +52,7 @@ $id = \DB::table('users')->insertGetId(array(
         'emp_direccion'=>$faker->address,
         'emp_telefono'=>$faker->phoneNumber,
         'emp_celular'=>$faker->phoneNumber,
-        'emp_correo'=>$faker->unique()->email,
+        'emp_correo'=>$nombre.'.'.$apellido.'@masivocapital.co',
         'emp_fecha_nacimiento'=>$faker->dateTimeBetween('-50 years', $endDate = '-18 years')->format('Y-m-d'),
         'emp_unidad_negocio'=>$faker->swiftBicNumber,
         'emp_fecha_ingreso'=>$faker->dateTimeBetween('-4 years', $endDate = 'now')->format('Y-m-d'),

@@ -33,20 +33,24 @@ class UsersController extends Controller {
         $this->user = sw_usuario::findOrFail($route->getParameter('users'));
     }
 
-	public function index()
+	public function index(Request $request)
 	{
         //$users= sw_empleado::filterAndPaginate($request->get('name'),$request->get('type'));//Creacion de un patron de repositorio en el modelo User.php
 
         //$users= User::name($request->get('name'))->type($request->get('type'))->orderBy('id','DESC')->paginate();
         //dd($request->get('user_name'));
-        $users = sw_empleado::
-            leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
+
+
+        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
             ->select(
                 'sw_empleados.*',
                 'sw_usuarios.usr_id as usr_id',
                 'sw_usuarios.usr_name'  )
+
+        ->an8($request->get('an8'))
             ->orderBy('emp_id','DESC')
-            ->paginate();
+                ->paginate();
+
 
         return view('admin.users.index',compact('users'));
 
@@ -142,7 +146,9 @@ class UsersController extends Controller {
         $this->user ->fill($request->all());
 
         $this->user ->save();
-        Session::flash('message',$this->user->usr_name.' Se ha modificado en nuestros registros' );
+        $s=$this->user ->emp_nombre;
+
+        Session::flash('message',$s.' Se ha modificado en nuestros registros' );
         return redirect()->back();
 
 
@@ -157,7 +163,7 @@ class UsersController extends Controller {
 	public function destroy($id, Request $request)
 	{
         $this->user->delete();
-        $message = $this->user->full_name . ' fue eliminado de nuestros registros';
+        $message = 'El usuario '. $this->user->usr_name . ' fue eliminado de nuestros registros';
         if ($request->ajax()) {
             return response()->json([
                 'id'      => $this->user->id,

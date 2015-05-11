@@ -19,6 +19,7 @@ return array(
 
 'search_emp' =>[
     ''=> 'Seleccione un tipo',
+    'full_name'=>'Nombre',
     'emp_an8'=> 'AN8',
     'emp_identificacion'=> 'CC',
 
