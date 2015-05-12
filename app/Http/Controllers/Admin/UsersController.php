@@ -24,7 +24,7 @@ class UsersController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->beforeFilter('@findUser',['only'=>['show', 'update', 'destroy']]);
+        $this->beforeFilter('@findUser',['only'=>['show','update','destroy']]);
     }
 
     public function findUser(Route $route)
@@ -126,9 +126,11 @@ class UsersController extends Controller {
             ->select(
                 'sw_empleados.*',
                 'sw_usuarios.usr_id as usr_id',
-                'sw_usuarios.usr_name'  )
+                'sw_usuarios.usr_name',
+                 'sw_usuarios.*'   )
             ->
         findOrFail($route->getParameter('users'));
+
         //dd($users);
         return view('admin.users.edit')->with ('user',$users);
 
@@ -140,15 +142,16 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(EditUserRequest $request,$id)
+	public function update(Route $route, EditUserRequest $request,$id)
 	{
         //$user = User::findOrFail($id);
+
         $this->user ->fill($request->all());
 
         $this->user ->save();
-        $s=$this->user ->emp_nombre;
+        $usr = sw_empleado::findOrFail($route->getParameter('users'));
 
-        Session::flash('message',$s.' Se ha modificado en nuestros registros' );
+        Session::flash('message', $usr->full_name.' Se ha modificado en nuestros registros' );
         return redirect()->back();
 
 
@@ -163,6 +166,7 @@ class UsersController extends Controller {
 	public function destroy($id, Request $request)
 	{
         $this->user->delete();
+
         $message = 'El usuario '. $this->user->usr_name . ' fue eliminado de nuestros registros';
         if ($request->ajax()) {
             return response()->json([

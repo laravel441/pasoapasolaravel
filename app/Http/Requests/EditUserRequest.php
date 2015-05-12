@@ -33,6 +33,7 @@ class EditUserRequest extends Request {
         //dd($this->route->getParameter('users'));
 		return [
 
+
             'emp_an8' => 'max:255|unique:sw_empleados,emp_an8,'. $this->route->getParameter('users'),
             'emp_area_id'=>'',
             'emp_cod_tm'=>'max:255|unique:sw_empleados,emp_cod_tm',
@@ -53,7 +54,10 @@ class EditUserRequest extends Request {
             'emp_creado_por' => 'Swcapital',
             'emp_modificado_en' => new DateTime,
             'emp_modificado_por' => 'Swcapital',
-            'usr_name' => 'required|max:255,'. $this->route->getParameter('users')
+            'usr_id'=> $this->route->getParameter('users'),
+            'usr_emp_id'=>$this->route->getParameter('users'),
+            'usr_name' => 'max:255,'. $this->route->getParameter('users'),
+            'usr_caducidad' => 'in: 30,60,90'
 
 
         ];

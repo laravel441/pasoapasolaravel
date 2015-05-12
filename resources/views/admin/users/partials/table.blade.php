@@ -13,18 +13,28 @@
                             </thead>
                                <tbody>
                                     @foreach ($users as $user)
-                                      <tr data-id="{{$user->emp_id}}">
+                                    @if($user->usr_id != "")
+                                    <tr  data-id="{{$user->emp_id}}">
+                                        @else
+                                     <tr class="warning" data-id="{{$user->emp_id}}">
+                                     @endif
+
                                         <td>{{$user->emp_id}}</td>
                                         <td>{{$user->full_name}}</td>
                                         <td>{{$user->emp_correo}}</td>
-                                        <td>{{$user->usr_name}}</td>
+                                         @if($user->usr_id != "")
+                                         <td>{{$user->usr_name}}</td>
+                                        @else
+                                        <td></td>
+                                         @endif
                                         <td>{{$user->emp_an8}}</td>
                                         <td>{{$user->emp_identificacion}}</td>
+                                         @if($user->usr_id != "")
+                                        <td><a class="text-primary" href="{{route('admin.users.edit', $user)}}">Ver Empleado</a></td>
+                                         @else
+                                         <td><a class="text-warning" href="{{route('admin.users.edit', $user)}}">Crear Usuario</a></td>
+                                        @endif
 
-                                        <td>
-                                        <a href="{{route('admin.users.edit', $user)}}">Crear Usuario</a>
-                                        {{--<a href="#!" class="btn-delete">Eliminar</a>--}}
-                                        </td>
                                       </tr>
                                     @endforeach
                               </tbody>

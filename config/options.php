@@ -34,4 +34,12 @@ return array(
         '5'=>'Recursos Humanos'
 
     ],//los datos del select del Index de la busqueda de usuarios
+    'usr_caducidad' =>[
+
+        '30'=> '30 Dias',
+        '60'=> '60 Dias',
+        '90'=> '90 Dias'
+
+
+    ],
 );

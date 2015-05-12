@@ -14,24 +14,28 @@
                       <div class="panel-body">
 
 
-                           <a href="{{route('admin.users.create')}}" class="btn btn-primary col-md-2.5 " role="button">Nuevo Usuario</a>
+                           {{--<a href="{{route('admin.users.create')}}" class="btn btn-primary col-md-0 " role="button">Nuevo Usuario</a>--}}
 
                             {!! Form::model(Request::all(),['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
 
-                            <div class="form-group">
-                           {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado'])!!}
-                              </div>
+                           <div class="col-md-4 col-md-offset-4">
+                           {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado '])!!}
+
+                           </div>
+
+
+                           <button type="submit" class="btn btn-primary">Buscar</button>
+                           <p class="help-block text-primary col-md-5 col-md-offset-4"><i>Nombre, AN8 o Identificación</i></p>
+                          </div>
 
 
 
-                                 <button type="submit" class="btn btn-primary">Buscar</button>
-                            </div>
 
 
 
-                            {!! Form::close()!!}
+                            {{--{!! Form::close()!!}--}}
 
-                        <p class="col-md-12 col-md-offset-0">Hay {{$users->total()}} registros</p>
+                        <p class="help-block text-primary  col-md-4 col-md-offset-0"><i>Hay {{$users->total()}} empleados</i></p>
 
                             @include('admin.users.partials.table')
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use App\sw_empleado;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -29,6 +30,8 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
     protected $fillable = array ( 'usr_id','usr_emp_id','usr_stu_id','usr_name','password','usr_caducidad','usr_flag_pass');
 
     protected $primaryKey = 'usr_id';
+
+
 
 
 
@@ -61,6 +64,7 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
 
     public function setPasswordAttribute($value)
     {
+       // $passnew ="urico";
         if(! empty ($value))
         {
             $this->attributes['password']= bcrypt($value);

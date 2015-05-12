@@ -22,6 +22,15 @@ class sw_empleado extends Model {
     {
         return $this->emp_nombre . ' ' . $this->emp_apellido;
     }
+    public function getUsrNameAttribute()
+    {
+
+        $full_user = explode("@",$this->emp_correo , 2);
+
+
+        return $full_user[0];
+
+    }
 
     public static function FilterAndPaginate ($an8)
     {

@@ -29,7 +29,11 @@
           @endif
 
           {!!Form::model($user,['route'=>['admin.users.update',$user], 'method'=> 'PUT'])!!}
+                @if ($user->usr_id != "")
                 @include('admin.users.partials.fields')
+                @else
+                @include('admin.users.partials.fieldsusr')
+                @endif
 
 
 
@@ -42,9 +46,15 @@
 
 
         </div>
-@include('admin.users.partials.delete')
+
 
       </div>
+       @if ($user->usr_id != "")
+                      @include('admin.users.partials.delete')
+                      @else
+
+                      @endif
+
 
     </div>
   </div>
