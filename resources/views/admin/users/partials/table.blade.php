@@ -32,7 +32,7 @@
                                          @if($user->usr_id != "")
                                         <td><a class="text-primary" href="{{route('admin.users.edit', $user)}}">Ver Empleado</a></td>
                                          @else
-                                         <td><a class="text-warning" href="{{route('admin.users.edit', $user)}}">Crear Usuario</a></td>
+                                         <td><a class="text-warning" href="{{route('admin.users.edit',$user)}}">Crear Usuario</a></td>
                                         @endif
 
                                       </tr>

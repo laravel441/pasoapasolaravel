@@ -18,19 +18,18 @@
             </div>
           @endif
 
-          {!!Form::open(['route'=>'admin.users.store', 'method'=> 'POST'])!!}
-                @include('admin.users.partials.fields')
 
 
-            <div class="form-group">
-              <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary">
-                  Registrar
-                </button>
-              </div>
-            </div>
 
-          {!!Form::close()!!}
+                            @include('admin.users.partials.fieldsusr')
+                                 <div class="form-group">
+                                 <div class="col-md-0 col-md-offset-3">
+                                 <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class="btn btn-primary">
+                                 Crear Usuario
+                                 </button>
+                                 </div>
+                                 </div>
+
 
 
 

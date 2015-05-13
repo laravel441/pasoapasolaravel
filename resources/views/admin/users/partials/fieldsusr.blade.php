@@ -119,10 +119,19 @@
    <div class="col-sm-4">
 
 
+
+                        @if ($user->usr_id != "")
                  		<div class="form-group">
                  			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:','disabled'])!!}
                  			@if($errors -> has('usr_name'))
                                  <p class="text-danger">{{$errors->first('usr_name')}} </p>
+                             @endif
+                         @else
+                            <div class="form-group">
+                 			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',])!!}
+                 			@if($errors -> has('usr_name'))
+                                 <p class="text-danger">{{$errors->first('usr_name')}} </p>
+                             @endif
                              @endif
 
                         <div class="form-group">
@@ -132,11 +141,13 @@
                             @endif
                 		</div>
 
+
+
                         <div class="form-group">
                 			{!! Form::select('usr_caducidad',
                 			config('options.usr_caducidad'),
                 			null,
-                			['class'=>'form-control floating-label','placeholder'=>'Caducidad contraseña','disabled'])!!}
+                			['class'=>'form-control floating-label','placeholder'=>'Caducidad contraseña',])!!}
                 			@if($errors -> has('usr_caducidad'))
                                 <p class="text-danger">{{$errors->first('usr_caducidad')}} </p>
                              @endif
@@ -146,17 +157,33 @@
 
 
 
-                      {!!Form::open(['route'=>['admin.users.edit',$user], 'method'=> 'PUT'])!!}
 
-                                                         <div class="form-group">
-                                                                 <div class="col-md-0 col-md-offset-5">
-                                                             <button type="submit" onclick="return confirm ('Esta seguro de eliminar el registro?')"class="btn btn-danger">
-                                                              Eliminar Usuario
-                                                             </button>
-                                                           </div>
-                                                         </div>
+                @if ($user->usr_id != "")
+                {!!Form::open(['route'=>['admin.users.edit',$user], 'method'=> 'PUT'])!!}
 
-                                                       {!!Form::close()!!}
+                                   <div class="form-group">
+                                           <div class="col-md-0 col-md-offset-3">
+                                       <button type="submit" onclick="return confirm ('Esta seguro de actualizar el usuario?')"class="btn btn-info">
+                                        Actualizar Usuario
+                                       </button>
+                                     </div>
+                                   </div>
+
+                                 {!!Form::close()!!}
+                @else
+                            {!!Form::open(['route'=>['admin.users.store',$user], 'method'=> 'POST'])!!}
+
+                                   <div class="form-group">
+                                           <div class="col-md-0 col-md-offset-3">
+                                       <button type="submit" onclick="return confirm ('Esta seguro de actualizar el usuario?')"class="btn btn-primary">
+                                       Crear Usuario
+                                       </button>
+                                     </div>
+                                   </div>
+
+                                 {!!Form::close()!!}
+
+                @endif
 
 
 

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use DateTime;
 
 class CreateUserRequest extends Request {
 

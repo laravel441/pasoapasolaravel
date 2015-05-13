@@ -9,6 +9,8 @@
 
 				<div class="panel-body">
 					<h3>Bienvenido {{ Auth::user()->usr_name }}</h3>
+					<audio src="audio/sample.mp3" autoplay>
+                    </audio>
 
 					<!doctype html>
                     <html lang=''>

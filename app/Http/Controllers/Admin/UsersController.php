@@ -68,7 +68,9 @@ class UsersController extends Controller {
 	 */
 	public function create()
 	{
-		return view('admin.users.create');
+
+
+        return view('admin.users.create');
 		
 	}
 
@@ -94,9 +96,9 @@ class UsersController extends Controller {
 //            'type' => 'required|max:255',
 
 
-        $user = sw_usuario::create($request->all());
-
-        Session::flash('message',$user->full_name.' Se ha creado' );
+//        $user = sw_usuario::create($request->all());
+//
+//        Session::flash('message',$user->full_name.' Se ha creado' );
 
         return redirect()->route('admin.users.index');
 
@@ -165,6 +167,7 @@ class UsersController extends Controller {
 	 */
 	public function destroy($id, Request $request)
 	{
+
         $this->user->delete();
 
         $message = 'El usuario '. $this->user->usr_name . ' fue eliminado de nuestros registros';
@@ -175,6 +178,7 @@ class UsersController extends Controller {
             ]);
         }
         Session::flash('message', $message);
+
         return redirect()->route('admin.users.index');
 
         //return $id;

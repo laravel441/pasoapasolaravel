@@ -28,20 +28,19 @@
             </div>
           @endif
 
-          {!!Form::model($user,['route'=>['admin.users.update',$user], 'method'=> 'PUT'])!!}
                 @if ($user->usr_id != "")
-                @include('admin.users.partials.fields')
+               {!!Form::model($user,['route'=>['admin.users.update',$user], 'method'=> 'PUT'])!!}
+                 @include('admin.users.partials.fields')
+                {!!Form::close()!!}
                 @else
-                @include('admin.users.partials.fieldsusr')
+                {!!Form::model($user,['route'=>['admin.users.store',$user], 'method'=> 'POST'])!!}
+                @include('admin.users.partials.fields')
+                {!!Form::close()!!}
                 @endif
 
 
 
 
-
-
-
-          {!!Form::close()!!}
 
 
 
