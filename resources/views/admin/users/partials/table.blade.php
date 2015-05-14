@@ -16,7 +16,7 @@
                                     @if($user->usr_id != "")
                                     <tr  data-id="{{$user->emp_id}}">
                                         @else
-                                     <tr class="warning" data-id="{{$user->emp_id}}">
+                                     <tr class="danger" data-id="{{$user->emp_id}}">
                                      @endif
 
                                         <td>{{$user->emp_id}}</td>
@@ -32,7 +32,7 @@
                                          @if($user->usr_id != "")
                                         <td><a class="text-primary" href="{{route('admin.users.edit', $user)}}">Ver Empleado</a></td>
                                          @else
-                                         <td><a class="text-warning" href="{{route('admin.users.edit',$user)}}">Crear Usuario</a></td>
+                                         <td><a class="text-danger" href="{{route('admin.users.edit',$user)}}">Crear Usuario</a></td>
                                         @endif
 
                                       </tr>
