@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.default')
 
 @section('content')
 <div class="container-fluid">
@@ -32,16 +32,16 @@
 								{{--)!!}--}}
 							{{--</div>--}}
 						{{--</div>--}}
-                        <div class="form-group">
+                        <div>
                         	{!! Form::label('usr_name','Usuario:', ['class'=>'col-md-4 control-label'])!!}
-					       	<div class="col-md-6">
-                        			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'nombre.apellido','required'])!!}
+					       	<div class="form-group-danger col-md-6">
+                        			{!! Form::text('usr_name',null,['class'=>'form-control floating-label ','placeholder'=>'nombre.apellido','required'])!!}
                                 </div>
                         </div>
 
-						<div class="form-group">
+						<div>
 							{!! Form::label('password','Password:',['class'=> 'col-md-4 control-label' ])!!}
-							<div class="col-md-6">
+							<div class="form-group-danger col-md-6">
 								{!!Form::password('password',['class'=>'form-control'])!!}
 							</div>
 						</div>
@@ -63,9 +63,9 @@
 
 						<div class="form-group">
 							<div class="col-md-8 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">Entrar</button>
+								<button type="submit" class="btn btn-danger">Entrar</button>
 
-								<a href="../password/email"> ¿Olvidaste tu Password? </a>
+								<a href="../password/email" class="text-danger"> ¿Olvidaste tu Password? </a>
 							</div>
 						</div>
 					{!! Form::close() !!}

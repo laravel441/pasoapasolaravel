@@ -49,7 +49,7 @@ class UsersController extends Controller {
 
         ->an8($request->get('an8'))
             ->orderBy('emp_id','DESC')
-                ->paginate();
+                ->paginate(8);
 
 
         return view('admin.users.index',compact('users'));

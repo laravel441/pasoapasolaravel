@@ -127,7 +127,7 @@
                                  <p class="text-danger">{{$errors->first('usr_name')}} </p>
                              @endif
                          @else
-                            <div class="form-group">
+                            <div class="form-group-danger">
                  			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',])!!}
                  			@if($errors -> has('usr_name'))
                                  <p class="text-danger">{{$errors->first('usr_name')}} </p>
@@ -143,7 +143,7 @@
 
 
 
-                        <div class="form-group">
+                        <div class="form-group-danger">
                 			{!! Form::select('usr_caducidad',
                 			config('options.usr_caducidad'),
                 			null,
@@ -175,7 +175,7 @@
 
                                    <div class="form-group">
                                            <div class="col-md-0 col-md-offset-3">
-                                       <button type="submit" onclick="return confirm ('Esta seguro de actualizar el usuario?')"class="btn btn-primary">
+                                       <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class="btn btn-info">
                                        Crear Usuario
                                        </button>
                                      </div>

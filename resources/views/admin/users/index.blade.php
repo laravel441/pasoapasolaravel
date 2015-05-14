@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.sidebar')
 
 @section('content')
     <div class="container">
@@ -6,26 +6,26 @@
             <div class="col-md-14 col-md-offset-0">
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
-                     <div class="form-group">
-                        @if(Session::has('message'))
-                            <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
-                        @endif
-                     </div>
+                             <div class="form-group">
+                                 @if(Session::has('message'))
+                                 <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
+                                 @endif
+                                </div>
                       <div class="panel-body">
 
 
                            {{--<a href="{{route('admin.users.create')}}" class="btn btn-primary col-md-0 " role="button">Nuevo Usuario</a>--}}
 
                             {!! Form::model(Request::all(),['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
-
-                           <div class="col-md-4 col-md-offset-4">
+<p class="help-block text-info col-md-5 col-md-offset-4"><i>Nombre, AN8 o Identificación</i></p>
+                           <div class="col-md-4 col-md-offset-4 form-group-danger">
                            {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado '])!!}
 
                            </div>
 
 
-                           <button type="submit" class="btn btn-primary">Buscar</button>
-                           <p class="help-block text-primary col-md-5 col-md-offset-4"><i>Nombre, AN8 o Identificación</i></p>
+                           <button type="submit" class="btn btn-danger">Buscar</button>
+
                           </div>
 
 
@@ -35,12 +35,14 @@
 
                             {{--{!! Form::close()!!}--}}
 
-                        <p class="help-block text-primary  col-md-4 col-md-offset-0"><i>Hay {{$users->total()}} empleados</i></p>
+                        <p class="help-block text-info  col-md-4 col-md-offset-0"><i>Hay {{$users->total()}} registros</i></p>
 
                             @include('admin.users.partials.table')
 
+                        {!! $users->appends(Request::only(['an8']))->render() !!}
 
-                      {!! $users->appends(Request::only(['an8']))->render() !!}
+
+
                         </div>
                      </div>
                   </div>
