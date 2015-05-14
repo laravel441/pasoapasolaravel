@@ -45,14 +45,14 @@
 
 
         </div>
-
-
-      </div>
-       @if ($user->usr_id != "")
+@if ($user->usr_id != "")
                       @include('admin.users.partials.delete')
                       @else
 
                       @endif
+
+      </div>
+
 
 
     </div>

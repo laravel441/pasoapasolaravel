@@ -6,32 +6,25 @@
             <div class="col-md-14 col-md-offset-0">
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
-                             <div class="form-group">
-                                 @if(Session::has('message'))
-                                 <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
-                                 @endif
-                                </div>
-                      <div class="panel-body">
-
+                                 <div class="form-group">
+                                     @if(Session::has('message'))
+                                     <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
+                                     @endif
+                                 </div>
+                           <div>
 
                            {{--<a href="{{route('admin.users.create')}}" class="btn btn-primary col-md-0 " role="button">Nuevo Usuario</a>--}}
 
-                            {!! Form::model(Request::all(),['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
-<p class="help-block text-info col-md-5 col-md-offset-4"><i>Nombre, AN8 o Identificación</i></p>
-                           <div class="col-md-4 col-md-offset-4 form-group-danger">
-                           {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado '])!!}
+                               {!! Form::model(Request::all(),['route' => 'admin.users.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
+                               <p class="help-block text-info col-md-5 col-md-offset-4"><i>Nombre, AN8 o Identificación</i></p>
+                               <div class="col-md-5 col-md-offset-4 form-group-danger">
+                                   {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado '])!!}
+                               </div>
 
-                           </div>
 
-
-                           <button type="submit" class="btn btn-danger">Buscar</button>
+                               <button type="submit" class="btn btn-danger">Buscar</button>
 
                           </div>
-
-
-
-
-
 
                             {{--{!! Form::close()!!}--}}
 
@@ -41,17 +34,13 @@
 
                         {!! $users->appends(Request::only(['an8']))->render() !!}
 
-
-
-                        </div>
-                     </div>
-                  </div>
-
+                </div>
             </div>
         </div>
+    </div>
+        {!! Form::open(['route' => ['admin.users.destroy', ':USER_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
+         {!! Form::close() !!}
 
- {!! Form::open(['route' => ['admin.users.destroy', ':USER_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
- {!! Form::close() !!}
 
 @endsection
 @section('scripts')
