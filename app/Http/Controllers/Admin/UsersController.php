@@ -33,7 +33,7 @@ class UsersController extends Controller {
         $this->user = sw_usuario::findOrFail($route->getParameter('users'));
     }
 
-	public function index(Request $request)
+	public function index(Route $route,Request $request)
 	{
         //$users= sw_empleado::filterAndPaginate($request->get('name'),$request->get('type'));//Creacion de un patron de repositorio en el modelo User.php
 
@@ -41,6 +41,12 @@ class UsersController extends Controller {
         //dd($request->get('user_name'));
 
 
+
+
+
+
+
+//
         $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
             ->select(
                 'sw_empleados.*',

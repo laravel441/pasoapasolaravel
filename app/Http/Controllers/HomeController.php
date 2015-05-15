@@ -1,5 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\Registrar;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,7 +36,14 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+        $id =Auth::user()->usr_id;
+
+         $menus = \DB::select('
+                            select * from
+                            sw_get_modules (?)',array($id));
+        //dd($menus);
+
+        return view('home',compact('menus'));
 	}
 
 }
