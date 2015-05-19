@@ -28,7 +28,7 @@
             </div>
           @endif
 
-                @if ($user->usr_id != "")
+                @if ($user->usr_emp_an8 != "")
                {!!Form::model($user,['route'=>['admin.users.update',$user], 'method'=> 'PUT'])!!}
                  @include('admin.users.partials.fields')
                 {!!Form::close()!!}
@@ -45,7 +45,7 @@
 
 
         </div>
-@if ($user->usr_id != "")
+@if ($user->usr_emp_an8 != "")
                       @include('admin.users.partials.delete')
                       @else
 

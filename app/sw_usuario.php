@@ -27,7 +27,7 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
 
     public $timestamps = false;
 
-    protected $fillable = array ( 'usr_id','usr_emp_id','usr_stu_id','usr_name','password','usr_caducidad','usr_flag_pass');
+    protected $fillable = array ( 'usr_id','usr_emp_an8','usr_stu_id','usr_name','password','usr_caducidad','usr_flag_pass');
 
     protected $primaryKey = 'usr_id';
 
@@ -47,7 +47,7 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
     {
         return $users= sw_usuario::name($name)
 
-            ->orderBy('usr_id','DESC')
+            ->orderBy('usr_emp_an8','DESC')
             ->paginate();
     }
     public function profile()

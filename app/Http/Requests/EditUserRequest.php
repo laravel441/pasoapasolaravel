@@ -55,7 +55,7 @@ class EditUserRequest extends Request {
             'emp_modificado_en' => new DateTime,
             'emp_modificado_por' => 'Swcapital',
             'usr_id'=> $this->route->getParameter('users'),
-            'usr_emp_id'=>$this->route->getParameter('users'),
+            'usr_emp_an8'=>$this->route->getParameter('users'),
             'usr_name' => 'max:255,'. $this->route->getParameter('users'),
             'usr_caducidad' => 'in: 30,60,90'
 

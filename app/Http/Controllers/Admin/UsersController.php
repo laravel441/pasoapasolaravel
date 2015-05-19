@@ -12,6 +12,12 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\Registrar;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
+
+
 
 
 class UsersController extends Controller {
@@ -47,16 +53,26 @@ class UsersController extends Controller {
 
 
 //
-        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
+        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
             ->select(
                 'sw_empleados.*',
+                'sw_usuarios.usr_emp_an8 as usr_emp_an8',
+                'sw_usuarios.usr_name',
                 'sw_usuarios.usr_id as usr_id',
-                'sw_usuarios.usr_name'  )
+                'sw_usuarios.*')
 
         ->an8($request->get('an8'))
-            ->orderBy('emp_id','DESC')
+            ->orderBy('emp_an8','DESC')
                 ->paginate(8);
 
+//        $id =Auth::user()->usr_id;
+//
+//        $menus = \DB::select('
+//                            select * from
+//                            sw_get_modules (?)',array($id));
+
+
+        //dd($users);
 
         return view('admin.users.index',compact('users'));
 
@@ -130,13 +146,15 @@ class UsersController extends Controller {
 	public function edit(Route $route, $id)
 	{
 
-        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_id','=','sw_usuarios.usr_id')
+        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
             ->select(
-                'sw_empleados.*',
-                'sw_usuarios.usr_id as usr_id',
-                'sw_usuarios.usr_name',
-                 'sw_usuarios.*'   )
-            ->
+        'sw_empleados.*',
+        'sw_usuarios.usr_emp_an8 as usr_emp_an8',
+        'sw_usuarios.usr_id as usr_id',
+        'sw_usuarios.usr_name',
+        'sw_usuarios.*'
+            )
+        ->
         findOrFail($route->getParameter('users'));
 
         //dd($users);
@@ -150,13 +168,14 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Route $route, EditUserRequest $request,$id)
+	public function update(Route $route, EditUserRequest $request, $id)
 	{
-        //$user = User::findOrFail($id);
+        //$user = sw_usuario::where('usr_emp_an8','=','860028')->firstOrFail();
 
-        $this->user ->fill($request->all());
+        /*$movie = sw_usuario::find(1);
+        $movie->fill($request->all());
+        $movie->save();*/
 
-        $this->user ->save();
         $usr = sw_empleado::findOrFail($route->getParameter('users'));
 
         Session::flash('message', $usr->full_name.' Se ha modificado en nuestros registros' );
@@ -174,12 +193,12 @@ class UsersController extends Controller {
 	public function destroy($id, Request $request)
 	{
 
-        $this->user->delete();
+        $users=sw_usuario::findOrFail($route->getParameter('users'));
 
         $message = 'El usuario '. $this->user->usr_name . ' fue eliminado de nuestros registros';
         if ($request->ajax()) {
             return response()->json([
-                'id'      => $this->user->id,
+                'id'      => $this->user->usr_id,
                 'message' => $message
             ]);
         }

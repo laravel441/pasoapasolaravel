@@ -40,8 +40,9 @@ $id = \DB::table('users')->insertGetId(array(
 ));
     $nombre=$faker->firstName;
     $apellido=$faker->lastName;
-     $emp_id=\DB::table('sw_empleados')->insert(array(
-        'emp_an8'=>$faker->unique()->numberBetween($min = 1000, $max = 3000),
+    $an8=$faker->unique()->numberBetween($min = 100000, $max = 999999);
+     \DB::table('sw_empleados')->insert(array(
+        'emp_an8'=>$an8,
         'emp_area_id'=>$faker->numberBetween($min = 1, $max = 10),
         'emp_cod_tm'=>'TM'.$faker->numberBetween($min = 1000, $max = 3000),
         'emp_identificacion'=>$faker->unique()->numberBetween($min = 100000, $max = 999999),
@@ -67,7 +68,8 @@ $id = \DB::table('users')->insertGetId(array(
     ));
     \DB::table('sw_usuarios')->insert(array(
 
-        'usr_emp_id'=>$id,
+
+        'usr_emp_an8'=>$an8,
         'usr_stu_id'=>$faker->numberBetween($min = 1, $max = 2),
         'usr_name'=>$nombre.'.'.$apellido,
         'password'=>\Hash::make('urico'),

@@ -36,14 +36,14 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-        $id =Auth::user()->usr_id;
+//        $id =Auth::user()->usr_id;
+//
+//         $menus = \DB::select('
+//                            select * from
+//                            sw_get_modules (?)',array($id));
+//        //dd($menus);
 
-         $menus = \DB::select('
-                            select * from
-                            sw_get_modules (?)',array($id));
-        //dd($menus);
-
-        return view('home',compact('menus'));
+        return view('home');
 	}
 
 }

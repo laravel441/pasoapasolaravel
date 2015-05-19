@@ -118,9 +118,9 @@
 
    <div class="col-sm-4">
 
+                        {!! Form::hidden('id', $user->usr_id) !!}
 
-
-                        @if ($user->usr_id != "")
+                        @if ($user->usr_emp_an8 != "")
                  		<div class="form-group">
                  			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:','disabled'])!!}
                  			@if($errors -> has('usr_name'))
@@ -158,7 +158,7 @@
 
 
 
-                @if ($user->usr_id != "")
+                @if ($user->usr_emp_an8!= "")
                 {!!Form::open(['route'=>['admin.users.edit',$user], 'method'=> 'PUT'])!!}
 
                                    <div class="form-group">

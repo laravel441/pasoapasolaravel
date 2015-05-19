@@ -14,7 +14,7 @@ class CreateSwEmpleadosTable extends Migration {
 	{
 		Schema::create('sw_empleados', function(Blueprint $table)
 		{
-            $table->increments('emp_id');
+
             $table->string('emp_an8',100)->unique();
             $table->integer('emp_area_id');
             $table->string('emp_cod_tm',100)->nullable();

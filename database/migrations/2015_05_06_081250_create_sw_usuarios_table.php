@@ -15,7 +15,7 @@ class CreateSwUsuariosTable extends Migration {
 		Schema::create('sw_usuarios', function(Blueprint $table)
 		{
             $table->increments('usr_id');
-            $table->integer('usr_emp_id');
+            $table->string('usr_emp_an8',100)->unique();
             $table->integer('usr_stu_id');
             $table->string('usr_name')->unique();
             $table->string('password',60);

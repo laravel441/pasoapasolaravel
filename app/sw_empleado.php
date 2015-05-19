@@ -11,11 +11,11 @@ class sw_empleado extends Model {
 
     protected $table = 'sw_empleados';
 
-    protected $fillable = array ('emp_id','emp_an8', 'emp_area_id','emp_cod_tm','emp_correo', 'emp_identificacion','emp_nombre',
+    protected $fillable = array ('emp_an8', 'emp_area_id','emp_cod_tm','emp_correo', 'emp_identificacion','emp_nombre',
         'emp_nombre2', 'emp_apellido','emp_apellido2','emp_direccion', 'emp_telefono','emp_celular',
         'emp_correo');
 
-    protected $primaryKey = 'emp_id';
+    protected $primaryKey = 'emp_an8';
     public $timestamps = false;
 
     public function getFullNameAttribute()
@@ -36,7 +36,7 @@ class sw_empleado extends Model {
     {
         return $users= sw_empleado::an8($an8)
 
-            ->orderBy('emp_id','DES')
+            ->orderBy('emp_an8','DES')
             ->paginate();
     }
     public function profile()
