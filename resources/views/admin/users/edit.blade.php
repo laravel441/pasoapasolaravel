@@ -12,7 +12,7 @@
 
             <div class="panel-heading"> <h1>{{$user->full_name}}</h1></div>
 
-             <div class="col-md-8 col-md-offset-0"><h3>Datos del Empleado</h3></div>
+             <div class="col-md-8 col-md-offset-0" ><h3>Datos del Empleado</h3></div>
              <div class="col-md-4 col-md-offset-0"><h3>Usuario</h3></div>
         <div class="panel-body">
 

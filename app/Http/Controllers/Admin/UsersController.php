@@ -30,7 +30,7 @@ class UsersController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->beforeFilter('@findUser',['only'=>['show','update','destroy']]);
+        $this->beforeFilter('@findUser',['only'=>['show','destroy']]);
     }
 
     public function findUser(Route $route)

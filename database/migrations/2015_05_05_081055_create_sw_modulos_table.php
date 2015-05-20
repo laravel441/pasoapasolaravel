@@ -16,7 +16,7 @@ class CreateSwModulosTable extends Migration {
 		{
             $table->increments('mod_id');
             $table->string('mod_nombre');
-            $table->integer('mod_id_parent');
+            $table->integer('mod_proyecto');
             $table->timestamp('mod_creado_en',30);
             $table->string('mod_creado_por');
             $table->timestamp('mod_modificado_en',30);
