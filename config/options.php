@@ -42,4 +42,14 @@ return array(
 
 
     ],
+    'usr_stu_id' =>[
+
+        '1'=> 'Activo',
+        '2'=> 'Inactivo',
+        '3'=> 'Suspendido',
+        '4'=> 'NPI',
+
+
+
+    ],
 );

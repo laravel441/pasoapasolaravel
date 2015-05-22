@@ -32,6 +32,18 @@ class sw_empleado extends Model {
 
     }
 
+    public function getUsrEmpAn8Attribute()
+    {
+
+
+
+
+        return $this->emp_an8;
+
+    }
+
+
+
     public static function FilterAndPaginate ($an8)
     {
         return $users= sw_empleado::an8($an8)
@@ -42,6 +54,10 @@ class sw_empleado extends Model {
     public function profile()
     {
         return $this->hasOne('App\UserProfile');
+    }
+    public function sw_usuario()
+    {
+        return $this->hasOne('App\sw_usuario');
     }
 
 

@@ -30,13 +30,14 @@ class UsersController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->beforeFilter('@findUser',['only'=>['show','destroy']]);
+        $this->beforeFilter('@findUser',['only'=>['show']]);
     }
 
     public function findUser(Route $route)
     {
         //dd($route->getParameter('users'));
-        $this->user = sw_usuario::findOrFail($route->getParameter('users'));
+        //$this->user = sw_usuario::findOrFail($route->getParameter('users'));
+
     }
 
 	public function index(Route $route,Request $request)
@@ -48,22 +49,26 @@ class UsersController extends Controller {
 
 
 
-
-
-
-
-//
         $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
-            ->select(
-                'sw_empleados.*',
-                'sw_usuarios.usr_emp_an8 as usr_emp_an8',
-                'sw_usuarios.usr_name',
-                'sw_usuarios.usr_id as usr_id',
-                'sw_usuarios.*')
+                ->select(
+                    'sw_empleados.*',
+                    'sw_usuarios.usr_emp_an8 as usr_emp_an8',
+                    'sw_usuarios.usr_name',
+                    'sw_usuarios.usr_id as usr_id',
 
-        ->an8($request->get('an8'))
-            ->orderBy('emp_an8','DESC')
-                ->paginate(8);
+                   'sw_usuarios.*')
+
+         ->an8($request->get('an8'))
+        ->orderBy('emp_an8','DESC')
+        ->paginate(8);
+
+
+        //dd($users);
+//
+
+
+
+         return view('admin.users.index',compact('users'));
 
 //        $id =Auth::user()->usr_id;
 //
@@ -104,25 +109,34 @@ class UsersController extends Controller {
 	public function store(CreateUserRequest $request)//Inyección de dependecias y llamo mi propio request (face y debo compobarlo)
 	{
         //dd($request);
-        //$User->save();
-//        $user = User::create($request->all());
+        $pass='';
+        $pass=$this->randomPassword();
+        $users = new sw_usuario();
+
+        $users->fill($request->all());
+        $users->password =$pass;
+        $users->usr_flag_pass ='FALSE';
+        $users->usr_creado_en ='2015-05-20 00:00:00';
+        $users->usr_creado_por ='Swcapital';
+        $users->usr_modificado_en ='2015-05-20 00:00:00';
+        $users->usr_modificado_por ='Swcapital';
+        $users->save();
+        //dd($users);
+       // $users = sw_usuario::create($request->all());
+
+//        $users = User::create($request->all());
 //        $User = new User();
 //        $User->fill($request->all());
-
-
-//            'first_name' => 'required|max:255',
-//            'last_name' => 'required|max:255',
-//            'user_name' => 'required|max:255|unique:users,user_name',
-//            'email' => 'required|email|max:255|unique:users,email',
-//            'password' => 'required|min:6',
-//            'type' => 'required|max:255',
-
 
 //        $user = sw_usuario::create($request->all());
 //
 //        Session::flash('message',$user->full_name.' Se ha creado' );
-
+        Session::flash('message', 'Se ha creado el usuario '.$users->usr_name.' en nuestros registros ' );
         return redirect()->route('admin.users.index');
+
+
+
+
 
 	}
 
@@ -132,9 +146,22 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Route $route, $id)
 	{
-		//
+        //dd($id);
+        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
+            ->select(
+                'sw_empleados.*',
+                'sw_usuarios.usr_emp_an8 as usr_emp_an8',
+                'sw_usuarios.usr_name',
+                'sw_usuarios.usr_id as usr_id',
+
+                'sw_usuarios.*')
+
+            ->findOrFail($route->getParameter('users'));
+
+        //dd($users);
+        return view('admin.users.edit')->with ('user',$users);
 	}
 
 	/**
@@ -146,15 +173,14 @@ class UsersController extends Controller {
 	public function edit(Route $route, $id)
 	{
 
-        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
+
+        $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
             ->select(
-        'sw_empleados.*',
-        'sw_usuarios.usr_emp_an8 as usr_emp_an8',
-        'sw_usuarios.usr_id as usr_id',
-        'sw_usuarios.usr_name',
-        'sw_usuarios.*'
-            )
-        ->
+                'sw_usuarios.*',
+                'sw_empleados.emp_an8 as emp_an8',
+                'sw_empleados.*')
+
+            ->
         findOrFail($route->getParameter('users'));
 
         //dd($users);
@@ -170,15 +196,38 @@ class UsersController extends Controller {
 	 */
 	public function update(Route $route, EditUserRequest $request, $id)
 	{
-        //$user = sw_usuario::where('usr_emp_an8','=','860028')->firstOrFail();
+        $pass='';
+        $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
+            ->select(
+                'sw_usuarios.*',
+                'sw_empleados.emp_an8 as emp_an8',
+                'sw_empleados.*')
 
-        /*$movie = sw_usuario::find(1);
-        $movie->fill($request->all());
-        $movie->save();*/
+            ->
+            findOrFail($route->getParameter('users'));
+        //$users= sw_usuario::findOrFail($route->getParameter('users'));
+        if ($request->contrasenia == '1'){
+            $pass=$this->randomPassword();
+//
+//
+        $users->password =$pass;
+        }
+        $users->fill($request->all());
+//        if ($request->contrasenia == '1'){
+//            $pass=$this->randomPassword();
+//
+//            $users->password =bcrypt ('urico');
+//        }
 
-        $usr = sw_empleado::findOrFail($route->getParameter('users'));
 
-        Session::flash('message', $usr->full_name.' Se ha modificado en nuestros registros' );
+        //dd($users);
+
+        $users->save();
+        //$usr = sw_empleado::findOrFail($route->getParameter('users'));
+
+        $this->sendMail($pass, $users);
+
+        Session::flash('message', $users->full_name.' '.$pass.' Se ha modificado en nuestros registros' );
         return redirect()->back();
 
 
@@ -190,15 +239,24 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id, Request $request)
+	public function destroy(Route $route, $id, Request $request)
 	{
+        $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
+            ->select(
+                'sw_usuarios.*',
+                'sw_empleados.emp_an8 as emp_an8',
+                'sw_empleados.*')
 
-        $users=sw_usuario::findOrFail($route->getParameter('users'));
+            ->
+            findOrFail($route->getParameter('users'));
 
-        $message = 'El usuario '. $this->user->usr_name . ' fue eliminado de nuestros registros';
+
+        $users->delete();
+
+        $message = 'El usuario '. $users->full_name . ' fue eliminado de nuestros registros';
         if ($request->ajax()) {
             return response()->json([
-                'id'      => $this->user->usr_id,
+                'id'      => $users->usr_id,
                 'message' => $message
             ]);
         }
@@ -214,5 +272,52 @@ class UsersController extends Controller {
         //User::destroy($id);
         //return redirect()->route('admin.users.index');
 	}
+
+    function randomPassword() {
+
+        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789.";
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+
+    }
+
+    function sendMail($contraseña, $users){
+
+        $subject="Actualización Contraseña SWCapital";
+        $headers = "From: fenando.arevalo9311@gmail.com";
+        $headers .= "MIME-Version: Admin\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $message = '<html>
+            <head>
+                <meta name="viewport" content="width=device-width" />
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <title>Actionable emails e.g. reset password</title>
+                <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+            </head>
+
+            <body>
+                  <div class="alert-danger">
+                                 <h1 style="text-align: center;">Actualización Contraseña de SWCapital</h1>';
+            $message .= '        <p>Sr (a) ' . $users->full_name. '</p>
+                                 <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
+                                 <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
+                                  <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>
+                                 <p>Para ingresar lo puede realizar desde la dirección web: http://192.168.46.39/swcapital/public</p>
+                                 <p>Recuerde no responder a este correo, ya que fue enviado automaticamente por SWCapital.
+                         Cualquier consulta por favor comunicarla a: mesadeayuda@masivocapital.com</p>
+                         <a href="http://www.mailgun.com" class="btn-primary" itemprop="url">Confirm email address</a>
+                  </div>';
+        $message .=      '</body>
+        </html>';
+
+
+        if (!mail($users->emp_correo, $subject, $message, $headers)) echo 'Error';
+    }
 
 }

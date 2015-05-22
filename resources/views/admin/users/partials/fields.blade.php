@@ -118,77 +118,142 @@
 
    <div class="col-sm-4">
 
-                        {!! Form::hidden('id', $user->usr_id) !!}
 
-                        @if ($user->usr_emp_an8 != "")
+            @if ($user->usr_id != "")
                  		<div class="form-group">
                  			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:','disabled'])!!}
                  			@if($errors -> has('usr_name'))
                                  <p class="text-danger">{{$errors->first('usr_name')}} </p>
-                             @endif
-                         @else
-                            <div class="form-group-danger">
-                 			{!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',])!!}
-                 			@if($errors -> has('usr_name'))
-                                 <p class="text-danger">{{$errors->first('usr_name')}} </p>
-                             @endif
-                             @endif
-
-                        <div class="form-group">
-                        {!! Form::hidden('password',null,['class'=>'form-control floating-label','placeholder'=>''])!!}
-                        @if($errors -> has('password'))
-                                <p class="text-danger">{{$errors->first('password')}} </p>
                             @endif
-                		</div>
-
-
+                            </div>
 
                         <div class="form-group-danger">
-                			{!! Form::select('usr_caducidad',
-                			config('options.usr_caducidad'),
-                			null,
-                			['class'=>'form-control floating-label','placeholder'=>'Caducidad contraseña',])!!}
-                			@if($errors -> has('usr_caducidad'))
+                            {!! Form::select('usr_caducidad',
+                            config('options.usr_caducidad'),
+                            null,
+                            ['class'=>'form-control floating-label','placeholder'=>'Caducidad contraseña',])!!}
+                            @if($errors -> has('usr_caducidad'))
                                 <p class="text-danger">{{$errors->first('usr_caducidad')}} </p>
                              @endif
-                		</div>
+                        </div>
+                        <div class="form-group">
+
+                        </div>
+
+                        <div class="form-group-danger">
+                            {!! Form::select('usr_stu_id',
+                            config('options.usr_stu_id'),
+                            null,
+                            ['class'=>'form-control floating-label','placeholder'=>'Estado Usuario',])!!}
+                            @if($errors -> has('usr_stu_id'))
+                                <p class="text-danger">{{$errors->first('usr_stu_id')}} </p>
+                             @endif
+                        </div>
+
+
+                            <div class="col-md-6 col-md-offset-0">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="contrasenia" value="1"> Cambiar Contraseña
+                                    </label>
+                                </div>
+                            </div>
+                             {{--@if ($user->usr_flag_pass == "TRUE")--}}
+                             {{--<div class="col-md-6 col-md-offset-0">--}}
+                                 {{--<div class="checkbox">--}}
+                                     {{--<label>--}}
+                                       {{--<input type="checkbox" name="usr_flag_pass" value="0" checked> Usuario sin ingresar--}}
+                                     {{--</label>--}}
+                                 {{--</div>--}}
+                             {{--</div>--}}
+                             {{--@else--}}
+                            {{--<div class="col-md-6 col-md-offset-0">--}}
+                                  {{--<div class="checkbox">--}}
+                                      {{--<label>--}}
+                                        {{--<input type="checkbox" name="usr_flag_pass" value="1" > Cambiar contraseña--}}
+                                      {{--</label>--}}
+                                  {{--</div>--}}
+                            {{--</div>--}}
+                            {{--@endif--}}
+
+
+                           <div class="form-group">
+                              <div class="col-md-0 col-md-offset-3">
+                                <button type="submit" onclick="return confirm ('Esta seguro de actualizar el usuario?')"class="btn btn-info">
+                                         Actualizar Usuario
+                                </button>
+                              </div>
+                           </div>
+
+
+
+              @else
+                        <div class="form-group">
+                        {!! Form::text('usr_name',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',''])!!}
+                        @if($errors -> has('usr_name'))
+                             <p class="text-danger">{{$errors->first('usr_name')}} </p>
+                        @endif
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::text('usr_emp_an8',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',''])!!}
+                            @if($errors -> has('usr_emp_an8'))
+                                 <p class="text-danger">{{$errors->first('usr_emp_an8')}} </p>
+                            @endif
+                        </div>
+
+                        <div class="form-group-danger">
+                            {!! Form::select('usr_caducidad',
+                            config('options.usr_caducidad'),
+                            null,
+                            ['class'=>'form-control floating-label','placeholder'=>'Caducidad contraseña',])!!}
+                            @if($errors -> has('usr_caducidad'))
+                                <p class="text-danger">{{$errors->first('usr_caducidad')}} </p>
+                             @endif
+                        </div>
+
+                        <div class="form-group">
+
+                        </div>
+
+                        <div class="form-group-danger">
+                        {!! Form::select('usr_stu_id',
+                        config('options.usr_stu_id'),
+                        null,
+                        ['class'=>'form-control floating-label','placeholder'=>'Estado Usuario',])!!}
+                        @if($errors -> has('usr_stu_id'))
+                            <p class="text-danger">{{$errors->first('usr_stu_id')}} </p>
+                         @endif
+                        </div>
 
 
 
 
 
 
-                @if ($user->usr_emp_an8!= "")
-                {!!Form::open(['route'=>['admin.users.edit',$user], 'method'=> 'PUT'])!!}
+                            <div class="form-group">
+                                <div class="col-md-0 col-md-offset-3">
+                                    <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class="btn btn-info">
+                                        Crear Usuario
+                                     </button>
+                                </div>
+                            </div>
 
-                                   <div class="form-group">
-                                           <div class="col-md-0 col-md-offset-3">
-                                       <button type="submit" onclick="return confirm ('Esta seguro de actualizar el usuario?')"class="btn btn-info">
-                                        Actualizar Usuario
-                                       </button>
-                                     </div>
-                                   </div>
 
-                                 {!!Form::close()!!}
-                @else
-                            {!!Form::open(['route'=>['admin.users.store',$user], 'method'=> 'POST'])!!}
-
-                                   <div class="form-group">
-                                           <div class="col-md-0 col-md-offset-3">
-                                       <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class="btn btn-info">
-                                       Crear Usuario
-                                       </button>
-                                     </div>
-                                   </div>
-
-                                 {!!Form::close()!!}
-
-                @endif
+            @endif
 
 
 
 
-                     </div>{{--/.col-sm-6--}}
+
+
+
+
+
+
+
+
+    </div>{{--/.col-sm-6--}}
 
 
 

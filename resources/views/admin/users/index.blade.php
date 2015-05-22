@@ -21,8 +21,10 @@
                                    {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar empleado '])!!}
                                </div>
 
+                                <button type="submit" class="btn btn-danger">
+                                      <span class="glyphicon glyphicon-search"></span> Buscar
+                                 </button>
 
-                               <button type="submit" class="btn btn-danger">Buscar</button>
 
                           </div>
 

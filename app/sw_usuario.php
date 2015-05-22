@@ -47,12 +47,11 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
     {
         return $users= sw_usuario::name($name)
 
-            ->orderBy('usr_emp_an8','DESC')
             ->paginate();
     }
-    public function profile()
+    public function sw_empleado()
     {
-        return $this->hasOne('App\UserProfile');
+        return $this->hasOne('App\sw_empleado');
     }
 
     public function getFullNameAttribute()
@@ -62,13 +61,25 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
 
 
 
+
     public function setPasswordAttribute($value)
     {
-       // $passnew ="urico";
+       //$passnew ="fernando";
         if(! empty ($value))
         {
             $this->attributes['password']= bcrypt($value);
         }
+
+    }
+    public function scopeAn8($query, $an8)
+    {
+
+        if(trim($an8) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
+        {
+            $query->where(\DB::raw("CONCAT(emp_nombre,' ',emp_apellido,emp_an8,emp_identificacion)"),"LIKE", "%$an8%");
+            //$query->where('full_name',"LIKE", "%$name%");
+        }
+
 
     }
 //

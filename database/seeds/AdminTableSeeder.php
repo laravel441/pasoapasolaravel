@@ -12,6 +12,19 @@ class AdminTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
+        \DB::table('sw_usuarios')->insert(array(
+        'usr_emp_an8'=>'1069720',
+        'usr_stu_id'=>'1',
+        'usr_name'=>'william.beltran',
+        'password'=>\Hash::make('urico'),
+        'usr_caducidad'=>'30',
+        'usr_flag_pass'=>'True',
+        'usr_creado_en' => new DateTime,
+        'usr_creado_por' => 'Swcapital',
+        'usr_modificado_en' => new DateTime,
+        'usr_modificado_por' => 'Swcapital',
+        'remember_token'=> 'adpamdpmapdfaifmpfjipf64654654654846'
+));
 		\DB::table('users')->insert(array(
 		'first_name'=>'Ricardo',
 		'last_name' =>'Uricoechea',

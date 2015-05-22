@@ -10,7 +10,9 @@ class CreateUserRequest extends Request {
 	 *
 	 * @return bool
 	 */
-	public function authorize()
+
+
+    public function authorize()
 	{
 		return true;//PErmite manejar la logica adicional de usar Request o no
 	}
@@ -24,29 +26,20 @@ class CreateUserRequest extends Request {
 	{
 		return [
 
+            'usr_emp_an8'=>'',
+            'usr_name' => 'required|unique:sw_usuarios,usr_name',
+            'password' => '',
+            'usr_caducidad' => 'in: 30,60,90',
+            'usr_flag_pass' => 'boolean',
+            'usr_creado_en' => new DateTime,
+            'usr_creado_por' => 'Swcapital',
+            'usr_modificado_en' => new DateTime,
+            'usr_modificado_por' => 'Swcapital',
 
 
 
-            'emp_an8' => 'required|max:255|unique:sw_empleados,emp_an8',
-            'emp_area_id'=>'',
-            'emp_cod_tm'=>'required|max:255|unique:sw_empleados,emp_cod_tm',
-            'emp_identificacion'=>'required|max:255|unique:sw_empleados,emp_identificacion',
-            'emp_nombre'=>'required|max:255',
-            'emp_nombre2'=>'max:255',
-            'emp_apellido'=>'required|max:255',
-            'emp_apellido2'=>'max:255',
-            'emp_direccion'=>'max:255',
-            'emp_telefono'=>'max:255|max:10',
-            'emp_celular'=>'max:255|max:10',
-            'emp_correo'=>'required|email|max:255|unique:sw_empleados,emp_correo',
-            'emp_fecha_nacimiento'=>new DateTime,
-            'emp_unidad_negocio'=>'max:255',
-            'emp_fecha_ingreso'=>new DateTime,
-            'emp_fecha_salida'=>'',
-            'emp_creado_en' => new DateTime,
-            'emp_creado_por' => 'Swcapital',
-            'emp_modificado_en' => new DateTime,
-            'emp_modificado_por' => 'Swcapital'
+
+
 
 
 		];
