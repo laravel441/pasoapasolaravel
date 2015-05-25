@@ -17,6 +17,10 @@ use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Auth;
 
+use DateTime;
+use Faker\Factory as Faker;
+
+
 
 
 
@@ -40,7 +44,7 @@ class UsersController extends Controller {
 
     }
 
-	public function index(Route $route,Request $request)
+	public function index(Request $request)
 	{
         //$users= sw_empleado::filterAndPaginate($request->get('name'),$request->get('type'));//Creacion de un patron de repositorio en el modelo User.php
 
@@ -63,7 +67,7 @@ class UsersController extends Controller {
         ->paginate(8);
 
 
-        //dd($users);
+        //dd($request->get('an8'));
 //
 
 
@@ -79,7 +83,7 @@ class UsersController extends Controller {
 
         //dd($users);
 
-        return view('admin.users.index',compact('users'));
+
 
 
                     //->orderBy(\DB::raw('RAND()')) //Funciones de SQL
@@ -106,20 +110,24 @@ class UsersController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(CreateUserRequest $request)//Inyección de dependecias y llamo mi propio request (face y debo compobarlo)
+	public function store(Route $route, CreateUserRequest $request)//Inyección de dependecias y llamo mi propio request (face y debo compobarlo)
 	{
-        //dd($request);
+
+
+
+        $faker = Faker::create();
         $pass='';
         $pass=$this->randomPassword();
         $users = new sw_usuario();
-
         $users->fill($request->all());
+
         $users->password =$pass;
         $users->usr_flag_pass ='FALSE';
-        $users->usr_creado_en ='2015-05-20 00:00:00';
-        $users->usr_creado_por ='Swcapital';
-        $users->usr_modificado_en ='2015-05-20 00:00:00';
-        $users->usr_modificado_por ='Swcapital';
+        $users->usr_creado_en = new DateTime();
+        $users->usr_creado_por =Auth::user()->usr_name;
+        $users->usr_modificado_en = new DateTime();
+        $users->usr_modificado_por =Auth::user()->usr_name;
+        $users->remember_token =$faker->sha256;
         $users->save();
         //dd($users);
        // $users = sw_usuario::create($request->all());
@@ -129,9 +137,21 @@ class UsersController extends Controller {
 //        $User->fill($request->all());
 
 //        $user = sw_usuario::create($request->all());
+        $emps = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
+            ->select(
+                'sw_empleados.*',
+                'sw_usuarios.usr_emp_an8 as usr_emp_an8',
+                'sw_usuarios.usr_name',
+                'sw_usuarios.usr_id as usr_id',
+
+                'sw_usuarios.*')
+
+            ->findOrFail($request->usr_emp_an8);
+
+        $this->sendMailCreate($pass, $emps);
 //
-//        Session::flash('message',$user->full_name.' Se ha creado' );
-        Session::flash('message', 'Se ha creado el usuario '.$users->usr_name.' en nuestros registros ' );
+        Session::flash('message', 'El usuario ' .$emps->full_name.' '.' Se ha creado en nuestros registros' );
+
         return redirect()->route('admin.users.index');
 
 
@@ -211,22 +231,20 @@ class UsersController extends Controller {
 //
 //
         $users->password =$pass;
-        }
+        $users->usr_modificado_por =Auth::user()->usr_name;
+        $users->usr_modificado_en = new DateTime();
         $users->fill($request->all());
-//        if ($request->contrasenia == '1'){
-//            $pass=$this->randomPassword();
-//
-//            $users->password =bcrypt ('urico');
-//        }
-
-
-        //dd($users);
-
         $users->save();
-        //$usr = sw_empleado::findOrFail($route->getParameter('users'));
+        $this->sendMailUpdate($pass, $users);
 
-        $this->sendMail($pass, $users);
+        Session::flash('message', $users->full_name.' '.$pass.' Se ha modificado en nuestros registros' );
+        return redirect()->back();
 
+        }else
+        $users->usr_modificado_por =Auth::user()->usr_name;
+        $users->usr_modificado_en = new DateTime();
+        $users->fill($request->all());
+        $users->save();
         Session::flash('message', $users->full_name.' '.$pass.' Se ha modificado en nuestros registros' );
         return redirect()->back();
 
@@ -250,10 +268,10 @@ class UsersController extends Controller {
             ->
             findOrFail($route->getParameter('users'));
 
-
+        //dd($users);
         $users->delete();
 
-        $message = 'El usuario '. $users->full_name . ' fue eliminado de nuestros registros';
+        $message = 'El usuario '. $users->usr_name . ' fue eliminado de nuestros registros';
         if ($request->ajax()) {
             return response()->json([
                 'id'      => $users->usr_id,
@@ -286,7 +304,7 @@ class UsersController extends Controller {
 
     }
 
-    function sendMail($contraseña, $users){
+    function sendMailUpdate($contraseña, $users){
 
         $subject="Actualización Contraseña SWCapital";
         $headers = "From: fenando.arevalo9311@gmail.com";
@@ -305,6 +323,40 @@ class UsersController extends Controller {
                   <div class="alert-danger">
                                  <h1 style="text-align: center;">Actualización Contraseña de SWCapital</h1>';
             $message .= '        <p>Sr (a) ' . $users->full_name. '</p>
+                                 <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
+                                 <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
+                                  <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>
+                                 <p>Para ingresar lo puede realizar desde la dirección web: http://192.168.46.39/swcapital/public</p>
+                                 <p>Recuerde no responder a este correo, ya que fue enviado automaticamente por SWCapital.
+                         Cualquier consulta por favor comunicarla a: mesadeayuda@masivocapital.com</p>
+                         <a href="http://www.mailgun.com" class="btn-primary" itemprop="url">Confirm email address</a>
+                  </div>';
+        $message .=      '</body>
+        </html>';
+
+
+        if (!mail($users->emp_correo, $subject, $message, $headers)) echo 'Error';
+    }
+
+    function sendMailCreate($contraseña, $users){
+
+        $subject="Credenciales SWCapital";
+        $headers = "From: fenando.arevalo9311@gmail.com";
+        $headers .= "MIME-Version: Admin\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $message = '<html>
+            <head>
+                <meta name="viewport" content="width=device-width" />
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <title>Actionable emails e.g. reset password</title>
+                <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+            </head>
+
+            <body>
+                  <div class="alert-danger">
+                                 <h1 style="text-align: center;">Credenciales de acceso SWCapital</h1>';
+        $message .= '        <p>Sr (a) ' . $users->usr_name. '</p>
                                  <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
                                  <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
                                   <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>

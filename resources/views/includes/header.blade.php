@@ -21,28 +21,30 @@
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
 
-                @elseif((Auth::user()->type !='admin'))
-               <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
+                @elseif(Auth::user()->usr_stu_id == '1')
+                <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
                 <li class="dropdown">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->usr_name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="{!! url('/auth/logout') !!}">Cambio de contraseña</a></li>
                             <li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
 
                             </ul>
                     </li>
 
-                    @else
-                     <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
-                                             {{--<li><a href="{!! url('/buscar_usuario/index') !!}">Buscarme</a></li>--}}
-                                            <li class="dropdown">
 
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->usr_name }} <span class="caret"></span></a>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+                     @else
+                      <li class="dropdown">
 
-                                                </ul>
-                                            </li>
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->usr_name }} <span class="caret"></span></a>
+                             <ul class="dropdown-menu" role="menu">
+                             <li><a href="{!! url('/auth/logout') !!}">Cambio de contraseña</a></li>
+                                 <li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+
+                             </ul>
+                         </li>
+
 
 
                 @endif

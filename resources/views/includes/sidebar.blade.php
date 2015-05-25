@@ -28,7 +28,7 @@
             <a href="#">Services</a>
         </li>
         <li>
-            <a href="#">Contact</a>
+            <a href='http://192.168.46.39/glpi/?usuario={{ base64_encode(Auth::user()->usr_name) }}&password={{ base64_encode(Auth::user()->password) }}&valido=<?php echo base64_encode('T')?>' target="_blank"><span>Mesa de Ayuda</span></a>
         </li>
     </ul>
 </div>

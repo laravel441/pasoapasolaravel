@@ -196,7 +196,7 @@
                         </div>
 
                         <div class="form-group">
-                            {!! Form::text('usr_emp_an8',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',''])!!}
+                            {!! Form::hidden('usr_emp_an8',null,['class'=>'form-control floating-label','placeholder'=>'Usuario:',''])!!}
                             @if($errors -> has('usr_emp_an8'))
                                  <p class="text-danger">{{$errors->first('usr_emp_an8')}} </p>
                             @endif

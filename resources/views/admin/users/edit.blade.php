@@ -37,19 +37,14 @@
                 @include('admin.users.partials.fields')
                 {!!Form::close()!!}
                 @endif
+                @if ($user->usr_id != "")
+                  @include('admin.users.partials.delete')
+                @else
 
-
-
-
-
-
+                @endif
 
         </div>
-@if ($user->usr_id != "")
-                      @include('admin.users.partials.delete')
-                      @else
 
-                      @endif
 
       </div>
 

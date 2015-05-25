@@ -43,7 +43,13 @@ class HomeController extends Controller {
 //                            sw_get_modules (?)',array($id));
 //        //dd($menus);
 
+//        if(Auth::user()->usr_flag_pass == "TRUE")
+//        {
+//            return view('home');
+//        }
+//
+//        return view('auth.change_pass');
         return view('home');
-	}
+    }
 
 }

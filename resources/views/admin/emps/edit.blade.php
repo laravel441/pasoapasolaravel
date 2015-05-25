@@ -1,4 +1,4 @@
-@extends('app')
+@extends('......app.cc')
 
 @section('content')
 <div class="container-fluid">

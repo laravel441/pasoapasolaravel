@@ -71,17 +71,20 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
         }
 
     }
-    public function scopeAn8($query, $an8)
-    {
-
-        if(trim($an8) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
-        {
-            $query->where(\DB::raw("CONCAT(emp_nombre,' ',emp_apellido,emp_an8,emp_identificacion)"),"LIKE", "%$an8%");
-            //$query->where('full_name',"LIKE", "%$name%");
-        }
-
-
-    }
+//    public function scopeAn8($query, $an8)
+//    {
+//
+//        if(trim($an8) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
+//        {
+//            $query->where(\DB::raw("CONCAT(full_name,emp_an8,emp_identificacion)"),"ILIKE","%$an8%");
+//            //$query->where('full_name',"LIKE", "%$name%");
+////            $query->where (\DB::select('
+////                            select * from
+////                            sw_emp_search (?)',($an8)));
+//        }
+//
+//
+//    }
 //
 //    public function scopeName($query, $name)
 //    {
@@ -103,16 +106,14 @@ class sw_usuario extends Model implements AuthenticatableContract, CanResetPassw
 //        }
 //    }
 //
-//    public function is($type)
-//    {
-//        return $this->type === $type;
-//    }
-
-//    public function isAdmin()
-//    {
-//        return $this->type === 'admin';
-//    }
-
+    public function is($usr_stu_id)
+    {
+        return $this->type === $usr_stu_id;
+    }
+    public function isAdmin()
+    {
+        return $this->type === '1';
+    }
 
 
 

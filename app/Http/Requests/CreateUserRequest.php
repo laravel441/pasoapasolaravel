@@ -1,6 +1,7 @@
 <?php namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Routing\Route;
 use DateTime;
 
 class CreateUserRequest extends Request {
@@ -10,7 +11,12 @@ class CreateUserRequest extends Request {
 	 *
 	 * @return bool
 	 */
+    private $route; //necesito incluir la propieda route para utilizar el id en las reglas
 
+    public function __construct(Route $route)
+    {
+        $this->route = $route;
+    }
 
     public function authorize()
 	{
@@ -25,6 +31,7 @@ class CreateUserRequest extends Request {
 	public function rules()
 	{
 		return [
+
 
             'usr_emp_an8'=>'',
             'usr_name' => 'required|unique:sw_usuarios,usr_name',

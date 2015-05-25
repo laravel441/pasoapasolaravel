@@ -80,7 +80,7 @@ class sw_empleado extends Model {
 
         if(trim($an8) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
         {
-            $query->where(\DB::raw("CONCAT(emp_nombre,' ',emp_apellido,emp_an8,emp_identificacion)"),"LIKE", "%$an8%");
+            $query->where(\DB::raw("CONCAT(emp_nombre,' ',emp_apellido,emp_an8,emp_identificacion)"),"ILIKE", "%$an8%");
             //$query->where('full_name',"LIKE", "%$name%");
         }
 
