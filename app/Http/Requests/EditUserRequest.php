@@ -57,7 +57,7 @@ class EditUserRequest extends Request {
             'usr_id'=> $this->route->getParameter('users'),
             'usr_emp_an8'=>$this->route->getParameter('users'),
             'usr_name' => 'max:255,'. $this->route->getParameter('users'),
-            'usr_caducidad' => 'in: 30,60,90',
+            'usr_caducidad' => 'in: 30,60,90,180',
             'usr_flag_pass' => 'boolean',
 
 

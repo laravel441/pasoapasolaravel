@@ -36,7 +36,7 @@ class CreateUserRequest extends Request {
             'usr_emp_an8'=>'',
             'usr_name' => 'required|unique:sw_usuarios,usr_name',
             'password' => '',
-            'usr_caducidad' => 'in: 30,60,90',
+            'usr_caducidad' => 'in: 30,60,90,180',
             'usr_flag_pass' => 'boolean',
             'usr_creado_en' => new DateTime,
             'usr_creado_por' => 'Swcapital',

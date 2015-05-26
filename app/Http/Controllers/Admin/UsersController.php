@@ -50,6 +50,11 @@ class UsersController extends Controller {
 
         //$users= User::name($request->get('name'))->type($request->get('type'))->orderBy('id','DESC')->paginate();
         //dd($request->get('user_name'));
+        $id =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            sw_get_modules (?)',array($id));
 
 
 
@@ -72,7 +77,7 @@ class UsersController extends Controller {
 
 
 
-         return view('admin.users.index',compact('users'));
+         return view('admin.users.index',compact('users','menus'));
 
 //        $id =Auth::user()->usr_id;
 //
@@ -169,6 +174,12 @@ class UsersController extends Controller {
 	public function show(Route $route, $id)
 	{
         //dd($id);
+        $id =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            sw_get_modules (?)',array($id));
+
         $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
             ->select(
                 'sw_empleados.*',
@@ -181,7 +192,7 @@ class UsersController extends Controller {
             ->findOrFail($route->getParameter('users'));
 
         //dd($users);
-        return view('admin.users.edit')->with ('user',$users);
+        return view('admin.users.edit')->with ('user',$users)->with ('menus',$menus);
 	}
 
 	/**
@@ -193,6 +204,11 @@ class UsersController extends Controller {
 	public function edit(Route $route, $id)
 	{
 
+        $id =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            sw_get_modules (?)',array($id));
 
         $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
             ->select(
@@ -204,7 +220,7 @@ class UsersController extends Controller {
         findOrFail($route->getParameter('users'));
 
         //dd($users);
-        return view('admin.users.edit')->with ('user',$users);
+        return view('admin.users.edit')->with ('user',$users)->with ('menus',$menus);
 
 	}
 
@@ -356,7 +372,7 @@ class UsersController extends Controller {
             <body>
                   <div class="alert-danger">
                                  <h1 style="text-align: center;">Credenciales de acceso SWCapital</h1>';
-        $message .= '        <p>Sr (a) ' . $users->usr_name. '</p>
+        $message .= '        <p>Sr (a) ' . $users->full_name. '</p>
                                  <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
                                  <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
                                   <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>

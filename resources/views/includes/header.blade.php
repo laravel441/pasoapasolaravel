@@ -27,8 +27,8 @@
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->usr_name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{!! url('/auth/logout') !!}">Cambio de contraseña</a></li>
-                            <li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+                            <li><a href="{!! url('/admin/users/cambio') !!}" >Cambio de contraseña</a></li>
+                            <li><a href="{!! url('/auth/logout') !!}" >Cerrar Sesión</a></li>
 
                             </ul>
                     </li>
@@ -39,8 +39,8 @@
 
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->usr_name }} <span class="caret"></span></a>
                              <ul class="dropdown-menu" role="menu">
-                             <li><a href="{!! url('/auth/logout') !!}">Cambio de contraseña</a></li>
-                                 <li><a href="{!! url('/auth/logout') !!}">Cerrar Sesión</a></li>
+                             <li><a href="{!! url('/auth/logout') !!}" >Cambio de contraseña</a></li>
+                                 <li><a href="{!! url('/auth/logout') !!}" >Cerrar Sesión</a></li>
 
                              </ul>
                          </li>

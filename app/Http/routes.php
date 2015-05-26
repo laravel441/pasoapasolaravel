@@ -14,7 +14,8 @@
 Route::get('/', 'HomeController@index');
 
 Route::get('home', 'HomeController@index');
-
+Route::get('admin/users/cambio', 'HomeController@guardar');
+Route::post('admin/users/cambio', 'HomeController@cambiar');
 
 
 
