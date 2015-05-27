@@ -32,6 +32,11 @@ Route::controllers([
 Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], function()//ejecuta los middleware en orden
 {
 	Route::resource('users','UsersController');
-    Route::resource('emps','EmpleadoController');
+
+});
+
+Route::group(['prefix'=>'lavado','middleware'=>'auth','namespace'=>'Admin'], function()//ejecuta los middleware en orden
+{
+    Route::resource('/','LavadoController');
 });
 

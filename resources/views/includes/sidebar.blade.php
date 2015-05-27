@@ -27,7 +27,7 @@
                      <?php
                                  } else {
                      ?>
-                                 <a href ='<?php echo $menu->smod_ruta?>' target='_blank' class='list-group-item'><?php echo $menu->smod_nombre?><i class ='fa fa-caret-down'></i></a>
+                                 <a href ='<?php echo $menu->smod_ruta?>'  class='list-group-item'><?php echo $menu->smod_nombre?><i class ='fa fa-caret-down'></i></a>
                      <?php
                                 }
                             }
