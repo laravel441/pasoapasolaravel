@@ -65,7 +65,7 @@
 							<div class="col-md-8 col-md-offset-4">
 								<button type="submit" class="btn btn-danger">Entrar</button>
 
-								<a href="../password/email" class="text-danger"> ¿Olvidaste tu Password? </a>
+								<a href="{{action ('ResetController@recuperar')}}" class="text-danger"> ¿Olvidaste tu Password? </a>
 							</div>
 						</div>
 					{!! Form::close() !!}

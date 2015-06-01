@@ -5,8 +5,16 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.0.*",
-		"laravelcollective/html": "~5.0"
+
+        "laravel/framework": "5.0.*",
+        "illuminate/support": "~5.0",
+        "laravelcollective/html": "~5.0",
+        "php": ">=5.4.0",
+		"braunson/laravel-html5-forms": "dev-laravel-5"
+        //"thujohn/pdf": "dev-master"
+
+
+
 		
 	},
 	"require-dev": {
@@ -16,12 +24,13 @@
         "guzzlehttp/guzzle": "~4.0"
 	},
 	"autoload": {
-		"classmap": [
-			"database"
-		],
+        "psr-0": {
+            "Braunson\\LaravelHTML5Forms\\": "src/"
+        },
 		"psr-4": {
 			"App\\": "app/"
 		}
+
 	},
 	"autoload-dev": {
 		"classmap": [

@@ -6,6 +6,8 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\sw_empleado;
 use App\sw_usuario;
+use App\sw_ctl_lavado;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
@@ -38,30 +40,29 @@ class LavadoController extends Controller {
 
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                            fn_get_modules(?)',array($id));
+
+        $ctls = \DB::select('
+                           select * from
+                            fn_lavado (?) ORDER BY ctl_id DESC',array($id));
 
 
-
-        $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
-            ->select(
-                'sw_empleados.*',
-                'sw_usuarios.usr_emp_an8 as usr_emp_an8',
-                'sw_usuarios.usr_name',
-                'sw_usuarios.usr_id as usr_id',
-
-                'sw_usuarios.*')
-
-            ->an8($request->get('an8'))
-            ->orderBy('emp_an8','DESC')
-            ->paginate(8);
+        //dd($ctls);
+        $ctl = $ctls[0];
 
 
-        //dd($request->get('an8'));
-//
+        //dd($ctl);
+        $usr_name = $ctl->usr_name;
+
+        $patios = \DB::select('select * from sw_patio
+        ');
 
 
+        $proveedores = \DB::select('select * from sw_proveedor
+        ');
 
-        return view('lavado.index',compact('users','menus'));
+
+        return view('lavado.index',compact('menus','ctls','patios','proveedores','ctl','usr_name'));
 
 	}
 
@@ -72,7 +73,7 @@ class LavadoController extends Controller {
 	 */
 	public function create()
 	{
-		//
+
 	}
 
 	/**
@@ -80,10 +81,30 @@ class LavadoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
-	}
+		//dd($request->all());
+
+        $control = new sw_ctl_lavado();
+        $control->fill($request->all());
+
+        $control->ctl_usr_id = Auth::user()->usr_id;
+        $control->ctl_pto_id = ($request->pto_id);
+        $control->ctl_pve_an8 = ($request->prove_id);
+        $control->ctl_fecha_inicio =new DateTime();
+        $control->ctl_fecha_fin = new DateTime('0001-01-01 00:00:00');
+        $control->ctl_creado_en = new DateTime();
+        $control->ctl_creado_por =Auth::user()->usr_name;
+        $control->ctl_modificado_en = new DateTime();
+        $control->ctl_modificado_por =Auth::user()->usr_name;
+        //dd($control);
+        $control->save();
+
+        Session::flash('message', 'Se ha creado en nuevo control. ID: '.$control->ctl_id );
+
+        return redirect()->route('lavado.edit',compact('control'));
+
+    }
 
 	/**
 	 * Display the specified resource.
@@ -102,9 +123,31 @@ class LavadoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Request $request, $id)
 	{
-		//
+        //dd($id);
+        $iduser =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
+
+        $controlnr = \DB::select('
+                            select * from
+                            fn_lavado(?)',array($iduser));
+
+
+
+        //dd($controlnr);
+        $ctl = $controlnr[0];
+
+
+        //dd($ctl);
+        $usr_name = $ctl->usr_name;
+
+
+
+        return view('lavado.edit',compact('menus','ctl','usr_name'));
 	}
 
 	/**

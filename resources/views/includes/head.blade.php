@@ -8,7 +8,13 @@
 {!! Html::style('bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css') !!}
 {!! Html::style('bower_components/bootstrap-material-design/dist/css/material.min.css') !!}
 {!! Html::style('bower_components/bootstrap-material-design/dist/css/ripples.min.css') !!}
-{!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!} 
+{!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!}
+{!! Html::style('css/bootstrap-combobox.css') !!}
+{!! Html::style('font-awesome-4.3.0/css/font-awesome.css') !!}
+{!! Html::style('font-awesome-4.3.0/css/font-awesome.min.css') !!}
+
+
+
 
 <!-- Fonts -->
 <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css' />

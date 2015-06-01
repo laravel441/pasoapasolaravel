@@ -54,7 +54,7 @@ class UsersController extends Controller {
 
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                            fn_get_modules (?)',array($id));
 
 
 
@@ -178,7 +178,7 @@ class UsersController extends Controller {
 
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                            fn_get_modules (?)',array($id));
 
         $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
             ->select(
@@ -208,7 +208,7 @@ class UsersController extends Controller {
 
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                            fn_get_modules (?)',array($id));
 
         $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
             ->select(
@@ -247,6 +247,7 @@ class UsersController extends Controller {
 //
 //
         $users->password =$pass;
+        $users->usr_flag_pass = 'FALSE';
         $users->usr_modificado_por =Auth::user()->usr_name;
         $users->usr_modificado_en = new DateTime();
         $users->fill($request->all());
@@ -323,7 +324,7 @@ class UsersController extends Controller {
     function sendMailUpdate($contraseña, $users){
 
         $subject="Actualización Contraseña SWCapital";
-        $headers = "From: fenando.arevalo9311@gmail.com";
+        $headers = "From: mesadeayuda@masivocapital.com";
         $headers .= "MIME-Version: Admin\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
@@ -357,7 +358,7 @@ class UsersController extends Controller {
     function sendMailCreate($contraseña, $users){
 
         $subject="Credenciales SWCapital";
-        $headers = "From: fenando.arevalo9311@gmail.com";
+        $headers = "From: mesadeayuda@masivocapital.com";
         $headers .= "MIME-Version: Admin\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 

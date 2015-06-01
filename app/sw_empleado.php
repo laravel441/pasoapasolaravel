@@ -44,13 +44,13 @@ class sw_empleado extends Model {
 
 
 
-    public static function FilterAndPaginate ($an8)
-    {
-        return $users= sw_empleado::an8($an8)
-
-            ->orderBy('emp_an8','DES')
-            ->paginate();
-    }
+//    public static function FilterAndPaginate ($an8)
+//    {
+//        return $users= sw_empleado::an8($an8)
+//
+//            ->orderBy('emp_an8','DES')
+//            ->paginate();
+//    }
     public function profile()
     {
         return $this->hasOne('App\UserProfile');

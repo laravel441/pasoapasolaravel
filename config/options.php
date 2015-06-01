@@ -53,4 +53,33 @@ return array(
 
 
     ],
+    'pto_id' =>[
+
+        ''=> 'Sel. el Patio',
+        '1'=> 'Patio Brasil',
+        '2'=> 'Patio Cantagalo',
+        '3'=> 'Patio CasaBlanca',
+        '4'=> 'Patio Cipres',
+        '5'=> 'Patio Colina',
+        '6'=> 'Patio Corza',
+        '7'=> 'Patio Magdalena',
+        '8'=> 'Patio Montevideo',
+        '9'=> 'Patio Porvenir',
+        '10'=> 'Patio Praga',
+        '11'=> 'Patio San bernardino',
+        '12'=> 'Patio Tierra Buena',
+        '13'=> 'Patio Toberin',
+    ],
+
+    'ctl_proveedor' =>[
+
+        ''=> 'Sel. el Proveedor',
+        '1'=> 'Proveedor A',
+        '2'=> 'Proveedor B',
+        '3'=> 'Proveedor C',
+        '4'=> 'Proveedor D',
+        '5'=> 'Proveedor E',
+
+    ],
+
 );

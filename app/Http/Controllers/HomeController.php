@@ -50,7 +50,7 @@ class HomeController extends Controller {
         $id =Auth::user()->usr_id;
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                            fn_get_modules (?)',array($id));
 
         if(Auth::user()->usr_flag_pass == "TRUE")
         {
@@ -71,7 +71,7 @@ class HomeController extends Controller {
 
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                           fn_get_modules (?)',array($id));
 
 
         return view('admin.users.cambio',compact('menus'));
@@ -84,7 +84,7 @@ class HomeController extends Controller {
 
         $menus = \DB::select('
                             select * from
-                            sw_get_modules (?)',array($id));
+                            fn_get_modules (?)',array($id));
 
 
 

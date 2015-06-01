@@ -230,7 +230,6 @@
 
 
 
-
                             <div class="form-group">
                                 <div class="col-md-0 col-md-offset-3">
                                     <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class="btn btn-info">

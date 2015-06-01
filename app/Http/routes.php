@@ -16,6 +16,12 @@ Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
 Route::get('admin/users/cambio', 'HomeController@guardar');
 Route::post('admin/users/cambio', 'HomeController@cambiar');
+Route::get('auth/recuperar', 'ResetController@recuperar');
+Route::post('auth/recuperar', 'ResetController@recuperarpassword');
+Route::get('auth/home', 'ResetController@home');
+Route::get('search/autocomplete', 'SearchController@autocomplete');
+Route::get('search/autocomplete2', 'SearchController@searchUser');
+
 
 
 
@@ -24,6 +30,7 @@ Route::controllers([
 	'users' => 'UsersController',
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+
 
 	
 
@@ -34,9 +41,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], func
 	Route::resource('users','UsersController');
 
 });
+resource('lavado','Admin\LavadoController');
+resource('lavado/reg','Admin\RegistroController');
 
-Route::group(['prefix'=>'lavado','middleware'=>'auth','namespace'=>'Admin'], function()//ejecuta los middleware en orden
-{
-    Route::resource('/','LavadoController');
-});
 

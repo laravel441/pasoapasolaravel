@@ -22,7 +22,7 @@
                 @if (Auth::guest())
 
                 @elseif(Auth::user()->usr_stu_id == '1')
-                <li><a href="{{route('admin.users.index')}}">Empleados</a></li>
+                {{--<li><a href="{{route('admin.users.index')}}">Empleados</a></li>--}}
                 <li class="dropdown">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->usr_name }} <span class="caret"></span></a>
@@ -59,6 +59,8 @@
 	{!! Html::script('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/material.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
+	{!! Html::script('js/list.js') !!}
+	{!! Html::script('js/bootstrap-combobox.js') !!}
 
 
 <script type="text/javascript">
