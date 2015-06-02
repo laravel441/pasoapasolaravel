@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'pruebas.eclipse@gmail.com', 'name' => 'Swcapital'],
+	'from' => ['address' => 'mesadeayuda@masivocapital.com', 'name' => 'Swcapital'],
 
 	/*
 	|--------------------------------------------------------------------------

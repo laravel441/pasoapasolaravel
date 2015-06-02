@@ -1,4 +1,4 @@
-div class="col-md-10">
+<div class="col-md-11">
 
                                         <div class="form-group-danger ">
                                         	<div class="form-control-wrapper col-md-3 col-md-offset-1">
@@ -24,22 +24,17 @@ div class="col-md-10">
                                                 <div class="floating-label">Fecha de inicio:</div>
                                                 <span class="material-input"></span>
                                             </div>
-                                        </div>
+                                        </div><br><br><br>
 
 
 
 
 
 
-                                         <div class="form-group">
-                                                 <div class="col-md-0 col-md-offset-5">
-                                                 <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
-                                                 Crear Registro
-                                                 </button>
 
-                                                 </div>
-                                         </div>
 </div>
+@include('lavado.partials.list')
+
 
 
                         <script type="text/javascript">

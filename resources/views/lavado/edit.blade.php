@@ -23,6 +23,14 @@
 
 
         </div>
+         <div class="form-group">
+                     <div class="col-md-0 col-md-offset-5">
+                     <button type="submit" onclick="return confirm ('Esta seguro de crear el usuario?')"class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
+                     Crear Registro
+                     </button>
+
+                     </div>
+             </div>
 
 
       </div>
