@@ -31,7 +31,7 @@ class RegistroController extends Controller {
 	 */
 	public function index()
 	{
-		//
+
 	}
 
 	/**
@@ -51,7 +51,8 @@ class RegistroController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		//
+
+        dd($request->all());
 	}
 
 	/**
@@ -62,7 +63,52 @@ class RegistroController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		//dd($id);
+        $iduser =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
+
+        $regs = \DB::select('
+                           select * from
+                            fn_registro (?)',array($id));
+        //dd($regs);
+
+        $regctl = $regs[0];
+        $idctl = $regctl->reg_ctl_id;
+
+        //dd($idctl);
+        $ctls = sw_ctl_lavado::find($idctl);
+
+        $ptoid = $ctls->ctl_pto_id;
+        $pveid = $ctls->ctl_pve_an8;
+
+        $ptoctls = \DB::select('select pto_nombre from sw_patio where pto_id ='.$ptoid);
+        $pvectls = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pveid);
+
+        $ptoctl= $ptoctls[0];
+        $pvectl= $pvectls[0];
+
+        //dd($ptoctl);
+
+        //$ctl = $ctls[0];
+
+
+
+
+        //dd($ctl);
+        $usr_name = Auth::user()->usr_name ;
+
+        $patios = \DB::select('select * from sw_patio
+        ');
+
+
+        $proveedores = \DB::select('select * from sw_proveedor
+        ');
+
+
+        return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs'));
 	}
 
 	/**
@@ -73,7 +119,44 @@ class RegistroController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $iduser =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
+
+        //dd($menus);
+
+        $ctl = sw_ctl_lavado::find($id);
+
+        $pto_id = $ctl->ctl_pto_id;
+        $pvd_id = $ctl->ctl_pve_an8;
+
+
+        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
+        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
+
+        $pto_nombre= $ptonombre[0];
+        $pvd_nombre= $pvdnombre[0];
+
+        //dd($ptonombre);
+        $usr_name = Auth::user()->usr_name ;
+
+        //dd($ctl_id);
+        $acciones = \DB::select('select * from sw_accion_lavado
+        ');
+
+        $patios = \DB::select('select * from sw_patio
+        ');
+        $vehiculos = \DB::select('select * from sw_vehiculo
+        ');
+        $proveedores = \DB::select('select * from sw_proveedor
+        ');
+
+        //dd($vehiculos);
+
+        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores','ctl'));
+        //dd($id);
 	}
 
 	/**

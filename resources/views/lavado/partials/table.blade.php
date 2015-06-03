@@ -37,11 +37,11 @@
 
                                     <div class="fa-hover ">
                                         @if($ctl->ctl_fecha_fin == '0001-01-01 00:00:00')
-                                    	<a href="../icon/user-plus">
+                                    	<a href="{{route('lavado.edit', $ctl->ctl_id)}}">
                                         <i class="fa fa-plus fa-2x" title="Agregar Registro"></i></a>
-                                        <a href="../icon/user-plus">
+                                        <a href="{{route('registro.edit', $ctl->ctl_id)}}">
                                         <i class="fa fa-pencil fa-2x" title="Editar Control"></i></a>
-                                        <a href="../icon/user-plus">
+                                        <a href="{{route('registro.show', $ctl->ctl_id)}}">
                                         <i class="fa fa-eye fa-2x" title="Ver Control"></i></a>
                                         <a href="../icon/user-plus">
                                         <i class="fa fa-trash-o fa-2x" title="Eliminar Control"></i></a>

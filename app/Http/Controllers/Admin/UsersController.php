@@ -343,10 +343,10 @@ class UsersController extends Controller {
                                  <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
                                  <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
                                   <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>
-                                 <p>Para ingresar lo puede realizar desde la dirección web: http://192.168.46.39/swcapital/public</p>
+                                 <p>Para ingresar lo puede realizar desde la dirección web: http://swcapital/</p>
                                  <p>Recuerde no responder a este correo, ya que fue enviado automaticamente por SWCapital.
                          Cualquier consulta por favor comunicarla a: mesadeayuda@masivocapital.com</p>
-                         <a href="http://www.mailgun.com" class="btn-primary" itemprop="url">Confirm email address</a>
+
                   </div>';
         $message .=      '</body>
         </html>';
@@ -377,10 +377,10 @@ class UsersController extends Controller {
                                  <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
                                  <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
                                   <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>
-                                 <p>Para ingresar lo puede realizar desde la dirección web: http://192.168.46.39/swcapital/public</p>
+                                 <p>Para ingresar lo puede realizar desde la dirección web: http://swcapital/</p>
                                  <p>Recuerde no responder a este correo, ya que fue enviado automaticamente por SWCapital.
                          Cualquier consulta por favor comunicarla a: mesadeayuda@masivocapital.com</p>
-                         <a href="http://www.mailgun.com" class="btn-primary" itemprop="url">Confirm email address</a>
+
                   </div>';
         $message .=      '</body>
         </html>';

@@ -5,8 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\sw_empleado;
+use App\sw_registro_lavado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
+use App\sw_det_lavado;
+
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -18,7 +21,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Redirect;
 use DateTime;
 use Faker\Factory as Faker;
 
@@ -44,15 +47,17 @@ class LavadoController extends Controller {
 
         $ctls = \DB::select('
                            select * from
-                            fn_lavado (?) ORDER BY ctl_id DESC',array($id));
+                            fn_lavado (?)',array($id));
 
 
         //dd($ctls);
-        $ctl = $ctls[0];
+        //$ctl = $ctls[0];
+
+
 
 
         //dd($ctl);
-        $usr_name = $ctl->usr_name;
+        $usr_name = Auth::user()->usr_name ;
 
         $patios = \DB::select('select * from sw_patio
         ');
@@ -62,7 +67,7 @@ class LavadoController extends Controller {
         ');
 
 
-        return view('lavado.index',compact('menus','ctls','patios','proveedores','ctl','usr_name'));
+        return view('lavado.index',compact('menus','ctls','patios','proveedores','usr_name'));
 
 	}
 
@@ -112,9 +117,46 @@ class LavadoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request, $id)
 	{
-		//
+        $iduser =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
+
+        //dd($menus);
+
+        $ctl = sw_ctl_lavado::find($id);
+
+        $pto_id = $ctl->ctl_pto_id;
+        $pvd_id = $ctl->ctl_pve_an8;
+
+
+        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
+        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
+
+        $pto_nombre= $ptonombre[0];
+        $pvd_nombre= $pvdnombre[0];
+
+        //dd($ptonombre);
+        $usr_name = Auth::user()->usr_name ;
+
+        //dd($ctl_id);
+        $acciones = \DB::select('select * from sw_accion_lavado
+        ');
+
+        $patios = \DB::select('select * from sw_patio
+        ');
+        $vehiculos = \DB::select('select * from sw_vehiculo
+        ');
+        $proveedores = \DB::select('select * from sw_proveedor
+        ');
+
+        //dd($vehiculos);
+
+        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores'));
+
 	}
 
 	/**
@@ -132,22 +174,34 @@ class LavadoController extends Controller {
                             select * from
                             fn_get_modules(?)',array($iduser));
 
-        $controlnr = \DB::select('
-                            select * from
-                            fn_lavado(?)',array($iduser));
+        //dd($menus);
+
+        $ctl = sw_ctl_lavado::find($id);
+
+        $pto_id = $ctl->ctl_pto_id;
+        $pvd_id = $ctl->ctl_pve_an8;
 
 
+        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
+        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
 
-        //dd($controlnr);
-        $ctl = $controlnr[0];
+        $pto_nombre= $ptonombre[0];
+        $pvd_nombre= $pvdnombre[0];
+
+        //dd($ptonombre);
+        $usr_name = Auth::user()->usr_name ;
+
+               //dd($ctl_id);
+        $acciones = \DB::select('select * from sw_accion_lavado
+        ');
 
 
-        //dd($ctl);
-        $usr_name = $ctl->usr_name;
+        $vehiculos = \DB::select('select * from sw_vehiculo
+        ');
 
+        //dd($vehiculos);
 
-
-        return view('lavado.edit',compact('menus','ctl','usr_name'));
+        return view('lavado.edit',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre'));
 	}
 
 	/**
@@ -156,10 +210,60 @@ class LavadoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request)
 	{
-		//
-	}
+        //dd($request->all());
+
+        $array_bd = ($request->acciones_bd);
+        $array_true = ($request->acciones);
+        $array_false = array_diff($array_bd, $array_true);
+        //dd($array_false);
+
+        $registro= new sw_registro_lavado();
+        $registro->fill($request->all());
+        $registro->reg_veh_id =$request->vehi_id;
+        $registro->reg_aprobacion=$request->reg_aprobacion;
+        $registro->reg_observacion=$request->reg_observacion;
+        $registro->reg_creado_en = new DateTime();
+        $registro->reg_creado_por =Auth::user()->usr_name;
+        $registro->reg_modificado_en = new DateTime();
+        $registro->reg_modificado_por =Auth::user()->usr_name;
+
+        $registro->save();
+
+        //dd($registro);
+
+        foreach($array_true as $arreglotrue) {
+            $detalle = new sw_det_lavado();
+            $detalle->fill($request->all());
+            $detalle->det_reg_id = $registro->reg_id;
+            $detalle->det_acc_id = $arreglotrue;
+            $detalle->det_acc_estado = 'TRUE';
+            $detalle->det_creado_en = new DateTime();
+            $detalle->det_creado_por = Auth::user()->usr_name;
+            $detalle->det_modificado_en = new DateTime();
+            $detalle->det_modificado_por = Auth::user()->usr_name;
+            //dd($detalle);
+            $detalle->save();
+        }
+        foreach($array_false as $arreglofalso) {
+            $detalle = new sw_det_lavado();
+            $detalle->fill($request->all());
+            $detalle->det_reg_id = $registro->reg_id;
+            $detalle->det_acc_id = $arreglofalso;
+            $detalle->det_acc_estado = 'FALSE';
+            $detalle->det_creado_en = new DateTime();
+            $detalle->det_creado_por = Auth::user()->usr_name;
+            $detalle->det_modificado_en = new DateTime();
+            $detalle->det_modificado_por = Auth::user()->usr_name;
+            //dd($detalle);
+            $detalle->save();
+        }
+
+       //return Redirect::action('RegistroController@index');
+        return redirect()->route('lavado.index');
+
+    }
 
 	/**
 	 * Remove the specified resource from storage.
@@ -171,5 +275,10 @@ class LavadoController extends Controller {
 	{
 		//
 	}
+
+    public function updatectl(Request $request)
+    {
+        dd($request);
+    }
 
 }

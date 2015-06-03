@@ -11,7 +11,7 @@
         "laravelcollective/html": "~5.0",
         "php": ">=5.4.0",
 		"braunson/laravel-html5-forms": "dev-laravel-5"
-        //"thujohn/pdf": "dev-master"
+
 
 
 

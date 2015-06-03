@@ -105,7 +105,11 @@ class HomeController extends Controller {
                 $actual = $requests->input('passwordActual');
                 $nueva = $requests->input('password');
                 $bandera =Auth::user()->usr_flag_pass;
-
+        if ($actual == $nueva){
+            $mensaje = "La contraseña nueva debe ser diferente a la actual";
+            Session::flash('message', $mensaje);
+            return view('admin.users.cambio',compact('menus'));
+            }else
 
                 if (Hash::check($actual, $usuariopassword))
                 {

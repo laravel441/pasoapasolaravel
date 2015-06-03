@@ -18,8 +18,7 @@
             <!-- main content -->                            
             <div id="page-content-wrapper">
                 <a id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle">
-                    <i class="fa fa-bars"></i>
-                </a>
+                            </a>
 
                 <div class="container-fluid" >
                     <div class="row">

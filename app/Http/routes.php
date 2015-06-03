@@ -19,8 +19,10 @@ Route::post('admin/users/cambio', 'HomeController@cambiar');
 Route::get('auth/recuperar', 'ResetController@recuperar');
 Route::post('auth/recuperar', 'ResetController@recuperarpassword');
 Route::get('auth/home', 'ResetController@home');
-Route::get('search/autocomplete', 'SearchController@autocomplete');
-Route::get('search/autocomplete2', 'SearchController@searchUser');
+Route::post('lavado', 'Admin\LavadoController@updatectl');
+
+
+
 
 
 
@@ -42,6 +44,6 @@ Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], func
 
 });
 resource('lavado','Admin\LavadoController');
-resource('lavado/reg','Admin\RegistroController');
+resource('registro','Admin\RegistroController');
 
 
