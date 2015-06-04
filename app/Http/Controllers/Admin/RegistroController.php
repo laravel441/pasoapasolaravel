@@ -13,6 +13,9 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\ServiceProvider;
+
+
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -52,7 +55,22 @@ class RegistroController extends Controller {
 	public function store(Request $request)
 	{
 
-        dd($request->all());
+        //dd($request->all());
+
+        $id = $request->reg_ctl_id;
+        $ctl = sw_ctl_lavado::find($id);
+        //dd($ctl);
+
+        $ctl->ctl_pto_id = $request->pto_id;
+        $ctl->ctl_pve_an8 = $request->prove_id;
+        $ctl->ctl_modificado_en = new DateTime();
+        $ctl->ctl_modificado_por = Auth::user()->usr_name;
+
+        $ctl->save();
+        return redirect()->route('lavado.index');
+
+
+
 	}
 
 	/**
@@ -73,6 +91,10 @@ class RegistroController extends Controller {
         $regs = \DB::select('
                            select * from
                             fn_registro (?)',array($id));
+
+        $reg_list = \DB::select('
+                           select * from
+                            fn_reg_list (?)',array($id));
         //dd($regs);
 
         $regctl = $regs[0];
@@ -90,25 +112,14 @@ class RegistroController extends Controller {
         $ptoctl= $ptoctls[0];
         $pvectl= $pvectls[0];
 
-        //dd($ptoctl);
-
-        //$ctl = $ctls[0];
-
-
-
-
-        //dd($ctl);
         $usr_name = Auth::user()->usr_name ;
 
         $patios = \DB::select('select * from sw_patio
         ');
-
-
         $proveedores = \DB::select('select * from sw_proveedor
         ');
 
-
-        return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs'));
+        return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs','reg_list','id'));
 	}
 
 	/**
@@ -165,9 +176,19 @@ class RegistroController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request)
 	{
-		//
+		//dd($request->all());
+        $ctl = sw_ctl_lavado::find($request->ctl_id);
+
+        $ctl->ctl_fecha_fin = new DateTime();
+        $ctl->ctl_modificado_en = new DateTime();
+        $ctl->ctl_modificado_por = Auth::user()->usr_name;
+
+        //dd($ctl);
+        $ctl->save();
+        return redirect()->route('lavado.index');
+
 	}
 
 	/**
@@ -176,9 +197,14 @@ class RegistroController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+
+
+
+    public function destroy($id)
 	{
 		//
 	}
+
+
 
 }

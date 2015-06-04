@@ -10,7 +10,8 @@
         "illuminate/support": "~5.0",
         "laravelcollective/html": "~5.0",
         "php": ">=5.4.0",
-		"braunson/laravel-html5-forms": "dev-laravel-5"
+		"braunson/laravel-html5-forms": "dev-laravel-5",
+        "barryvdh/laravel-dompdf": "0.5.*"
 
 
 

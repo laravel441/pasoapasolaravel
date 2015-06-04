@@ -155,7 +155,7 @@ class LavadoController extends Controller {
 
         //dd($vehiculos);
 
-        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores'));
+        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores','ctl'));
 
 	}
 
@@ -276,9 +276,6 @@ class LavadoController extends Controller {
 		//
 	}
 
-    public function updatectl(Request $request)
-    {
-        dd($request);
-    }
+
 
 }

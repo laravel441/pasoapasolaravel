@@ -21,13 +21,13 @@
                                                        @endif
 
 
-                                                    <div>@include('lavado.partials.checklistreg')</div>
 
 
 
 
-
-
+                                @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
+                                   {!!Form::open(['route'=>['registro.update'], 'method'=> 'PUT'])!!}
+                                   <div>@include('lavado.partials.checklistreg')</div>
 
                                               <div class="form-group">
                                                         <div class="col-md-0 col-md-offset-5">
@@ -36,10 +36,14 @@
                                                                 </button>
                                                         </div>
                                               </div>
-                                             <div class="fa-hover ">
-                                                        <a href="http://swcapital.com/lavado">
-                                                        <i class="fa fa-arrow-circle-o-left fa-3x" title="Regresar Controles"></i></a>
-                                             </div>
+                                     {!!Form::close()!!}
+
+
+
+                                     @else
+                                         <div>@include('lavado.partials.checklistreg')</div>
+
+                                             @endif
 
 
 

@@ -19,7 +19,7 @@
                                 @if($ctl->ctl_fecha_fin == '0001-01-01 00:00:00')
                                 <tr  data-id="{{$ctl->usr_id}}">
                                     @else
-                                 <tr class="danger" data-id="{{$ctl->usr_id}}">
+                                 <tr class="well-material-grey-300" data-id="{{$ctl->usr_id}}">
                                  @endif
                                 <td>{{$ctl->ctl_id}}</td>
                                 <td>{{$ctl->usr_name}}</td>
@@ -35,26 +35,23 @@
 
                                 <td>
 
-                                    <div class="fa-hover ">
-                                        @if($ctl->ctl_fecha_fin == '0001-01-01 00:00:00')
-                                    	<a href="{{route('lavado.edit', $ctl->ctl_id)}}">
-                                        <i class="fa fa-plus fa-2x" title="Agregar Registro"></i></a>
-                                        <a href="{{route('registro.edit', $ctl->ctl_id)}}">
-                                        <i class="fa fa-pencil fa-2x" title="Editar Control"></i></a>
-                                        <a href="{{route('registro.show', $ctl->ctl_id)}}">
-                                        <i class="fa fa-eye fa-2x" title="Ver Control"></i></a>
-                                        <a href="../icon/user-plus">
-                                        <i class="fa fa-trash-o fa-2x" title="Eliminar Control"></i></a>
-                                    </div>
-                                        @else
-                                        <a href="../icon/user-plus">
-                                    	<i class="fa fa-eye fa-2x" title="Ver Control"></i></a>
+                                            <div class="fa-hover ">
+                                                @if($ctl->ctl_fecha_fin == '0001-01-01 00:00:00')
+                                                <a href="{{route('lavado.edit', $ctl->ctl_id)}}">
+                                                <i class="fa fa-plus fa-9x text-info" title="Agregar Registro"></i></a>
+                                                <a href="{{route('registro.edit', $ctl->ctl_id)}}">
+                                                <i class="fa fa-pencil fa-9x text-danger" title="Editar Control"></i></a>
+                                                <a href="{{route('registro.show', $ctl->ctl_id)}}">
+                                                <i class="fa fa-eye fa-9x text-primary" title="Ver Control"></i></a>
 
-                                        @endif
+                                            </div>
+                                                @else
+                                                <a href="{{route('registro.show', $ctl->ctl_id)}}">
+                                                <i class="fa fa-eye fa-9x text-primary" title="Ver Control"></i></a>
+                                                <a onclick="return confirm ('Esta seguro de generar el reporte?')" href="{{route('reporte.show', $ctl->ctl_id)}}">
+                                                <i class="fa fa-file-pdf-o fa-9x text-danger" title="Generar Reporte"></i></a>
 
-
-
-
+                                                @endif
 
                                 </td>
                               </tr>

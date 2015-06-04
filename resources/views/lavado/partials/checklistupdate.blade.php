@@ -1,7 +1,12 @@
  <input class="form-control text-info"  name="reg_ctl_id" type="hidden" value="{{$id}}">
 
+
+                                       <div class="form-control-wrapper col-md-1 col-md-offset-0">
+                                                  <a href="http://swcapital.com/lavado">
+                                                  <i class="fa fa-arrow-circle-o-left fa-2x text-info" title="Regresar Controles"></i></a>
+                                       </div>
                                         <div class="form-group-danger ">
-                                        	<div class="form-control-wrapper col-md-3 col-md-offset-1">
+                                        	<div class="form-control-wrapper col-md-3 col-md-offset-0">
                                         		<input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$usr_name}}">
                                         		<div class="floating-label">Usuario:</div>
                                         		<span class="material-input"></span>
@@ -36,7 +41,7 @@
 
                                         <div class="form-group-danger">
                                             <div class="form-control-wrapper col-md-2 col-md-offset-0">
-                                                <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value=" <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?>">
+                                                <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ctl->ctl_fecha_inicio}}">
                                                 <div class="floating-label">Fecha de inicio:</div>
                                                 <span class="material-input"></span>
                                             </div>

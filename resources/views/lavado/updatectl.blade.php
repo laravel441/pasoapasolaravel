@@ -21,7 +21,8 @@
 
 
                             {!!Form::open(['route'=>['registro.store'], 'method'=> 'POST'])!!}
-                           <div>@include('lavado.partials.checklistupdate')</div>
+                           <div>
+                           @include('lavado.partials.checklistupdate')</div>
                             {!!Form::close()!!}
 
 
