@@ -1,10 +1,11 @@
 @extends('layouts.sidebar')
 
+
 @section('content')
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <div class="panel panel-default">
+
+        <div class="row">
+            <div class="col-md-12 col-md-offset-0">
+                <div class="panel panel-default">
         <div class="panel-heading"><h2>Nuevo Registro: {{ Auth::user()->usr_name }} </h2><h6 align="left"><?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?>
           </h6></div>
         <div class="panel-body">
@@ -40,5 +41,5 @@
       </div>
     </div>
   </div>
-</div>
+
 @endsection

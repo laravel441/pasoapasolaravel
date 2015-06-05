@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\sw_empleado;
+use App\sw_registro_lavado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
 use App\User;
@@ -43,9 +44,59 @@ class ReporteController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(Request $request)
 	{
-		//
+        $id = ($request->reg_id);
+        dd($request->all());
+        $array_bd = ($request->acciones_bd);
+        $array_true = ($request->acciones);
+        $array_false = array_diff($array_bd, $array_true);
+        //dd($array_false);
+
+        $registro= sw_registro_lavado::find($id);
+        $registro->fill($request->all());
+        dd($registro);
+        $registro->reg_veh_id =$request->vehi_id;
+        $registro->reg_aprobacion=$request->reg_aprobacion;
+        $registro->reg_observacion=$request->reg_observacion;
+        $registro->reg_creado_en = new DateTime();
+        $registro->reg_creado_por =Auth::user()->usr_name;
+        $registro->reg_modificado_en = new DateTime();
+        $registro->reg_modificado_por =Auth::user()->usr_name;
+
+        $registro->save();
+
+        //dd($registro);
+
+        foreach($array_true as $arreglotrue) {
+            $detalle = new sw_det_lavado();
+            $detalle->fill($request->all());
+            $detalle->det_reg_id = $registro->reg_id;
+            $detalle->det_acc_id = $arreglotrue;
+            $detalle->det_acc_estado = 'TRUE';
+            $detalle->det_creado_en = new DateTime();
+            $detalle->det_creado_por = Auth::user()->usr_name;
+            $detalle->det_modificado_en = new DateTime();
+            $detalle->det_modificado_por = Auth::user()->usr_name;
+            //dd($detalle);
+            $detalle->save();
+        }
+        foreach($array_false as $arreglofalso) {
+            $detalle = new sw_det_lavado();
+            $detalle->fill($request->all());
+            $detalle->det_reg_id = $registro->reg_id;
+            $detalle->det_acc_id = $arreglofalso;
+            $detalle->det_acc_estado = 'FALSE';
+            $detalle->det_creado_en = new DateTime();
+            $detalle->det_creado_por = Auth::user()->usr_name;
+            $detalle->det_modificado_en = new DateTime();
+            $detalle->det_modificado_por = Auth::user()->usr_name;
+            //dd($detalle);
+            $detalle->save();
+        }
+
+        //return Redirect::action('RegistroController@index');
+        return redirect()->route('lavado.indexreg');
 	}
 
 	/**
@@ -55,7 +106,7 @@ class ReporteController extends Controller {
 	 */
 	public function store()
 	{
-		//
+
 	}
 
 	/**
@@ -136,7 +187,46 @@ class ReporteController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		//dd($id);
+        $iduser =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
+
+        //dd($menus);
+
+        $reg = sw_registro_lavado::find($id);
+        $idctl = $reg->reg_ctl_id;
+        $ctl = sw_ctl_lavado::find($idctl);
+        $pto_id = $ctl->ctl_pto_id;
+        $pvd_id = $ctl->ctl_pve_an8;
+        $veh_id = $reg->reg_veh_id;
+
+
+        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
+        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
+        $vehnombre = \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$veh_id);
+        $pto_nombre= $ptonombre[0];
+        $pvd_nombre= $pvdnombre[0];
+        $veh_nombre= $vehnombre[0];
+
+        //dd($veh_nombre);
+        $usr_name = Auth::user()->usr_name ;
+
+        //dd($ctl_id);
+        $acciones = \DB::select('select * from sw_accion_lavado
+        ');
+
+        $vehiculos = \DB::select('select * from sw_vehiculo
+        ');
+
+
+        //dd($vehiculos);
+
+        return view('lavado.updatereg',compact('menus','usr_name','acciones','vehiculos','id','reg','idctl','pto_nombre','pvd_nombre','veh_nombre','ctl'));
+
+
 	}
 
 	/**
@@ -145,9 +235,49 @@ class ReporteController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request, $id)
 	{
-		//
+        dd($id);
+        $ctl = sw_registro_lavado::find($id);
+
+        dd($ctl);
+        $iduser =Auth::user()->usr_id;
+
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
+
+        //dd($menus);
+
+        $ctl = sw_ctl_lavado::find($id);
+
+        $pto_id = $ctl->ctl_pto_id;
+        $pvd_id = $ctl->ctl_pve_an8;
+
+
+        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
+        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
+
+        $pto_nombre= $ptonombre[0];
+        $pvd_nombre= $pvdnombre[0];
+
+        //dd($ptonombre);
+        $usr_name = Auth::user()->usr_name ;
+
+        //dd($ctl_id);
+        $acciones = \DB::select('select * from sw_accion_lavado
+        ');
+
+        $patios = \DB::select('select * from sw_patio
+        ');
+        $vehiculos = \DB::select('select * from sw_vehiculo
+        ');
+        $proveedores = \DB::select('select * from sw_proveedor
+        ');
+
+        //dd($vehiculos);
+
+        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores','ctl'));
 	}
 
 	/**

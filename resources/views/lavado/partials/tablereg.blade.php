@@ -57,18 +57,6 @@
                       </td>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                             <td>{{$reg->reg_observacion}}</td>
                             <td>{{$reg->reg_creado_en}}</td>
                             @if($reg->reg_aprobacion=='1')
@@ -77,16 +65,20 @@
                                <td>No</td>
                                @endif
                             <td>
-                                <div class="fa-hover ">
-                                    <a href="#">
-                                    <i class="fa fa-plus fa-2x" title="Agregar Registro"></i></a>
-                                    <a href="../icon/user-plus">
-                                    <i class="fa fa-pencil fa-2x" title="Editar Control"></i></a>
-                                    <a href="#">
-                                    <i class="fa fa-eye fa-2x" title="Ver Control"></i></a>
-                                    <a href="../icon/user-plus">
-                                    <i class="fa fa-trash-o fa-2x" title="Eliminar Control"></i></a>
-                                </div>
+
+                                        <div class="fa-hover ">
+                                            @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
+
+                                            <a href="{{route('reporte.edit', $reg->reg_id)}}">
+                                            <i class="fa fa-pencil fa-9x text-danger" title="Editar Registro"></i></a>
+
+
+                                        </div>
+                                            @else
+
+                                            <i class="text-info">Control Cerrado</i>
+
+                                            @endif
 
                             </td>
 

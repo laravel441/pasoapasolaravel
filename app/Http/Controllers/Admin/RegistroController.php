@@ -7,6 +7,7 @@ use App\Http\Requests\EditUserRequest;
 use App\sw_empleado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
+use App\sw_registro_lavado;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -34,7 +35,7 @@ class RegistroController extends Controller {
 	 */
 	public function index()
 	{
-
+        return redirect()->route('lavado.indexreg');
 	}
 
 	/**
@@ -44,7 +45,7 @@ class RegistroController extends Controller {
 	 */
 	public function create()
 	{
-		//
+
 	}
 
 	/**
@@ -202,7 +203,7 @@ class RegistroController extends Controller {
 
     public function destroy($id)
 	{
-		//
+		dd($id);
 	}
 
 

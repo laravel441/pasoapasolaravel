@@ -2,9 +2,9 @@
 
 
 @section('content')
-    <div class="container">
+
         <div class="row">
-            <div class="col-md-14 col-md-offset-0">
+            <div class="col-md-12 col-md-offset-0">
                 <div class="panel panel-default">
                             <div class="panel-heading"><h3>Registro de Lavado de Vehículos </h3><h6 align="left">{{ Auth::user()->usr_name }}
                                 <?php $date = new DateTime();  echo date_format($date, '    d-m-Y (H:i)');?></h6>
@@ -52,7 +52,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
 
 

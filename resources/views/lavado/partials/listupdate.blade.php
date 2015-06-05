@@ -1,30 +1,32 @@
-                              <input class="form-control text-info"  name="reg_ctl_id" type="hidden" value="{{$id}}">
+
 
 
 
 
 
                                <div class="form-control-wrapper col-md-3 col-md-offset-0">
-                                       <div class="form-group-danger">
-                                               <select class="form-control combobox" name="vehi_id" required>
-                                                   <option value="" disabled selected >Sel. Movil</option>
-                                                    <?php foreach ($vehiculos as $key => $vehiculo): ?>
-                                                      <option value="{{ $vehiculo->veh_id }}">{{ $vehiculo->veh_movil }}</option>
-                                                    <?php endforeach ?>
-                                               </select>
+                                     <div class="form-group-danger">
+                                            <select class="form-control combobox" name="pto_id" required="required">
+                                                <option value="{{$reg->reg_veh_id}}" >{{$veh_nombre->veh_movil}}</option>
+                                                 <?php foreach ($vehiculos as $key => $vehiculo): ?>
+                                                   <option value="{{ $vehiculo->veh_id }}">{{ $vehiculo->veh_movil }}</option>
+                                                 <?php endforeach ?>
+                                            </select>
                                           @if($errors -> has('vehi_id'))
                                                <p class="text-danger">{{$errors->first('vehi_id')}} </p>
                                             @endif
                                        </div>
 
 
+
+
                                  <div class="form-group-danger">
                                         <div class="form-control-wrapper">
                                              <p>Tanqueo:</p>
-
+                                               @if ($reg->reg_tanqueo == '1')
                                                <div class="radio" >
-                                                 <label>
-                                                   <input type="radio" name="reg_tanqueo"  value="TRUE" required>
+                                                <label>
+                                                   <input type="radio" name="reg_tanqueo"  value="TRUE" checked>
                                                     Interno
                                                  </label>
                                                  <label>
@@ -32,22 +34,49 @@
                                                Externo
                                               </label>
                                                </div>
+                                               @else
+                                               <div class="radio" >
+                                                   <label>
+                                                      <input type="radio" name="reg_tanqueo"  value="TRUE" >
+                                                       Interno
+                                                    </label>
+                                                    <label>
+                                                   <input type="radio" name="reg_tanqueo" value="FALSE" checked>
+                                                  Externo
+                                                 </label>
+                                                  </div>
+
+                                               @endif
                                         </div>
                                     </div><br>
+
                                     <div class="form-group-danger">
                                           <div class="form-control-wrapper">
                                               <p>Aprobación:</p>
-
+                                            @if($reg->reg_aprobacion == '1')
                                              <div class="radio" >
                                                <label>
-                                                 <input type="radio" name="reg_aprobacion"  value="TRUE" required>
+                                                 <input type="radio" name="reg_aprobacion"  value="TRUE" checked>
                                                   Si
                                                </label>
                                                <label>
-                                              <input type="radio" name="reg_aprobacion" value="FALSE" >
+                                                 <input type="radio" name="reg_aprobacion" value="FALSE" >
                                                   No
                                             </label>
                                              </div>
+                                                 @else
+                                               <div class="radio" >
+                                                     <label>
+                                                       <input type="radio" name="reg_aprobacion"  value="TRUE" >
+                                                        Si
+                                                     </label>
+                                                     <label>
+                                                       <input type="radio" name="reg_aprobacion" value="FALSE" checked>
+                                                        No
+                                                  </label>
+                                                   </div>
+                                             @endif
+
                                           </div>
                                       </div><br>
 

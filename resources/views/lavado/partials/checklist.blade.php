@@ -1,4 +1,4 @@
-                    <div class="col-md-11">
+
 
                                         <div class="form-group-danger ">
                                         	<div class="form-control-wrapper col-md-3 col-md-offset-1">
@@ -41,10 +41,11 @@
 
 
 
-                            </div>
+
                             {!! Form::model(Request::all(),['route' => 'lavado.update', 'method' => 'PUT']) !!}
                             @include('lavado.partials.list')
                             {!!Form::close()!!}
+
 
 
 
