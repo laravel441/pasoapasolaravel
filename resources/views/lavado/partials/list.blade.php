@@ -60,8 +60,8 @@
 
 
         <div class="form-control-wrapper col-md-3 col-md-offset-0">
-            <h4 class="text-center">Revisión Interna</h4>
-            <div class="well" style="max-height: 150px;overflow: auto;">
+            <h4 class="text-center">Revisión Externa</h4>
+            <div class="well">
 
 
                 	        <?php foreach ($acciones as $accion): ?>
@@ -85,8 +85,8 @@
 
 
         <div class="form-control-wrapper col-md-3 col-md-offset-0">
-            <h4 class="text-center">Revisión Externa</h4>
-            <div class="well" style="max-height: 150px;overflow: auto;">
+            <h4 class="text-center">Revisión Interna</h4>
+            <div class="well">
 
 
                            <?php foreach ($acciones as $key => $accion): ?>
@@ -123,7 +123,7 @@
 
                  <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-5">
-                                                <button type="submit" onclick="return confirm ('Esta seguro de crear el registro?')"class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
+                                                <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
                                                 Guardar
                                                 </button>
 

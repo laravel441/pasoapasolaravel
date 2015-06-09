@@ -89,19 +89,38 @@
 
 
         <div class="form-control-wrapper col-md-3 col-md-offset-0">
-            <h4 class="text-center">Revisión Interna</h4>
-            <div class="well" style="max-height: 150px;overflow: auto;">
+            <h4 class="text-center">Revisión Externa</h4>
+            <div class="well">
 
 
-                	        <?php foreach ($acciones as $accion): ?>
-                	        @if($accion->acc_tipo == '1')
-                	        <span class="button-checkbox">
-                            <button type="button" class="btn" data-color="info">{{ $accion->acc_descripcion }}</button>
-                            <input type="checkbox" class="hidden" value="{{ $accion->acc_id}}" name="acciones[]"/>
-                            <input type="hidden" class="hidden" value="{{ $accion->acc_id}}" name="acciones_bd[]"/>
-                            </span>
-                            @endif
-                             <?php endforeach ?>
+             @foreach ($reg_list as $reg_lis)
+                        @if($reg_lis->acc_tipo == '1')
+                               @if($reg_lis->det_acc_estado == '1')
+                                          <span class="button-checkbox">
+                                           <button type="button" class="btn btn-sm btn-block" data-color="info">{{ $reg_lis->acc_descripcion }}</button>
+                                           <input type="checkbox" class="hidden btn-sm btn-block " value="{{ $reg_lis->acc_id}}" name="acciones[]" checked/>
+                                           <input type="hidden" class="hidden" value="{{ $reg_lis->acc_id}}" name="acciones_bd[]"/>
+                                           </span>
+                                    @else
+                                     <span class="button-checkbox">
+                                           <button type="button" class="btn" data-color="info">{{ $reg_lis->acc_descripcion }}</button>
+                                           <input type="checkbox" class="hidden" value="{{ $reg_lis->acc_id}}" name="acciones[]" />
+                                           <input type="hidden" class="hidden" value="{{ $reg_lis->acc_id}}" name="acciones_bd[]"/>
+                                           </span>
+                                     @endif
+                        @else
+
+                        @endif
+
+
+
+                        @endforeach
+
+
+
+
+
+
 
 
 
@@ -114,24 +133,32 @@
 
 
         <div class="form-control-wrapper col-md-3 col-md-offset-0">
-            <h4 class="text-center">Revisión Externa</h4>
-            <div class="well" style="max-height: 150px;overflow: auto;">
+            <h4 class="text-center">Revisión Interna</h4>
+            <div class="well">
 
 
-                           <?php foreach ($acciones as $key => $accion): ?>
-                            @if($accion->acc_tipo == '2')
-                            <span class="button-checkbox">
-                               <button type="button" class="btn" data-color="info">{{ $accion->acc_descripcion }}</button>
-                               <input type="checkbox" class="hidden" value="{{ $accion->acc_id}}" name="acciones[]"/>
-                               <input type="hidden" class="hidden" value="{{ $accion->acc_id}}" name="acciones_bd[]"/>
-                                </span>
-                               @endif
-                                <?php endforeach ?>
+                                  @foreach ($reg_list as $reg_lis)
+                                      @if($reg_lis->acc_tipo == '2')
+                                             @if($reg_lis->det_acc_estado == '2')
+                                                    <span class="button-checkbox">
+                                                     <button type="button" class="btn btn-sm btn-block" data-color="info">{{ $reg_lis->acc_descripcion }}</button>
+                                                     <input type="checkbox" class="hidden btn-sm btn-block " value="{{ $reg_lis->acc_id}}" name="acciones[]" checked/>
+                                                     <input type="hidden" class="hidden" value="{{ $reg_lis->acc_id}}" name="acciones_bd[]"/>
+                                                     </span>
+                                                  @else
+                                                   <span class="button-checkbox">
+                                                     <button type="button" class="btn" data-color="info">{{ $reg_lis->acc_descripcion }}</button>
+                                                     <input type="checkbox" class="hidden" value="{{ $reg_lis->acc_id}}" name="acciones[]" />
+                                                     <input type="hidden" class="hidden" value="{{ $reg_lis->acc_id}}" name="acciones_bd[]"/>
+                                                     </span>
+                                                   @endif
+                                                  @else
+
+                                                  @endif
 
 
 
-
-
+                                                  @endforeach
 
 
             </div>
@@ -140,19 +167,21 @@
           <div class="form-control-wrapper col-md-3 col-md-offset-0">
                            <div class="form-group-danger">
                             <div class="form-control-wrapper">
-                                <div class="form-group">
-                                      <label for="comment">Observaciones:</label>
-                                      <textarea class="form-control" rows="5" id="comment" name="reg_observacion"></textarea>
-                                    </div>
+
+                                      <label  for="comment">Observaciones:</label>
+                                      <textarea class="form-control " rows="8" id="comment" name="reg_observacion" value="{{$reg->reg_observacion}}">{{$reg->reg_observacion}}</textarea>
+
                             </div>
                            </div>
                   </div>
 
 
 
+
+
                  <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-5">
-                                                <button type="submit" onclick="return confirm ('Esta seguro de crear el registro?')"class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
+                                                <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
                                                 Guardar
                                                 </button>
 

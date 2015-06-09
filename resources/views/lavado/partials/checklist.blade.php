@@ -1,4 +1,8 @@
 
+ <div class="form-control-wrapper col-md-1 col-md-offset-0">
+                                                      <a href="{{route('registro.show', $id)}}">
+                                                      <i class="fa fa-arrow-circle-o-left fa-2x text-info" title="Regresar Controles"></i></a>
+                                           </div>
 
                                         <div class="form-group-danger ">
                                         	<div class="form-control-wrapper col-md-3 col-md-offset-1">

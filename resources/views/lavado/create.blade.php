@@ -31,7 +31,7 @@
         </div>
          <div class="form-group">
                                                  <div class="col-md-0 col-md-offset-4">
-                                                 <button type="submit" onclick="return confirm ('Esta seguro de crear el control?')"class="btn btn-danger btn-sm">
+                                                 <button type="submit" class="btn btn-danger btn-sm">
                                                  Registrar control
                                                  </button>
                                                  </div>

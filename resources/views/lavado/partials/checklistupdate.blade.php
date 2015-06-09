@@ -51,7 +51,7 @@
 
                                  <div class="form-group">
                                                  <div class="col-md-0 col-md-offset-5">
-                                                 <button type="submit" onclick="return confirm ('Esta seguro de actualizar el control?')"class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
+                                                 <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
                                                  Actualizar Control
                                                  </button>
 

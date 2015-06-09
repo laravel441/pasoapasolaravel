@@ -9,7 +9,12 @@
                     <div class="panel-heading"><h2 align="center">Control de calidad y planilla de servicio de lavado [#{{$idctl}}] </h2>
                         <h3 align="center">Edición de registro [#{{$id}}] </h3><h6 align="center"> {{ Auth::user()->usr_name }} <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?>
                          </h6>
-                    </div><br>
+                    </div>
+                    <div class="form-group">
+                                                         @if(Session::has('message'))
+                                                         <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
+                                                         @endif
+                                                     </div>
                              <div class="panel-body">
                               @if (count($errors) > 0)
                                 <div class="alert alert-danger" text-center>

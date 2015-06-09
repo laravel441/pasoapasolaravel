@@ -8,6 +8,7 @@ use App\sw_empleado;
 use App\sw_registro_lavado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
+use App\sw_det_lavado;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -46,17 +47,19 @@ class ReporteController extends Controller {
 	 */
 	public function create(Request $request)
 	{
-        $id = ($request->reg_id);
-        dd($request->all());
+
+        $idreg = ($request->reg_id);
+        $id =($request->reg_ctl_id);
+        //dd($request->all());
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);
         $array_false = array_diff($array_bd, $array_true);
         //dd($array_false);
 
-        $registro= sw_registro_lavado::find($id);
+        $registro= sw_registro_lavado::find($idreg);
         $registro->fill($request->all());
-        dd($registro);
-        $registro->reg_veh_id =$request->vehi_id;
+        //dd($registro);
+        $registro->reg_veh_id =$request->pto_id;
         $registro->reg_aprobacion=$request->reg_aprobacion;
         $registro->reg_observacion=$request->reg_observacion;
         $registro->reg_creado_en = new DateTime();
@@ -67,6 +70,12 @@ class ReporteController extends Controller {
         $registro->save();
 
         //dd($registro);
+
+        $regsdelete = \DB::select('
+                           delete from
+                            sw_det_lavado where det_reg_id ='.$idreg.'') ;
+
+
 
         foreach($array_true as $arreglotrue) {
             $detalle = new sw_det_lavado();
@@ -94,9 +103,12 @@ class ReporteController extends Controller {
             //dd($detalle);
             $detalle->save();
         }
+        Session::flash('message', 'Se ha editado el registro. ID: '.$idreg );
+        return redirect()->back();
 
         //return Redirect::action('RegistroController@index');
-        return redirect()->route('lavado.indexreg');
+        //return redirect()->route('reporte.show',compact('id'));
+
 	}
 
 	/**
@@ -187,21 +199,25 @@ class ReporteController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//dd($id);
+        //dd($id);
         $iduser =Auth::user()->usr_id;
-
         $menus = \DB::select('
                             select * from
                             fn_get_modules(?)',array($iduser));
-
         //dd($menus);
-
         $reg = sw_registro_lavado::find($id);
         $idctl = $reg->reg_ctl_id;
+        //dd($idctl);
+        $reg_list = \DB::select('
+                           select * from
+                            fn_reg_list ('.$idctl.') where reg_id ='.$id.' order by acc_id ASC') ;
+        //dd($reg_list);
         $ctl = sw_ctl_lavado::find($idctl);
         $pto_id = $ctl->ctl_pto_id;
         $pvd_id = $ctl->ctl_pve_an8;
         $veh_id = $reg->reg_veh_id;
+
+
 
 
         $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
@@ -224,7 +240,8 @@ class ReporteController extends Controller {
 
         //dd($vehiculos);
 
-        return view('lavado.updatereg',compact('menus','usr_name','acciones','vehiculos','id','reg','idctl','pto_nombre','pvd_nombre','veh_nombre','ctl'));
+        return view('lavado.updatereg',compact('menus','usr_name','acciones','vehiculos','id',
+            'reg','idctl','pto_nombre','pvd_nombre','veh_nombre','ctl','reg_list'));
 
 
 	}

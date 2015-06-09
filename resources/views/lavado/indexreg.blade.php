@@ -31,7 +31,8 @@
 
                                               <div class="form-group">
                                                         <div class="col-md-0 col-md-offset-5">
-                                                                <button type="submit" onclick="return confirm ('Esta seguro de cerrar el control?')"class=" btn btn-danger btn-sm glyphicon glyphicon-lock">
+                                                                <button type="submit"
+                                                                class=" btn btn-danger btn-sm glyphicon glyphicon-lock">
                                                                 Cerrar Control
                                                                 </button>
                                                         </div>

@@ -155,7 +155,7 @@ class LavadoController extends Controller {
 
         //dd($vehiculos);
 
-        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores','ctl'));
+        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores'));
 
 	}
 
@@ -212,8 +212,8 @@ class LavadoController extends Controller {
 	 */
 	public function update(Request $request)
 	{
-        //dd($request->all());
-
+       // dd($request->all());
+        $id = $request->reg_ctl_id;
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);
         $array_false = array_diff($array_bd, $array_true);
@@ -261,7 +261,7 @@ class LavadoController extends Controller {
         }
 
        //return Redirect::action('RegistroController@index');
-        return redirect()->route('lavado.index');
+        return redirect()->route('lavado.edit',compact('id'));
 
     }
 
@@ -276,6 +276,9 @@ class LavadoController extends Controller {
 		//
 	}
 
-
+    public function updatectl(Request $request)
+    {
+        dd($request);
+    }
 
 }

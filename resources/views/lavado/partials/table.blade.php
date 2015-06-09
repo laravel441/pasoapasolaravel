@@ -48,7 +48,7 @@
                                                 @else
                                                 <a href="{{route('registro.show', $ctl->ctl_id)}}">
                                                 <i class="fa fa-eye fa-9x text-primary" title="Ver Control"></i></a>
-                                                <a onclick="return confirm ('Esta seguro de generar el reporte?')" href="{{route('reporte.show', $ctl->ctl_id)}}">
+                                                <a  href="{{route('reporte.show', $ctl->ctl_id)}}">
                                                 <i class="fa fa-file-pdf-o fa-9x text-danger" title="Generar Reporte"></i></a>
 
                                                 @endif

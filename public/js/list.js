@@ -40,13 +40,13 @@ $(function () {
             // Update the button's color
             if (isChecked) {
                 $button
-                    .removeClass('btn-default ')
+                    .removeClass('btn-danger ')
                     .addClass('btn-' + color + ' active' + 'btn-sm');
             }
             else {
                 $button
                     .removeClass('btn-' + color + ' active' + 'btn-sm')
-                    .addClass('btn-default btn-sm btn-block ');
+                    .addClass('btn-danger btn-sm btn-block ');
             }
         }
 

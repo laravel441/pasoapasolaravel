@@ -68,6 +68,7 @@ class RegistroController extends Controller {
         $ctl->ctl_modificado_por = Auth::user()->usr_name;
 
         $ctl->save();
+        Session::flash('message', 'Se ha editado el control. ID: '.$id );
         return redirect()->route('lavado.index');
 
 
