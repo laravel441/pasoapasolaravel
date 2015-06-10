@@ -9,14 +9,19 @@ use App\sw_registro_lavado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
 use App\sw_det_lavado;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+
 
 use App\User;
 use Illuminate\Http\Request;
+
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -45,27 +50,32 @@ class LavadoController extends Controller {
                             select * from
                             fn_get_modules(?)',array($id));
 
-        $ctls = \DB::select('
-                           select * from
-                            fn_lavado (?)',array($id));
 
 
-        //dd($ctls);
-        //$ctl = $ctls[0];
+        $ctls = sw_ctl_lavado::join('sw_usuarios AS su','sw_ctl_lavado.ctl_usr_id','=','su.usr_id')
+                                ->join('sw_patio AS spatio', 'sw_ctl_lavado.ctl_pto_id', '=', 'spatio.pto_id')
+                                 ->join('sw_proveedor AS sprovee', 'sw_ctl_lavado.ctl_pve_an8', '=', 'sprovee.pvd_an8')
+                                ->select('sw_ctl_lavado.ctl_id','su.usr_id','su.usr_name','spatio.pto_nombre',
+                                         'sw_ctl_lavado.ctl_fecha_inicio','sw_ctl_lavado.ctl_fecha_fin','sprovee.pvd_nombre')
+
+            ->where ('ctl_usr_id',$id)
+            ->orderBY('ctl_id', 'DESC')
+            ->control($request->get('control'))
+            ->paginate(5);
 
 
 
 
-        //dd($ctl);
+//dd($ctls);
+
+
         $usr_name = Auth::user()->usr_name ;
 
         $patios = \DB::select('select * from sw_patio
         ');
 
-
         $proveedores = \DB::select('select * from sw_proveedor
         ');
-
 
         return view('lavado.index',compact('menus','ctls','patios','proveedores','usr_name'));
 

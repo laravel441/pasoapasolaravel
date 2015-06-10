@@ -27,7 +27,14 @@
 
                                 @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
                                    {!!Form::open(['route'=>['registro.update'], 'method'=> 'PUT'])!!}
-                                   <div>@include('lavado.partials.checklistreg')</div>
+                                   <div>
+
+
+
+                                   @include('lavado.partials.checklistreg')
+
+
+                                   </div>
 
                                               <div class="form-group">
                                                         <div class="col-md-0 col-md-offset-5">
@@ -45,7 +52,7 @@
                                          <div>@include('lavado.partials.checklistreg')</div>
 
                                              @endif
-
+                        {!! $regs->appends(Request::only(['registro']))->render() !!}
 
 
              </div>

@@ -1,4 +1,4 @@
-<!-- Sidebar -->
+    <!-- Sidebar -->
 <div class="sidebar-nav">
        <?php
              $proy = '';

@@ -90,7 +90,7 @@ class HomeController extends Controller {
 
         $v = Validator::make($requests->all(),[
             'passwordActual' => 'required',
-            'password'      => 'required|confirmed|min:8|max:60|alpha_num|regex:/^[\pL\pN]*(?=[\pL\pN]*\pL)(?=[\pL\pN]*\pN)[\pL\pN]*$/'
+            'password'      => 'required|confirmed|min:8|max:60'
         ]);
         if ($v->fails())
         {

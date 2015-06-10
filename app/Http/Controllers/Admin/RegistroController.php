@@ -33,8 +33,35 @@ class RegistroController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
+
+        $status = "";
+        if ($_POST["action"] == "upload") {
+            // obtenemos los datos del archivo
+            $tamano = $_FILES["archivo"]['size'];
+            $tipo = $_FILES["archivo"]['type'];
+            $archivo = $_FILES["archivo"]['name'];
+
+
+            if ($archivo != "") {
+                // guardamos el archivo a la carpeta files
+                $destino =  'C:\Users\william.uricoechea\Desktop\prueba\.'.$archivo;
+                if (copy($_FILES['archivo']['tmp_name'],$destino)) {
+                    $status = "Archivo subido: <b>".$archivo."</b>";
+
+                    echo "archivo subido correctamente";
+
+                } else {
+                    $status = "Error al subir el archivo";
+                }
+            } else {
+                $status = "Error al subir archivo";
+            }
+        }
+
+
+
         return redirect()->route('lavado.indexreg');
 	}
 
@@ -81,7 +108,7 @@ class RegistroController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show( $id)
 	{
 		//dd($id);
         $iduser =Auth::user()->usr_id;
@@ -90,9 +117,20 @@ class RegistroController extends Controller {
                             select * from
                             fn_get_modules(?)',array($iduser));
 
-        $regs = \DB::select('
-                           select * from
-                            fn_registro (?)',array($id));
+
+
+        $regs = sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
+            ->join('sw_vehiculo AS sveh', 'sw_registro_lavado.reg_veh_id', '=', 'sveh.veh_id')
+            ->select('sw_registro_lavado.reg_id','sw_registro_lavado.reg_ctl_id','sveh.veh_id','sveh.veh_movil',
+                'sw_registro_lavado.reg_tanqueo','sw_registro_lavado.reg_observacion','sw_registro_lavado.reg_aprobacion',
+                'sw_registro_lavado.reg_creado_en')
+
+            ->where ('reg_ctl_id',$id)
+            ->orderBY('reg_id', 'DESC')
+
+            ->paginate();
+
+        //dd($regs);
 
         $reg_list = \DB::select('
                            select * from

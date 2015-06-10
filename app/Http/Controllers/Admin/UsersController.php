@@ -56,8 +56,6 @@ class UsersController extends Controller {
                             select * from
                             fn_get_modules (?)',array($id));
 
-
-
         $users = sw_empleado::leftjoin('sw_usuarios','sw_empleados.emp_an8','=','sw_usuarios.usr_emp_an8')
                 ->select(
                     'sw_empleados.*',
@@ -71,8 +69,7 @@ class UsersController extends Controller {
         ->orderBy('emp_an8','DESC')
         ->paginate(8);
 
-
-        //dd($request->get('an8'));
+        //dd($users);
 //
 
 

@@ -19,4 +19,19 @@ class sw_ctl_lavado extends Model
     public $timestamps = false;
 
 
+
+    public function scopecontrol($query, $control)
+    {
+
+        if(trim($control) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
+        {
+
+            $query->where(\DB::raw("CONCAT(ctl_id)"),"ILIKE", "%$control%");
+            //$query->where('full_name',"LIKE", "%$name%");
+        }
+
+
+    }
+
+
 }

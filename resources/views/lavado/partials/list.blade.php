@@ -1,4 +1,4 @@
-                              <input class="form-control text-info"  name="reg_ctl_id" type="hidden" value="{{$id}}">
+  <input class="form-control text-info"  name="reg_ctl_id" type="hidden" value="{{$id}}">
 
 
 
@@ -129,7 +129,3 @@
 
                                                 </div>
                                         </div>
-
-
-
-

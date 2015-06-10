@@ -26,28 +26,28 @@
 
 
 
-                              {!! Form::model(Request::all(),['route' => 'lavado.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
-                               <p class="help-block text-info col-md-5   col-md-offset-3"><i>Parametros de Busqueda</i></p>
-                               <div class="col-md-5 col-md-offset-3 form-group-danger">
-                                   {!! Form::text('an8',null,['class'=>'form-control floating-label','placeholder'=>'Buscar control '])!!}
-                               </div>
+                                {!! Form::model(Request::all(),['route' => 'lavado.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
 
-                                <button type="submit" class="btn btn-danger ">
-                                      <span class="glyphicon glyphicon-search "></span> Buscar
+                                         <div class="col-md-6 col-md-offset-0 form-group-danger">
+                                             {!! Form::text('control',null,['class'=>'form-control floating-label','placeholder'=>'Buscar control '])!!}
+                                         </div>
 
-                                 </button>
+                                          <button type="submit" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-search "></span> Buscar
+
+                                           </button>
 
 
-                          </div>
+                                    </div>
 
-                            {{--{!! Form::close()!!}--}}
+
 
 
 
                             @include('lavado.partials.table')
 
+                       {!! $ctls->appends(Request::only(['control']))->render() !!}
 
-                        {{--{!! $ctls->render() !!}--}}
 
                 </div>
             </div>
