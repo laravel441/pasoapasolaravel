@@ -15,7 +15,9 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Barryvdh\DomPDF\ServiceProvider;
+use Barryvdh\DomPDF\PDF;
+use mPDF;
+
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -119,35 +121,114 @@ class ReporteController extends Controller {
                             select count (reg_id) from
                             fn_registro(?)',array($id));
         $numreg=$numregs[0];
-        //dd($numreg);
+
+        $numaprobs = \DB::select('
+                            select count (reg_id) from
+                            fn_registro(?) where (reg_aprobacion) = TRUE',array($id));
+        $numaprob=$numaprobs[0];
 
 
-        $pdf = App::make('dompdf'); //Note: in 0.6.x this will be 'dompdf.wrapper'
-        //dd($pdf);
-        $pdf->loadHTML('<html>
-            <head>
-                <meta name="viewport" content="width=device-width" />
-                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                <title>Actionable emails e.g. reset password</title>
-                 <h2 ><i><center> EN CONSTRUCIÓN</center></i></h2>
-                <h2 class="text-primary"><center> REPORTE DE LAVADO CONTROL #' .$id.'</center></h2>
-            </head>
-   
-        <h3>Señor:</h3>
-<       <h4>Funcionario Masivo Capital</h4><br>
-        <h4>Cordial Saludo:</h4><br>
-        <hr>
-    <BODY><br><br>La presente acta representa la información del control de lavado No.' . $id. ' realizado en la fecha:
+        $numnoveds = \DB::select('
+                            select count (reg_id) from
+                            fn_registro(?) where (reg_aprobacion) = FALSE',array($id));
+        $numnoved=$numnoveds[0];
+        //dd($numaprob);
+
+        $mpdf=new mPDF('c','A4','','',20,20,35,35,5,5);
+
+
+        // Use different Odd/Even headers and footers and mirror margins
+
+        $header = '
+<table width="100%" style="border-bottom: 1px solid #000000; vertical-align: bottom; font-family: serif; font-size: 9pt; color: #000088;"><tr>
+<td width="33%" align="center"><img src="/images/logo.jpg" width="126px" /></td>
+</tr></table>
+';
+        $footer = '<div class="main-footer">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
+        $mpdf->SetHTMLHeader($header);
+
+        $mpdf->SetHTMLFooter($footer);
+
+
+
+        $html = '
+<h2 class="text-danger" align="center"> INFORME DE LAVADO #' .$id.'</h2>
+<h4 class="text-danger" align="center"> TERMINAL '. $ptoctl->pto_nombre.'</h4><br><br>
+        <h4>Proveedor: '. $pvectl->pvd_nombre.'</h4>
+        <h4>Fecha finalización: '. $ctl->ctl_fecha_fin.'</h4>
+        <h4>Auxiliar de Lavado: '. Auth::user()->usr_name.'</h4><br>
+        <h4>Cordial Saludo:</h4><br>
+        <p align="justify" >La presente acta representa la información del control de lavado No.' . $id. ' realizado en la fecha:
     ' . $ctl->ctl_fecha_inicio. ', hasta '. $ctl->ctl_fecha_inicio.' en la terminal de '. $ptoctl->pto_nombre.',
-     realizado por el proveedor '. $pvectl->pvd_nombre.'. Con un total de ' . $numreg->count. '
-    <br><br>
-    <hr>
-    </BODY><br><br>
-    <br><br><br><br><br><h3>Atentamente:</h3>
-   <br> _________________________________________<br>
-    <h3>Masivo Capital SAS - 2015</h3>
-</HTML>');
-        return $pdf->setPaper('a4')->setWarnings(false)->save($id)->download('Reporte_control_'.$id.'.pdf');
+     realizado por el proveedor '. $pvectl->pvd_nombre.'. Con un total de ' . $numreg->count. ' registros. </p><br><br><br>
+
+
+<table class="table table-hover" border ="1">
+<thead>
+<tr>
+<th  align="center"> Número de Vehiculos Lavados </th>
+<td class="text-danger" align="center">' . $numreg->count. '</td>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<th align="center"> Número de Vehiculos entregados a satisfacción </th>
+<td class="text-danger" align="center">' . $numaprob->count. '</td>
+
+</tr>
+<tr>
+<th  align="center"> Número de Vehiculos con novedades</th>
+<td class="text-danger" align="center">' . $numnoved->count. '</td>
+
+</tr>
+
+</tbody>
+</table><br><br><br><br><br><br><br><br>
+
+
+
+<table class="table table-hover" >
+<thead>
+<tr>
+
+<th  align="center"> <h4>__________________________</h4></th>
+<td class="text-danger" align="center"></td>
+<th  align="center"><h4>___________________________</h4> </th>
+<td class="text-danger" align="center"></td>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<th  align="center"> <h4>'. $pvectl->pvd_nombre.'</h4></th>
+<td class="text-danger" align="center"></td>
+<th  align="center"><h4>'. Auth::user()->usr_name.'</h4> </th>
+<td class="text-danger" align="center"></td>
+
+<thead>
+<tr>
+
+<th  align="center"> Proveedor</th>
+<td class="text-danger" align="center"></td>
+<th  align="center">Auxiliar de Lavado  </th>
+<td class="text-danger" align="center"></td>
+
+</tr>
+</thead>
+</tbody>
+</table><br>
+
+
+<div align="center">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
+
+
+        $mpdf->SetDisplayMode('fullpage');
+        $stylesheet = file_get_contents('bower_components/bootstrap/dist/css/bootstrap.min.css');
+        $mpdf->WriteHTML($stylesheet,1);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('Reporte_control_'.$id.'.pdf', 'D');
+
     }
     /**
      * Show the form for editing the specified resource.

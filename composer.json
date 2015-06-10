@@ -16,6 +16,7 @@
 
 
 
+
 		
 	},
 	"require-dev": {
@@ -35,7 +36,8 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-			"tests/TestCase.php"
+			"tests/TestCase.php",
+            "utils/mpdf/mpdf.php"
 		]
 	},
 	"scripts": {

@@ -143,12 +143,14 @@ return [
 		'Collective\Html\HtmlServiceProvider',
 
 
+
 		'App\Providers\AppServiceProvider',
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
-        'Barryvdh\DomPDF\ServiceProvider',
+        'Barryvdh\DomPDF\ServiceProvider'
+
 
 
 	],
@@ -201,6 +203,7 @@ return [
 		'Form' => 'Collective\Html\FormFacade',
      	'Html' => 'Collective\Html\HtmlFacade',
         'PDF' => 'Barryvdh\DomPDF\Facade'
+
 
 
 	],
