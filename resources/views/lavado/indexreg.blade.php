@@ -6,37 +6,46 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-0">
                 <div class="panel panel-default">
-                                   <div class="panel-heading"><h2 align="center">Control de calidad y planilla de servicio de lavado [#{{$ctls->ctl_id}}] </h2><h6 align="center"> {{ Auth::user()->usr_name }} <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?></h6>
-                                   </div><br>
-
-                                                      @if (count($errors) > 0)
-                                                                    <div class="alert alert-danger" text-center>
-                                                                      <strong>Oops!</strong> Ocurrio algun problema con su Ingreso.<br><br>
-                                                                      <ul>
-                                                                        @foreach ($errors->all() as $error)
-                                                                          <li>{{ $error }}</li>
-                                                                        @endforeach
-                                                                      </ul>
-                                                                    </div>
-                                                       @endif
+                               <div class="panel-heading"><h2 align="center">Control de calidad y planilla de servicio de lavado
+                                           [#{{$ctls->ctl_id}}] </h2><h6 align="center"> {{ Auth::user()->usr_name }}
+                                           <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?></h6>
+                                </div>
+                                <div class="form-group">
+                                         @if(Session::has('message'))
+                                         <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
+                                         @endif
 
 
 
 
 
+                                {!! Form::model(Request::all(),['route' => 'registro.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
 
-                                @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
-                                   {!!Form::open(['route'=>['registro.update'], 'method'=> 'PUT'])!!}
-                                   <div>
+                                <div class="col-md-6 col-md-offset-0 form-group-danger">
+                                      {!! Form::text('registro',null,['class'=>'form-control floating-label','placeholder'=>'Buscar movil '])!!}
+                                  </div>
+
+                                   <button type="submit" class="btn btn-danger btn-sm">
+                                        <span class="glyphicon glyphicon-search "></span> Buscar
+                                    </button>
+                                </div>
 
 
 
-                                   @include('lavado.partials.checklistreg')
 
 
-                                   </div>
 
-                                              <div class="form-group">
+
+
+                                    <div>@include('lavado.partials.checklistreg')</div>
+                                    {!!Form::close()!!}
+
+@if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
+                           {!!Form::open(['route'=>['registro.update'], 'method'=> 'PUT'])!!}
+
+
+                            <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
+                                            <div class="form-group">
                                                         <div class="col-md-0 col-md-offset-5">
                                                                 <button type="submit"
                                                                 class=" btn btn-danger btn-sm glyphicon glyphicon-lock">
@@ -44,14 +53,17 @@
                                                                 </button>
                                                         </div>
                                               </div>
+
                                      {!!Form::close()!!}
 
+                             @else
 
 
-                                     @else
-                                         <div>@include('lavado.partials.checklistreg')</div>
 
-                                             @endif
+
+                             @endif
+
+
                         {!! $regs->appends(Request::only(['registro']))->render() !!}
 
 
@@ -59,4 +71,6 @@
          </div>
     </div>
 
+@endsection
+@section('scripts')
 @endsection

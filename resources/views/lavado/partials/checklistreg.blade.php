@@ -17,7 +17,7 @@
 
 
                                         <div class="form-group-danger ">
-                                            <div class="form-control-wrapper col-md-3 col-md-offset-0">
+                                            <div class="form-control-wrapper col-md-2 col-md-offset-0">
                                                 <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ptoctl->pto_nombre}}">
                                                 <div class="floating-label">Terminal:</div>
                                                 <span class="material-input"></span>
@@ -33,7 +33,7 @@
                                             </div>
 
                                         <div class="form-group-danger">
-                                            <div class="form-control-wrapper col-md-3 col-md-offset-0">
+                                            <div class="form-control-wrapper col-md-2 col-md-offset-0">
                                                 <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ctls->ctl_fecha_inicio}}">
                                                 <div class="floating-label">Fecha de inicio:</div>
                                                 <span class="material-input"></span>
@@ -47,7 +47,9 @@
 
 
 
+
 @include('lavado.partials.tablereg')
+
 
 
 

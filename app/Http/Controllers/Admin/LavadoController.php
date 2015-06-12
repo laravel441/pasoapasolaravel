@@ -44,6 +44,7 @@ class LavadoController extends Controller {
     }
 	public function index(Request $request)
 	{
+        //dd($request->all);
         $id =Auth::user()->usr_id;
 
         $menus = \DB::select('
@@ -222,7 +223,7 @@ class LavadoController extends Controller {
 	 */
 	public function update(Request $request)
 	{
-       // dd($request->all());
+       //dd($request->all());
         $id = $request->reg_ctl_id;
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);

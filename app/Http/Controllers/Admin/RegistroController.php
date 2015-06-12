@@ -36,33 +36,57 @@ class RegistroController extends Controller {
 	public function index(Request $request)
 	{
 
-        $status = "";
-        if ($_POST["action"] == "upload") {
-            // obtenemos los datos del archivo
-            $tamano = $_FILES["archivo"]['size'];
-            $tipo = $_FILES["archivo"]['type'];
-            $archivo = $_FILES["archivo"]['name'];
+        $id = $request->ctl_id;
+        //dd($request->all());
+            $iduser =Auth::user()->usr_id;
 
-
-            if ($archivo != "") {
-                // guardamos el archivo a la carpeta files
-                $destino =  'C:\Users\william.uricoechea\Desktop\prueba\.'.$archivo;
-                if (copy($_FILES['archivo']['tmp_name'],$destino)) {
-                    $status = "Archivo subido: <b>".$archivo."</b>";
-
-                    echo "archivo subido correctamente";
-
-                } else {
-                    $status = "Error al subir el archivo";
-                }
-            } else {
-                $status = "Error al subir archivo";
-            }
-        }
+            $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($iduser));
 
 
 
-        return redirect()->route('lavado.indexreg');
+            $regs = sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
+                ->join('sw_vehiculo AS sveh', 'sw_registro_lavado.reg_veh_id', '=', 'sveh.veh_id')
+                ->select('sw_registro_lavado.reg_id','sw_registro_lavado.reg_ctl_id','sveh.veh_id','sveh.veh_movil',
+                    'sw_registro_lavado.reg_tanqueo','sw_registro_lavado.reg_observacion','sw_registro_lavado.reg_aprobacion',
+                    'sw_registro_lavado.reg_creado_en')
+
+                ->where ('reg_ctl_id',$id)
+                ->registro($request->get('registro'))
+                ->orderBY('reg_id', 'DESC')
+
+                ->paginate();
+
+            //dd($regs);
+
+            $reg_list = \DB::select('
+                           select * from
+                            fn_reg_list (?)',array($id));
+            //dd($regs);
+
+
+
+            //dd($idctl);
+            $ctls = sw_ctl_lavado::find($id);
+
+            $ptoid = $ctls->ctl_pto_id;
+            $pveid = $ctls->ctl_pve_an8;
+
+            $ptoctls = \DB::select('select pto_nombre from sw_patio where pto_id ='.$ptoid);
+            $pvectls = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pveid);
+
+            $ptoctl= $ptoctls[0];
+            $pvectl= $pvectls[0];
+
+            $usr_name = Auth::user()->usr_name ;
+
+            $patios = \DB::select('select * from sw_patio
+        ');
+            $proveedores = \DB::select('select * from sw_proveedor
+        ');
+
+            return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs','reg_list','id'));
 	}
 
 	/**
@@ -216,7 +240,7 @@ class RegistroController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Request $request)
+	public function update(Request $request,$id)
 	{
 		//dd($request->all());
         $ctl = sw_ctl_lavado::find($request->ctl_id);

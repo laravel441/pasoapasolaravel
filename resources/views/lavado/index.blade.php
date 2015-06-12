@@ -14,7 +14,7 @@
                                      <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
                                      @endif
                                  </div>
-                           <div>
+                         <div>
                             <div class="col-md-3 col-md-offset-0">
 
                                 {{--<p class="help-block text-info "><i>Hay {{$users->total()}} registros</i></p>--}}
@@ -57,6 +57,4 @@
 
 @endsection
 @section('scripts')
-
-
 @endsection

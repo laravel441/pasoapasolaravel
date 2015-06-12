@@ -25,7 +25,7 @@ class sw_registro_lavado extends Model
         if(trim($registro) != "")//si el nombre esta vacio muestreme toda la lista//omite espacios
         {
 
-            $query->where(\DB::raw("CONCAT(reg_id)"),"ILIKE", "%$registro%");
+            $query->where(\DB::raw("CONCAT(veh_movil)"),"ILIKE", "%$registro%");
             //$query->where('full_name',"LIKE", "%$name%");
         }
 
