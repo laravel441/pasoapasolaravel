@@ -120,15 +120,33 @@ class ReporteController extends Controller {
     public function show($id)
     {
         $ctl=sw_ctl_lavado::find($id);
+
+
         $ptoid = $ctl->ctl_pto_id;
         $pveid = $ctl->ctl_pve_an8;
         $ptoctls = \DB::select('select pto_nombre from sw_patio where pto_id ='.$ptoid);
         $pvectls = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pveid);
         $ptoctl= $ptoctls[0];
         $pvectl= $pvectls[0];
+
+        $ctlregs = \DB::select('
+                            select *from
+                            fn_registro(?)',array($id));
+
+        //dd($ctlregs);
+        //$x  = count($ctlregs);
+
+
+
+
+        //dd($y);
+
+
         $numregs = \DB::select('
                             select count (reg_id) from
                             fn_registro(?)',array($id));
+
+        //dd($numregs);
         $numreg=$numregs[0];
 
         $numaprobs = \DB::select('
@@ -191,7 +209,7 @@ class ReporteController extends Controller {
 
 
 
-        $html = '
+        $html1 = '
 <h2 class="text-danger" align="center"> INFORME DE LAVADO #' .$id.'</h2>
 <h4 class="text-danger" align="center"> TERMINAL '. $ptoctl->pto_nombre.'</h4><br>
         <h4>Proveedor: '. $pvectl->pvd_nombre.'</h4>
@@ -234,15 +252,57 @@ class ReporteController extends Controller {
 <th> </th>
 </tbody>
 </table>
-<p align="justify" > '. $ctl->ctl_observacion.' </p><br><br>';
+<p align="justify" > '. $ctl->ctl_observacion.' </p>
+<p class="text-danger" align="Left" ><b> Anexo: Relacion de moviles- Aprobación.</b></p>';
 
 
+
+
+
+
+
+
+        foreach ($ctlregs as $ctlreg){
+
+            $html3[] = $ctlreg->veh_movil;
+
+            $htmlx[] = $ctlreg->reg_aprobacion;
+           }
+        $n = count($html3);
+        $e = 11;
+        $j = 0;
+        $html6='<h4 class="text-danger" align="center"> ANEXO INFORME DE LAVADO #' .$id.'</h4>
+<h5 class="text-danger" align="center"> TERMINAL '. $ptoctl->pto_nombre.'</h5>';
+     for($i=0;$i<$n;$i++,$j++) {
+
+             if ($htmlx[$i] == 'TRUE') {
+                 $html2 = $html2 . $html3[$i] . ' [Aprobado] <br>';
+             } else {
+                 $html2 = $html2 . ' <b class ="text-danger">' . $html3[$i] . ' [No Aprobado]</b><br> ';
+             }
+
+
+         }
+
+
+
+
+
+
+
+
+
+        //dd($html2);
 
 
         $mpdf->SetDisplayMode('fullpage');
         $stylesheet = file_get_contents('bower_components/bootstrap/dist/css/bootstrap.min.css');
         $mpdf->WriteHTML($stylesheet,1);
-        $mpdf->WriteHTML($html);
+        $mpdf->WriteHTML($html1);
+        $mpdf->AddPage('L');
+        $mpdf->WriteHTML($html6);
+        $mpdf->SetColumns(5);
+        $mpdf->WriteHTML($html2);
         $mpdf->Output('Reporte_control_'.$id.'.pdf', 'D');
 
     }
