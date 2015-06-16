@@ -88,7 +88,7 @@ class ResetController extends Controller {
                 $data = array(
                     'para'=> $nombre,
                     'usuario'     => $user_name,
-                    'contraseña' => $pass
+                    'contraseÃ±a' => $pass
                 );
                 $fromEmail = 'mesadeayuda@masivocapital.com';
                 $fromName  = 'Administrador';
@@ -96,10 +96,10 @@ class ResetController extends Controller {
                     {
                         $message->to($correo,$nombre);
                         $message->from($fromEmail,$fromName);
-                        $message->subject('Recuperación Contraseña SWCapital');
+                        $message->subject('RecuperaciÃ³n ContraseÃ±a SWCapital');
                     }
                 );
-                $mensaje = 'Se ha enviado un correo a la dirección registrada con los datos de ingreso a SWCapital.';
+                $mensaje = 'Se ha enviado un correo a la direcciÃ³n registrada con los datos de ingreso a SWCapital.';
 
                 Session::flash('message', $mensaje);
 
@@ -140,7 +140,7 @@ class ResetController extends Controller {
         </html>';
 
 
-       if (!mail($emp_correoc, $subject, $message, $headers)) echo 'Error';
+        if (!mail($emp_correoc, $subject, $message, $headers)) echo 'Error';
     }
 
 

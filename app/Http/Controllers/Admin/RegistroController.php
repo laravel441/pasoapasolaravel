@@ -56,7 +56,7 @@ class RegistroController extends Controller {
                 ->registro($request->get('registro'))
                 ->orderBY('reg_id', 'DESC')
 
-                ->paginate();
+                ->paginate(3);
 
             //dd($regs);
 
@@ -94,9 +94,9 @@ class RegistroController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(Request $request)
 	{
-
+        dd($request);
 	}
 
 	/**
@@ -115,6 +115,7 @@ class RegistroController extends Controller {
 
         $ctl->ctl_pto_id = $request->pto_id;
         $ctl->ctl_pve_an8 = $request->prove_id;
+
         $ctl->ctl_modificado_en = new DateTime();
         $ctl->ctl_modificado_por = Auth::user()->usr_name;
 
@@ -152,7 +153,7 @@ class RegistroController extends Controller {
             ->where ('reg_ctl_id',$id)
             ->orderBY('reg_id', 'DESC')
 
-            ->paginate();
+            ->paginate(3);
 
         //dd($regs);
 
@@ -169,6 +170,7 @@ class RegistroController extends Controller {
 
         $ptoid = $ctls->ctl_pto_id;
         $pveid = $ctls->ctl_pve_an8;
+        //dd($ctls->ctl_observacion);
 
         $ptoctls = \DB::select('select pto_nombre from sw_patio where pto_id ='.$ptoid);
         $pvectls = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pveid);
@@ -245,6 +247,7 @@ class RegistroController extends Controller {
 		//dd($request->all());
         $ctl = sw_ctl_lavado::find($request->ctl_id);
 
+        $ctl->ctl_observacion = $request->ctl_observacion;
         $ctl->ctl_fecha_fin = new DateTime();
         $ctl->ctl_modificado_en = new DateTime();
         $ctl->ctl_modificado_por = Auth::user()->usr_name;

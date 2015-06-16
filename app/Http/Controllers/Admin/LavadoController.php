@@ -224,6 +224,8 @@ class LavadoController extends Controller {
 	public function update(Request $request)
 	{
        //dd($request->all());
+
+
         $id = $request->reg_ctl_id;
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);
@@ -272,7 +274,11 @@ class LavadoController extends Controller {
         }
 
        //return Redirect::action('RegistroController@index');
-        return redirect()->route('lavado.edit',compact('id'));
+
+
+
+
+return redirect()->route('lavado.edit',compact('id'));
 
     }
 

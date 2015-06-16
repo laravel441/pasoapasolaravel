@@ -41,10 +41,38 @@
                                     {!!Form::close()!!}
 
 @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
+                              {!!Form::open(['route'=>['reporte.store'], 'method'=> 'POST'])!!}
+
+
+                                   <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
+                                        <div class="form-control-wrapper col-md-10 col-md-offset-1">
+                                                 <div class="form-group-danger">
+                                                  <div class="form-control-wrapper">
+                                                      <div class="form-group">
+
+                                                 <label  for="comment">Observaciones del Control:</label>
+                                                      <textarea class="form-control text-justify" rows="8" id="comment" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
+                                                             <button type="submit"
+                                                                class=" btn btn-info btn-xs glyphicon glyphicon-lock">
+                                                                Guardar Observación
+                                                                </button>
+                                                          </div>
+                                                  </div>
+                                                 </div>
+                                        </div>
+
+
+
+                                            {!!Form::close()!!}
+
+
+
                            {!!Form::open(['route'=>['registro.update'], 'method'=> 'PUT'])!!}
 
 
                             <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
+                            <input class="form-control text-info"  name="ctl_observacion" type="hidden" value="{{$ctls->ctl_observacion}}">
+
                                             <div class="form-group">
                                                         <div class="col-md-0 col-md-offset-5">
                                                                 <button type="submit"
@@ -57,6 +85,15 @@
                                      {!!Form::close()!!}
 
                              @else
+                           <div class="form-group">
+                                       <div class="col-md-0 col-md-offset-1">
+                                              <label  for="comment">Observaciones del Control:</label>
+                                              <textarea class="form-control text-info text-justify"  rows=8" id="comment" disabled="disabled" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
+
+                                       </div>
+                             </div>
+
+
 
 
 

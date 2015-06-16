@@ -10,6 +10,7 @@
 {!! Html::style('bower_components/bootstrap-material-design/dist/css/ripples.min.css') !!}
 {!! Html::style('bower_components/bootstrap-material-design/dist/css/roboto.min.css') !!}
 {!! Html::style('css/bootstrap-combobox.css') !!}
+{!! Html::style('css/file.css') !!}
 {!! Html::style('font-awesome-4.3.0/css/font-awesome.css') !!}
 {!! Html::style('font-awesome-4.3.0/css/font-awesome.min.css') !!}
 

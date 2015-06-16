@@ -46,18 +46,12 @@
 
 
 
+
                             {!! Form::model(Request::all(),['route' => 'lavado.update', 'method' => 'PUT']) !!}
                             @include('lavado.partials.list')
                             {!!Form::close()!!}
 
-                                 {{--<div class="form-group-danger">--}}
-                                         {{--<div class="form-group">--}}
-                                         {{--<form action="validar.blade.php" method="post" enctype="multipart/form-data">--}}
-                                           {{--<input name="archivo" type="file" size="35"/>--}}
-                                          {{--<input name="action" type="hidden" value="upload" />--}}
-                                         {{--</form>--}}
-                                         {{--</div>--}}
-                                         {{--</div>--}}
+
 
 
 

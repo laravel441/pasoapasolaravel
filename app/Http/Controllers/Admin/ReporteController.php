@@ -99,8 +99,17 @@ class ReporteController extends Controller {
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
+        $id = $request->ctl_id;
+        $ctl = sw_ctl_lavado::find($id);
+        $ctl->ctl_observacion = $request->ctl_observacion;
+        $ctl->ctl_modificado_en = new DateTime();
+        $ctl->ctl_modificado_por = Auth::user()->usr_name;
+
+        $ctl->save();
+        Session::flash('message', 'Se ha agregado una observación al control. ID: '.$id );
+        return redirect()->back();
     }
     /**
      * Display the specified resource.
@@ -144,51 +153,8 @@ class ReporteController extends Controller {
 <td width="33%" align="center"><img src="/images/logo.jpg" width="126px" /></td>
 </tr></table>
 ';
-        $footer = '<div class="main-footer">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
-        $mpdf->SetHTMLHeader($header);
-
-        $mpdf->SetHTMLFooter($footer);
-
-
-
-        $html = '
-<h2 class="text-danger" align="center"> INFORME DE LAVADO #' .$id.'</h2>
-<h4 class="text-danger" align="center"> TERMINAL '. $ptoctl->pto_nombre.'</h4><br><br>
-        <h4>Proveedor: '. $pvectl->pvd_nombre.'</h4>
-        <h4>Fecha finalización: '. $ctl->ctl_fecha_fin.'</h4>
-        <h4>Auxiliar de Lavado: '. Auth::user()->usr_name.'</h4><br>
-        <h4>Cordial Saludo:</h4><br>
-        <p align="justify" >La presente acta representa la información del control de lavado No.' . $id. ' realizado en la fecha:
-    ' . $ctl->ctl_fecha_inicio. ', hasta '. $ctl->ctl_fecha_inicio.' en la terminal de '. $ptoctl->pto_nombre.',
-     realizado por el proveedor '. $pvectl->pvd_nombre.'. Con un total de ' . $numreg->count. ' registros. </p><br><br><br>
-
-
-<table class="table table-hover" border ="1">
-<thead>
-<tr>
-<th  align="center"> Número de Vehiculos Lavados </th>
-<td class="text-danger" align="center">' . $numreg->count. '</td>
-
-</tr>
-</thead>
-<tbody>
-<tr>
-<th align="center"> Número de Vehiculos entregados a satisfacción </th>
-<td class="text-danger" align="center">' . $numaprob->count. '</td>
-
-</tr>
-<tr>
-<th  align="center"> Número de Vehiculos con novedades</th>
-<td class="text-danger" align="center">' . $numnoved->count. '</td>
-
-</tr>
-
-</tbody>
-</table><br><br><br><br><br><br><br><br>
-
-
-
-<table class="table table-hover" >
+//        $footer = '<div class="main-footer">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
+        $footer = '<table class="table table-hover" >
 <thead>
 <tr>
 
@@ -217,10 +183,60 @@ class ReporteController extends Controller {
 </tr>
 </thead>
 </tbody>
-</table><br>
+</table>
+            <div class="text-center">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
+        $mpdf->SetHTMLHeader($header);
+
+        $mpdf->SetHTMLFooter($footer);
 
 
-<div align="center">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
+
+        $html = '
+<h2 class="text-danger" align="center"> INFORME DE LAVADO #' .$id.'</h2>
+<h4 class="text-danger" align="center"> TERMINAL '. $ptoctl->pto_nombre.'</h4><br>
+        <h4>Proveedor: '. $pvectl->pvd_nombre.'</h4>
+        <h4>Fecha finalización: '. $ctl->ctl_fecha_fin.'</h4>
+        <h4>Auxiliar de Lavado: '. Auth::user()->usr_name.'</h4>
+        <h4>Cordial Saludo:</h4><br>
+        <p align="justify" >La presente acta representa la información del control de lavado No.' . $id. ' realizado en la fecha:
+    ' . $ctl->ctl_fecha_inicio. ', hasta '. $ctl->ctl_fecha_inicio.' en la terminal de '. $ptoctl->pto_nombre.',
+     realizado por el proveedor '. $pvectl->pvd_nombre.'. Con un total de ' . $numreg->count. ' registros. </p><br>
+
+
+<table class="table table-hover" border ="1">
+<thead>
+<tr>
+<th  align="center"> Número de Vehiculos Lavados </th>
+<td class="text-danger" align="center">' . $numreg->count. '</td>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<th align="center"> Número de Vehiculos entregados a satisfacción </th>
+<td class="text-danger" align="center">' . $numaprob->count. '</td>
+
+</tr>
+<tr>
+<th  align="center"> Número de Vehiculos con novedades</th>
+<td class="text-danger" align="center">' . $numnoved->count. '</td>
+
+</tr>
+
+</tbody>
+</table>
+<table border ="0">
+<thead>
+<tr>
+<th  class="text-danger" align="justify"> Observaciones del Control:</th>
+<tbody>
+<tr>
+<th> </th>
+</tbody>
+</table>
+<p align="justify" > '. $ctl->ctl_observacion.' </p><br><br>';
+
+
 
 
         $mpdf->SetDisplayMode('fullpage');
@@ -280,7 +296,7 @@ class ReporteController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        dd($id);
+        //dd($id);
         $ctl = sw_registro_lavado::find($id);
         dd($ctl);
         $iduser =Auth::user()->usr_id;

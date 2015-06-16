@@ -61,6 +61,7 @@
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
 	{!! Html::script('js/list.js') !!}
 	{!! Html::script('js/bootstrap-combobox.js') !!}
+    {!! Html::script('js/file.js') !!}
 
 
 <script type="text/javascript">

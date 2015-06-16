@@ -48,8 +48,8 @@
 
 
 
-@include('lavado.partials.tablereg')
 
+@include('lavado.partials.tablereg')
 
 
 
