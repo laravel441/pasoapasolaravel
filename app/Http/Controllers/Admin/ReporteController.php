@@ -42,57 +42,62 @@ class ReporteController extends Controller {
     public function create(Request $request)
     {
         $idreg = ($request->reg_id);
-        $id =($request->reg_ctl_id);
+        $id = ($request->reg_ctl_id);
         //dd($request->all());
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);
-        $array_false = array_diff($array_bd, $array_true);
-        //dd($array_false);
-        $registro= sw_registro_lavado::find($idreg);
-        $registro->fill($request->all());
-        //dd($registro);
-        $registro->reg_veh_id =$request->pto_id;
-        $registro->reg_aprobacion=$request->reg_aprobacion;
-        $registro->reg_observacion=$request->reg_observacion;
-        $registro->reg_creado_en = new DateTime();
-        $registro->reg_creado_por =Auth::user()->usr_name;
-        $registro->reg_modificado_en = new DateTime();
-        $registro->reg_modificado_por =Auth::user()->usr_name;
-        $registro->save();
-        //dd($registro);
-        $regsdelete = \DB::select('
+        if (empty($array_true)) {
+            Session::flash('message', 'Las listas de Revisión Externa y/o Interna no pueden estar vacias.');
+            return redirect()->back();
+        } else {
+            $array_false = array_diff($array_bd, $array_true);
+            //dd($array_false);
+            $registro = sw_registro_lavado::find($idreg);
+            $registro->fill($request->all());
+            //dd($registro);
+            $registro->reg_veh_id = $request->pto_id;
+            $registro->reg_aprobacion = $request->reg_aprobacion;
+            $registro->reg_observacion = $request->reg_observacion;
+            $registro->reg_creado_en = new DateTime();
+            $registro->reg_creado_por = Auth::user()->usr_name;
+            $registro->reg_modificado_en = new DateTime();
+            $registro->reg_modificado_por = Auth::user()->usr_name;
+            $registro->save();
+            //dd($registro);
+            $regsdelete = \DB::select('
                            delete from
-                            sw_det_lavado where det_reg_id ='.$idreg.'') ;
-        foreach($array_true as $arreglotrue) {
-            $detalle = new sw_det_lavado();
-            $detalle->fill($request->all());
-            $detalle->det_reg_id = $registro->reg_id;
-            $detalle->det_acc_id = $arreglotrue;
-            $detalle->det_acc_estado = 'TRUE';
-            $detalle->det_creado_en = new DateTime();
-            $detalle->det_creado_por = Auth::user()->usr_name;
-            $detalle->det_modificado_en = new DateTime();
-            $detalle->det_modificado_por = Auth::user()->usr_name;
-            //dd($detalle);
-            $detalle->save();
+                            sw_det_lavado where det_reg_id =' . $idreg . '');
+            foreach ($array_true as $arreglotrue) {
+                $detalle = new sw_det_lavado();
+                $detalle->fill($request->all());
+                $detalle->det_reg_id = $registro->reg_id;
+                $detalle->det_acc_id = $arreglotrue;
+                $detalle->det_acc_estado = 'TRUE';
+                $detalle->det_creado_en = new DateTime();
+                $detalle->det_creado_por = Auth::user()->usr_name;
+                $detalle->det_modificado_en = new DateTime();
+                $detalle->det_modificado_por = Auth::user()->usr_name;
+                //dd($detalle);
+                $detalle->save();
+            }
+            foreach ($array_false as $arreglofalso) {
+                $detalle = new sw_det_lavado();
+                $detalle->fill($request->all());
+                $detalle->det_reg_id = $registro->reg_id;
+                $detalle->det_acc_id = $arreglofalso;
+                $detalle->det_acc_estado = 'FALSE';
+                $detalle->det_creado_en = new DateTime();
+                $detalle->det_creado_por = Auth::user()->usr_name;
+                $detalle->det_modificado_en = new DateTime();
+                $detalle->det_modificado_por = Auth::user()->usr_name;
+                //dd($detalle);
+                $detalle->save();
+            }
+            Session::flash('message', 'Se ha editado el registro. ID: ' . $idreg);
+            return redirect()->back();
+            //return Redirect::action('RegistroController@index');
+            //return redirect()->route('reporte.show',compact('id'));
         }
-        foreach($array_false as $arreglofalso) {
-            $detalle = new sw_det_lavado();
-            $detalle->fill($request->all());
-            $detalle->det_reg_id = $registro->reg_id;
-            $detalle->det_acc_id = $arreglofalso;
-            $detalle->det_acc_estado = 'FALSE';
-            $detalle->det_creado_en = new DateTime();
-            $detalle->det_creado_por = Auth::user()->usr_name;
-            $detalle->det_modificado_en = new DateTime();
-            $detalle->det_modificado_por = Auth::user()->usr_name;
-            //dd($detalle);
-            $detalle->save();
-        }
-        Session::flash('message', 'Se ha editado el registro. ID: '.$idreg );
-        return redirect()->back();
-        //return Redirect::action('RegistroController@index');
-        //return redirect()->route('reporte.show',compact('id'));
     }
     /**
      * Store a newly created resource in storage.

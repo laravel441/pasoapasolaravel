@@ -160,7 +160,7 @@ class RegistroController extends Controller {
         $reg_list = \DB::select('
                            select * from
                             fn_reg_list (?)',array($id));
-        //dd($regs);
+        //dd($reg_list);
 
         $regctl = $regs[0];
         $idctl = $regctl->reg_ctl_id;

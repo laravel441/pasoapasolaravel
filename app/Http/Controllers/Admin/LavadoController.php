@@ -229,6 +229,11 @@ class LavadoController extends Controller {
         $id = $request->reg_ctl_id;
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);
+       //dd($array_true);
+        if(empty($array_true)) {
+            Session::flash('message', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
+            return redirect()->back();
+        }else{
         $array_false = array_diff($array_bd, $array_true);
         //dd($array_false);
 
@@ -243,6 +248,7 @@ class LavadoController extends Controller {
         $registro->reg_modificado_por =Auth::user()->usr_name;
 
         $registro->save();
+
 
         //dd($registro);
 
@@ -281,7 +287,7 @@ class LavadoController extends Controller {
 return redirect()->route('lavado.edit',compact('id'));
 
     }
-
+    }
 	/**
 	 * Remove the specified resource from storage.
 	 *
