@@ -316,6 +316,7 @@ class ReporteController extends Controller {
         $mpdf->SetHTMLHeader($header);
 
         $mpdf->SetHTMLFooter($footer);
+        $footer2 =  '<div class="text-center">© Copyright Masivo Capital S.A.S | <a class="text-danger" title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>';
 
 
 
@@ -410,6 +411,7 @@ class ReporteController extends Controller {
         $mpdf->WriteHTML($stylesheet,1);
         $mpdf->WriteHTML($html1);
         $mpdf->AddPage('L');
+        $mpdf->SetHTMLFooter($footer2);
         $mpdf->WriteHTML($html6);
         $mpdf->SetColumns(5);
         $mpdf->WriteHTML($html2);
