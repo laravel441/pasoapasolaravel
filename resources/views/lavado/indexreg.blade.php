@@ -19,6 +19,7 @@
 
 
 
+
                                 {!! Form::model(Request::all(),['route' => 'registro.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
 
                                 <div class="col-md-6 col-md-offset-0 form-group-danger">

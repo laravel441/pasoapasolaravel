@@ -10,10 +10,14 @@
                                      </h6>
                                 </div>
                                 <div class="form-group">
-                                                         @if(Session::has('message'))
-                                                         <p class="alert alert-danger" text-center>{{Session::get('message')}}</p>
-                                                         @endif
-                                                     </div>
+                                     @if(Session::has('message'))
+                                     <p class="alert alert-danger" text-center>{{Session::get('message')}} <br>{{Session::get('message2')}}</p>
+
+                                     @endif
+
+
+
+                               </div>
                                      <div class="panel-body">
 
 

@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Lavado;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;

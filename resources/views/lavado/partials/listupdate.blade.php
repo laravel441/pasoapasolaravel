@@ -4,9 +4,11 @@
 
 
 
+                        <input class="form-control text-info"  name="vehi_id_original" type="hidden" value="{{$reg->reg_veh_id}}">
+
                                <div class="form-control-wrapper col-md-3 col-md-offset-0">
                                      <div class="form-group-danger">
-                                            <select class="form-control combobox" name="pto_id" required="required">
+                                            <select class="form-control combobox" name="vehi_id" required="required">
                                                 <option value="{{$reg->reg_veh_id}}" >{{$veh_nombre->veh_movil}}</option>
                                                  <?php foreach ($vehiculos as $key => $vehiculo): ?>
                                                    <option value="{{ $vehiculo->veh_id }}">{{ $vehiculo->veh_movil }}</option>

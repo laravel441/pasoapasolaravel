@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Lavado;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -28,6 +28,9 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use DateTime;
+
+use DateInterval;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 
 class LavadoController extends Controller {
@@ -222,72 +225,164 @@ class LavadoController extends Controller {
 	 * @return Response
 	 */
 	public function update(Request $request)
-	{
-       //dd($request->all());
-
+    {
+        //dd($request->all());
 
         $id = $request->reg_ctl_id;
-        $array_bd = ($request->acciones_bd);
-        $array_true = ($request->acciones);
-       //dd($array_true);
-        if(empty($array_true)) {
-            Session::flash('message', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
-            return redirect()->back();
+        $ctlactual[] = $request->reg_ctl_id;
+        $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
+        $vehmov= $vehmovil[0];
+
+        $ctl = sw_ctl_lavado::find($id);
+        //dd($ctl);
+        $ctlfechainicio = $ctl->ctl_fecha_inicio;
+
+        $datef = Carbon::createFromFormat('Y-m-d H:i:s',$ctlfechainicio);
+        $datef =$datef->subHours(8);
+        $datei = Carbon::createFromFormat('Y-m-d H:i:s',$ctlfechainicio);
+        $datei = $datei->addHours(8);
+
+        $fechai = date_format($datei,'Y-m-d H:i:s');
+        $fechaf = date_format($datef,'Y-m-d H:i:s');
+
+        //dd($fechai,$fechaf);
+
+        $rangoctls= \DB::table('sw_ctl_lavado')->whereBetween('ctl_fecha_inicio', array($fechaf, $fechai))->orderBy('ctl_fecha_inicio', 'DESC')->get();
+
+        //dd($rangoctls);
+        foreach ($rangoctls as $rangoctl){
+            $ctlsturnosa[] = $rangoctl->ctl_id;
+        }
+
+
+
+        $ctlsturnos = array_diff($ctlsturnosa,$ctlactual);
+
+
+
+        //$v = 100004; //Id vehiculo quemado
+
+        $e= 0;
+        $f = 0;
+        foreach($ctlsturnos as $ctlsturno) {
+            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$request->vehi_id);
+            if (empty ($x)){
+                $f = $f+1;
+            }else {
+                $e = $e+1;
+            }
+        }
+
+        $zmovil[] = $request->vehi_id;
+        $zmoviles = \DB::select('
+                            select * from
+                            fn_registro(?)', array($id));
+
+        if(empty($zmoviles)) {
+            $zmovs=[];
+            $zmov =array_sum($zmovs);
+
+
         }else{
-        $array_false = array_diff($array_bd, $array_true);
-        //dd($array_false);
-
-        $registro= new sw_registro_lavado();
-        $registro->fill($request->all());
-        $registro->reg_veh_id =$request->vehi_id;
-        $registro->reg_aprobacion=$request->reg_aprobacion;
-        $registro->reg_observacion=$request->reg_observacion;
-        $registro->reg_creado_en = new DateTime();
-        $registro->reg_creado_por =Auth::user()->usr_name;
-        $registro->reg_modificado_en = new DateTime();
-        $registro->reg_modificado_por =Auth::user()->usr_name;
-
-        $registro->save();
-
-
-        //dd($registro);
-
-        foreach($array_true as $arreglotrue) {
-            $detalle = new sw_det_lavado();
-            $detalle->fill($request->all());
-            $detalle->det_reg_id = $registro->reg_id;
-            $detalle->det_acc_id = $arreglotrue;
-            $detalle->det_acc_estado = 'TRUE';
-            $detalle->det_creado_en = new DateTime();
-            $detalle->det_creado_por = Auth::user()->usr_name;
-            $detalle->det_modificado_en = new DateTime();
-            $detalle->det_modificado_por = Auth::user()->usr_name;
-            //dd($detalle);
-            $detalle->save();
-        }
-        foreach($array_false as $arreglofalso) {
-            $detalle = new sw_det_lavado();
-            $detalle->fill($request->all());
-            $detalle->det_reg_id = $registro->reg_id;
-            $detalle->det_acc_id = $arreglofalso;
-            $detalle->det_acc_estado = 'FALSE';
-            $detalle->det_creado_en = new DateTime();
-            $detalle->det_creado_por = Auth::user()->usr_name;
-            $detalle->det_modificado_en = new DateTime();
-            $detalle->det_modificado_por = Auth::user()->usr_name;
-            //dd($detalle);
-            $detalle->save();
+            foreach ($zmoviles as $zmovile) {
+                $zmovils[] = $zmovile->veh_id;
+            }
+            $zmovs = array_intersect($zmovils, $zmovil);
+            $zmov =array_sum($zmovs);
         }
 
-       //return Redirect::action('RegistroController@index');
+
+
+//        echo 'primer registro';
+//
+
+
+        if($zmov != 0 and $e != 0 ){
+
+            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno(Serrucho!!!).');
+            return redirect()->back();
+        }elseif ($zmov!= 0 and $e==0){
+
+            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
+            return redirect()->back();
+        }elseif($zmov == '0'  and $e != 0){
+
+            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
+
+            return redirect()->back();
+        }elseif($zmov == '0' and $e=='0'){//validar ingreso registro....
 
 
 
+        //if (empty($zmov)and $e=='0') {//Movil repetido en el control y en otros cntroles en el turno presente
 
-return redirect()->route('lavado.edit',compact('id'));
+            $array_bd = ($request->acciones_bd);
+            $array_true = ($request->acciones);
+            //dd($array_true);
+            if (empty($array_true)) {//se debe seleccionar un elemento de la lista
+                Session::flash('message', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
+                return redirect()->back();
+            } else {
+                $array_false = array_diff($array_bd, $array_true);
+                //dd($array_false);
 
-    }
-    }
+                $registro = new sw_registro_lavado();
+                $registro->fill($request->all());
+                $registro->reg_veh_id = $request->vehi_id;
+                $registro->reg_aprobacion = $request->reg_aprobacion;
+                $registro->reg_observacion = $request->reg_observacion;
+                $registro->reg_creado_en = new DateTime();
+                $registro->reg_creado_por = Auth::user()->usr_name;
+                $registro->reg_modificado_en = new DateTime();
+                $registro->reg_modificado_por = Auth::user()->usr_name;
+
+                $registro->save();
+
+
+                //dd($registro);
+
+                foreach ($array_true as $arreglotrue) {
+                    $detalle = new sw_det_lavado();
+                    $detalle->fill($request->all());
+                    $detalle->det_reg_id = $registro->reg_id;
+                    $detalle->det_acc_id = $arreglotrue;
+                    $detalle->det_acc_estado = 'TRUE';
+                    $detalle->det_creado_en = new DateTime();
+                    $detalle->det_creado_por = Auth::user()->usr_name;
+                    $detalle->det_modificado_en = new DateTime();
+                    $detalle->det_modificado_por = Auth::user()->usr_name;
+                    //dd($detalle);
+                    $detalle->save();
+                }
+                foreach ($array_false as $arreglofalso) {
+                    $detalle = new sw_det_lavado();
+                    $detalle->fill($request->all());
+                    $detalle->det_reg_id = $registro->reg_id;
+                    $detalle->det_acc_id = $arreglofalso;
+                    $detalle->det_acc_estado = 'FALSE';
+                    $detalle->det_creado_en = new DateTime();
+                    $detalle->det_creado_por = Auth::user()->usr_name;
+                    $detalle->det_modificado_en = new DateTime();
+                    $detalle->det_modificado_por = Auth::user()->usr_name;
+                    //dd($detalle);
+                    $detalle->save();
+                }
+
+                //return Redirect::action('RegistroController@index');
+                Session::flash('message', 'Registro Exitoso.');
+
+                return redirect()->route('lavado.edit', compact('id'));
+
+            }
+        }else{
+            return redirect()->back();
+        }
+
+
+        }
+
+    //}
+
 	/**
 	 * Remove the specified resource from storage.
 	 *

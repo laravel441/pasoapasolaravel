@@ -10,11 +10,13 @@
                         <h3 align="center">Edición de registro [#{{$id}}] </h3><h6 align="center"> {{ Auth::user()->usr_name }} <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?>
                          </h6>
                     </div>
-                     <div class="form-group">
-                                                                            @if(Session::has('message'))
-                                                                            <p class="alert alert-danger" text-center>{{Session::get('message')}}</p>
-                                                                            @endif
-                                                                        </div>
+                        <div class="form-group">
+                                    @if(Session::has('message'))
+                                    <p class="alert alert-danger" text-center>{{Session::get('message')}}</p>
+
+                                    @endif
+
+                              </div>
                              <div class="panel-body">
 
 

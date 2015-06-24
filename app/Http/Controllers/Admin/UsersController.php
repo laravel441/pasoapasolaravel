@@ -320,7 +320,7 @@ class UsersController extends Controller {
 
     function sendMailUpdate($contraseña, $users){
 
-        $subject="Actualización Contraseña SWCapital";
+        $subject="ActualizaciÃ³n ContraseÃ±a SWCapital";
         $headers = "From: mesadeayuda@masivocapital.com";
         $headers .= "MIME-Version: Admin\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
@@ -335,12 +335,12 @@ class UsersController extends Controller {
 
             <body>
                   <div class="alert-danger">
-                                 <h1 style="text-align: center;">Actualización Contraseña de SWCapital</h1>';
+                                 <h1 style="text-align: center;">ActualizaciÃ³n ContraseÃ±a de SWCapital</h1>';
             $message .= '        <p>Sr (a) ' . $users->full_name. '</p>
                                  <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
                                  <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
-                                  <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>
-                                 <p>Para ingresar lo puede realizar desde la dirección web: http://swcapital/</p>
+                                  <p style="font-weight: bold;"> ContraseÃ±a: '.$contraseña.'</p>
+                                 <p>Para ingresar lo puede realizar desde la direcciÃ³n web: http://swcapital/</p>
                                  <p>Recuerde no responder a este correo, ya que fue enviado automaticamente por SWCapital.
                          Cualquier consulta por favor comunicarla a: mesadeayuda@masivocapital.com</p>
 
@@ -373,8 +373,8 @@ class UsersController extends Controller {
         $message .= '        <p>Sr (a) ' . $users->full_name. '</p>
                                  <p>Se han asignado sus credenciales de ingreso al aplicativo SWCapital.</p>
                                  <p style="font-weight: bold;"> Usuario: '.$users->usr_name.'</p>
-                                  <p style="font-weight: bold;"> Contraseña: '.$contraseña.'</p>
-                                 <p>Para ingresar lo puede realizar desde la dirección web: http://swcapital/</p>
+                                  <p style="font-weight: bold;"> ContraseÃ±a: '.$contraseña.'</p>
+                                 <p>Para ingresar lo puede realizar desde la direcciÃ³n web: http://swcapital/</p>
                                  <p>Recuerde no responder a este correo, ya que fue enviado automaticamente por SWCapital.
                          Cualquier consulta por favor comunicarla a: mesadeayuda@masivocapital.com</p>
 

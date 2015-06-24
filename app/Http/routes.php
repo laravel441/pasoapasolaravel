@@ -20,28 +20,6 @@ Route::get('auth/recuperar', 'ResetController@recuperar');
 Route::post('auth/recuperar', 'ResetController@recuperarpassword');
 Route::get('auth/home', 'ResetController@home');
 
-/*Route::get('formulario', 'StorageController@index');
-Route::post('storage/create', 'StorageController@save');
-
-/*Route::get('storage/{archivo}', function ($archivo) {
-    $public_path = public_path();
-    $url = $public_path.'/storage/'.$archivo;
-    //verificamos si el archivo existe y lo retornamos
-    if (Storage::exists($archivo))
-    {
-        return response()->download($url);
-    }
-    //si no se encuentra lanzamos un error 404.
-    abort(404);
-
-});*/
-
-
-
-
-
-
-
 
 Route::controllers([
 	'users' => 'UsersController',
@@ -53,13 +31,18 @@ Route::controllers([
 
 ]);
 	resource('terceros','TerceroController');
-Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], function()//ejecuta los middleware en orden
+Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], function()//ejecuta los middleware en orden ADMIN
 {
 	Route::resource('users','UsersController');
 
 });
-resource('lavado','Admin\LavadoController');
-resource('registro','Admin\RegistroController');
-resource('reporte','Admin\ReporteController');
+
+Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Lavado'], function()//ejecuta los middleware en orden LAVADO
+{
+    resource('lavado','LavadoController');
+    resource('registro','RegistroController');
+    resource('reporte','ReporteController');
+
+});
 
 

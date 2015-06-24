@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Lavado;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\PDF;
 use mPDF;
+use Carbon\Carbon;
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -41,8 +42,106 @@ class ReporteController extends Controller {
      */
     public function create(Request $request)
     {
+
+        //dd($request->all());
         $idreg = ($request->reg_id);
-        $id = ($request->reg_ctl_id);
+        $id = $request->reg_ctl_id;
+        $ctlactual[] = $request->reg_ctl_id;
+
+        //dd($request->vehi_id, $request->vehi_id_original);
+
+        $ctl = sw_ctl_lavado::find($id);
+        //dd($ctl);
+        $ctlfechainicio = $ctl->ctl_fecha_inicio;
+
+        $datef = Carbon::createFromFormat('Y-m-d H:i:s',$ctlfechainicio);
+        $datef =$datef->subHours(8);
+        $datei = Carbon::createFromFormat('Y-m-d H:i:s',$ctlfechainicio);
+        $datei = $datei->addHours(8);
+
+        $fechai = date_format($datei,'Y-m-d H:i:s');
+        $fechaf = date_format($datef,'Y-m-d H:i:s');
+
+        //dd($fechai,$fechaf);
+
+        $rangoctls= \DB::table('sw_ctl_lavado')->whereBetween('ctl_fecha_inicio', array($fechaf, $fechai))->orderBy('ctl_fecha_inicio', 'DESC')->get();
+
+        //dd($rangoctls);
+        foreach ($rangoctls as $rangoctl){
+            $ctlsturnosa[] = $rangoctl->ctl_id;
+        }
+
+
+        $ctlsturnos = array_diff($ctlsturnosa,$ctlactual);
+
+        //$v = 100004; //Id vehiculo quemado
+        //dd($ctlsturnos,$ctlsturnosa);
+
+        $e= 0;
+        $f = 0;
+        foreach($ctlsturnos as $ctlsturno) {
+            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$request->vehi_id);
+            if (empty ($x)){
+                $f = $f+1;
+            }else {
+                $e = $e+1;
+            }
+        }
+
+        if ($request->vehi_id != $request->vehi_id_original){
+            $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
+            $vehmov= $vehmovil[0];
+            $zmovil[] = $request->vehi_id;
+            $zmoviles = \DB::select('
+                            select * from
+                            fn_registro(?)', array($id));
+            foreach ($zmoviles as $zmovile) {
+                $zmovils[] = $zmovile->veh_id;
+            }
+            $zmovs = array_diff($zmovil,$zmovils);//quital
+            //$zmovs = array_intersect($zmovils, $zmovil);
+            $zmov =array_sum($zmovs);
+            $vehiupdate = $request->vehi_id;
+        echo 'cambio';
+
+
+
+
+        }else{
+            $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id_original);
+            $vehmov= $vehmovil[0];
+            $zmovil[] = $request->vehi_id_original;
+            $zmoviles = \DB::select('
+                            select * from
+                            fn_registro(?)', array($id));
+            foreach ($zmoviles as $zmovile) {
+                $zmovils[] = $zmovile->veh_id;
+            }
+            //$zmovis = array_diff($zmovils, $zmovil);//quital
+            $zmovs = [1];
+            $zmov =array_sum($zmovs);
+            $vehiupdate = $request->vehi_id_original;
+
+            echo 'el mismo';
+            // dd($request->vehi_id, $request->vehi_id_original,$zmov);
+        }
+
+
+        if($zmov == 0 and $e != 0 ){
+            //dd($zmov,$e,$zmovil,$zmovs,'mismo y otro control');
+            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno(Serrucho!!!).');
+            return redirect()->back();
+        }elseif ($zmov == 0 and $e== 0){
+            //dd($zmov,$e,$zmovil,$zmovs,'mismo  control');
+            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
+            return redirect()->back();
+        }elseif($zmov != 0 and $e != 0){
+            //dd($zmov,$e,$zmovil,$zmovs,'otro control');
+            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
+
+            return redirect()->back();
+        }elseif($zmov != 0 and $e== 0){
+            //dd($zmov,$e,$zmovil,$zmovs,'registro valido');
         //dd($request->all());
         $array_bd = ($request->acciones_bd);
         $array_true = ($request->acciones);
@@ -55,7 +154,7 @@ class ReporteController extends Controller {
             $registro = sw_registro_lavado::find($idreg);
             $registro->fill($request->all());
             //dd($registro);
-            $registro->reg_veh_id = $request->pto_id;
+            $registro->reg_veh_id = $vehiupdate;
             $registro->reg_aprobacion = $request->reg_aprobacion;
             $registro->reg_observacion = $request->reg_observacion;
             $registro->reg_creado_en = new DateTime();
@@ -97,7 +196,13 @@ class ReporteController extends Controller {
             return redirect()->back();
             //return Redirect::action('RegistroController@index');
             //return redirect()->route('reporte.show',compact('id'));
+
         }
+        }else{
+            return redirect()->back();
+        }
+
+
     }
     /**
      * Store a newly created resource in storage.
