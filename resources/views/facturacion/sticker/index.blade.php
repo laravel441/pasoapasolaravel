@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('......layouts.sidebar')
 
 @section('content')
 
@@ -16,10 +16,16 @@
                      <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
                      @endif
                  </div>
-					<h3>{{ Auth::user()->usr_name }}</h3>
-                        {{--<audio src="audio/sample.mp3" autoplay>--}}
-                        {{--</audio>--}}
 
+                                <div class="col-md-12 col-md-offset-0">
+
+                                                                {{--<p class="help-block text-info "><i>Hay {{$users->total()}} registros</i></p>--}}
+                                   {!!Form::model(['route'=>['facturacion.sticker.store'], 'method'=> 'POST'])!!}
+                                    @include('facturacion.sticker.partials.sticker')
+                                   {!!Form::close()!!}
+
+                                </div>
+                                  @include('facturacion.sticker.partials.table')
 
 				</div>
 

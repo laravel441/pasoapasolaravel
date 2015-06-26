@@ -41,7 +41,7 @@
                                     <div>@include('lavado.partials.checklistreg')</div>
                                     {!!Form::close()!!}
 
-@if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
+                    @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
                               {!!Form::open(['route'=>['reporte.store'], 'method'=> 'POST'])!!}
 
 

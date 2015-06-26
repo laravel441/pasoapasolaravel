@@ -63,9 +63,19 @@
 	{!! Html::script('js/bootstrap-combobox.js') !!}
     {!! Html::script('js/file.js') !!}
 
+    {!! Html::script('bower_components/datepicker/js/bootstrap-datepicker.min.js') !!}
+    {!! Html::script('bower_components/datepicker/locales/bootstrap-datepicker.es.min.js') !!}
+
+
+
 
 <script type="text/javascript">
 		$(document).on('ready', function(){
 			$.material.init();
 		});
 </script>
+    <script type="text/javascript">
+          $(document).ready(function(){
+            $('.combobox').combobox();
+          });
+        </script>

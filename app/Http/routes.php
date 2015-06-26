@@ -50,6 +50,7 @@ Route::group(['prefix'=>'facturacion','middleware'=>'auth','namespace'=>'Factura
     resource('sticker','Fac1Controller');
     resource('control_radicacion','Fac2Controller');
     resource('revision','Fac3Controller');
+    resource('pruebas','FacpController');
 
 });
 

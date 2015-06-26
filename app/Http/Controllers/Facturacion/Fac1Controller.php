@@ -28,7 +28,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use DateTime;
-
+use Maatwebsite\Excel\Facades\Excel;
 use DateInterval;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
@@ -46,7 +46,9 @@ class Fac1Controller extends Controller {
         $menus = \DB::select('
                             select * from
                             fn_get_modules(?)',array($id));
-        return view('facturacion.sticker.index',compact('menus'));
+        $proveedores = \DB::select('select * from sw_proveedor
+        ');
+        return view('facturacion.sticker.index',compact('menus','proveedores'));
 	}
 
 	/**
@@ -64,9 +66,10 @@ class Fac1Controller extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+
+       dd($request->all());
 	}
 
 	/**
@@ -77,7 +80,9 @@ class Fac1Controller extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		//dd($id);
+
+
 	}
 
 	/**

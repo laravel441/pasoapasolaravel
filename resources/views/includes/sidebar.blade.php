@@ -25,8 +25,12 @@
                                 <a href ='<?php echo $menu->smod_ruta?>?usuario={{ base64_encode(Auth::user()->usr_name) }}&password={{ base64_encode(Auth::user()->password) }}&valido={{ base64_encode('T') }}'
                                                                          target='_blank' class='list-group-item'><?php echo $menu->smod_nombre?><i class ='fa fa-caret-down'></i></a>
                      <?php
-                                 } else {
+                                 } elseif ($menu->smod_nombre=='Moodle') {
                      ?>
+                                <a href ='<?php echo $menu->smod_ruta?>'target='_blank' class='list-group-item'><?php echo $menu->smod_nombre?><i class ='fa fa-caret-down'></i></a>
+                     <?php
+                                  } else {
+                      ?>
                                  <a href ='<?php echo $menu->smod_ruta?>'  class='list-group-item'><?php echo $menu->smod_nombre?><i class ='fa fa-caret-down'></i></a>
                      <?php
                                 }

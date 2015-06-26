@@ -14,6 +14,12 @@
 {!! Html::style('font-awesome-4.3.0/css/font-awesome.css') !!}
 {!! Html::style('font-awesome-4.3.0/css/font-awesome.min.css') !!}
 
+{!! Html::style('bower_components/datepicker/css/bootstrap-datepicker.min.css') !!}
+{!! Html::style('bower_components/datepicker/css/bootstrap-datepicker.standalone.min.css') !!}
+{!! Html::style('bower_components/datepicker/css/bootstrap-datepicker3.min.css') !!}
+{!! Html::style('bower_components/datepicker/css/bootstrap-datepicker3.standalone.min.css') !!}
+
+
 
 
 
