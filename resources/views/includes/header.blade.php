@@ -59,12 +59,17 @@
 	{!! Html::script('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/material.min.js') !!}
 	{!! Html::script('bower_components/bootstrap-material-design/dist/js/ripples.min.js') !!}
+	<!-- List Lavados-->
 	{!! Html::script('js/list.js') !!}
+	<!-- Combobox-->
 	{!! Html::script('js/bootstrap-combobox.js') !!}
     {!! Html::script('js/file.js') !!}
-
+    <!-- Calendario-->
     {!! Html::script('bower_components/datepicker/js/bootstrap-datepicker.min.js') !!}
     {!! Html::script('bower_components/datepicker/locales/bootstrap-datepicker.es.min.js') !!}
+    <!-- Jquery-ui-->
+    <!--{!! Html::script('bower_components/jquery-ui/js/jquery-ui.min.js') !!}-->
+
 
 
 

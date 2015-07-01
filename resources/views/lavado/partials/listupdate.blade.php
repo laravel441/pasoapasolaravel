@@ -178,10 +178,25 @@
                   </div>
 
 
+                                    <div class="form-control-wrapper col-md-3 col-md-offset-0">
+                                             <div class="form-group-danger">
+
+                                                    @foreach($adjunto as $adj)
+                                                          @if($reg->reg_id==$adj->adj_reg_id)
+
+                                                          <li class="form-control " rows="8" id="comment" name="Archivos Adjuntos" value="{{$adj->adj_nombre}}"><br>
+                                                          {{$adj->adj_nombre}}
+
+                                                          </li>
+
+                                                          @endif
+                                                          @endforeach
 
 
+                                              </div>
+                                    </div>
 
-                 <div class="form-group">
+                <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-5">
                                                 <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
                                                 Guardar

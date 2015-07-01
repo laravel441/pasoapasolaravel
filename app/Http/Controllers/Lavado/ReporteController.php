@@ -8,6 +8,7 @@ use App\sw_registro_lavado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
 use App\sw_det_lavado;
+use App\sw_adjunto;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -456,9 +457,11 @@ class ReporteController extends Controller {
         ');
         $vehiculos = \DB::select('select * from sw_vehiculo
         ');
+        $adjunto = \DB::select('select * from sw_adjunto
+        ');
         //dd($vehiculos);
         return view('lavado.updatereg',compact('menus','usr_name','acciones','vehiculos','id',
-            'reg','idctl','pto_nombre','pvd_nombre','veh_nombre','ctl','reg_list'));
+            'reg','idctl','pto_nombre','pvd_nombre','veh_nombre','ctl','reg_list','adjunto'));
     }
     /**
      * Update the specified resource in storage.

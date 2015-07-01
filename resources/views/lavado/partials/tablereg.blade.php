@@ -8,6 +8,7 @@
                             <th>Revisión Externa</th>
                              <th>Revisión Interna</th>
                              <th>Observaciones</th>
+                             <th>Archivos Adjuntos</th>
                              <th>Fecha de creación</th>
                              <th>Aprobación</th>
                              <th>Acciones</th>
@@ -57,7 +58,20 @@
                       </td>
 
 
-                            <td>{{$reg->reg_observacion}}</td>
+                              <td>{{$reg->reg_observacion}}</td>
+                            <td>
+                      			@foreach($adjunto as  $adj)
+
+								@if($reg->reg_id==$adj->adj_reg_id)
+
+
+                              {{$adj->adj_nombre}}
+
+
+                              @endif
+
+                             @endforeach</td>
+
                             <td>{{$reg->reg_creado_en}}</td>
                             @if($reg->reg_aprobacion=='1')
                                <td>Si</td>

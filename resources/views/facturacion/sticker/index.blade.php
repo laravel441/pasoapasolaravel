@@ -20,7 +20,7 @@
                                 <div class="col-md-12 col-md-offset-0">
 
                                                                 {{--<p class="help-block text-info "><i>Hay {{$users->total()}} registros</i></p>--}}
-                                   {!!Form::model(['route'=>['facturacion.sticker.store'], 'method'=> 'POST'])!!}
+                                   {!!Form::model(['route'=>['facturacion.sticker.show'], 'method'=> 'GET'])!!}
                                     @include('facturacion.sticker.partials.sticker')
                                    {!!Form::close()!!}
 

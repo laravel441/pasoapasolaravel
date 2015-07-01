@@ -97,14 +97,7 @@
                                <input type="hidden" class="hidden" value="{{ $accion->acc_id}}" name="acciones_bd[]"/>
                                 </span>
                                @endif
-                                <?php endforeach ?>
-
-
-
-
-
-
-
+                               <?php endforeach ?>
             </div>
 
         </div>
@@ -118,15 +111,24 @@
                             </div>
                            </div>
                   </div>
+                                    <form action="{{route('lavado.update')}}" name="action" method="post" enctype="multipart/form-data">
+                                                        <div class="form-group">
+                                                        <div class="col-md-3 col-md-offset-5">
+                                                        <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save" value="Guardar" name="Guardar">
+                                                        Guardar
+                                                        </button>
+                                                     </div>
+                                                     </div>
 
+                                                               <div class="form-group">
+                                                                   <button type="button"class="btn btn-info btn btn-xs">
+                                                                     <i class="fa fa-folder-open">
+                                                                          <input name="archivos[]" type="file" multiple="multiple"/>
+                                                                          <!--  <input  type="submit" name="Enviar"  value="Enviar"/>-->
+                                                                         <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                                                         <input type="hidden" name="action" value="upload" />
+                                                                      </i>
+                                                                </button>
+                                                        </div>
 
-
-
-                 <div class="form-group">
-                                                <div class="col-md-3 col-md-offset-5">
-                                                <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save">
-                                                Guardar
-                                                </button>
-
-                                                </div>
-                                        </div>
+                                                       </form>

@@ -48,7 +48,10 @@ class Fac1Controller extends Controller {
                             fn_get_modules(?)',array($id));
         $proveedores = \DB::select('select * from sw_proveedor
         ');
-        return view('facturacion.sticker.index',compact('menus','proveedores'));
+        $newsticker= [];
+
+        //dd($newsticker);
+        return view('facturacion.sticker.index',compact('menus','proveedores', 'newsticker'));
 	}
 
 	/**
@@ -69,7 +72,7 @@ class Fac1Controller extends Controller {
 	public function store(Request $request)
 	{
 
-       dd($request->all());
+
 	}
 
 	/**
@@ -78,10 +81,15 @@ class Fac1Controller extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request,$id)
 	{
-		//dd($id);
 
+
+        $newsticker = $request->all();
+
+        //dd($newsticker);
+
+        return redirect()->route('facturacion.sticker.index',compact('newsticker'));
 
 	}
 

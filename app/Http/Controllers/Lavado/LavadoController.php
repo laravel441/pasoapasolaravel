@@ -9,6 +9,7 @@ use App\sw_registro_lavado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
 use App\sw_det_lavado;
+use App\sw_adjunto;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -227,7 +228,7 @@ class LavadoController extends Controller {
 	public function update(Request $request)
     {
         //dd($request->all());
-
+        $nombre=$request->archivos;
         $id = $request->reg_ctl_id;
         $ctlactual[] = $request->reg_ctl_id;
         $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
@@ -367,6 +368,37 @@ class LavadoController extends Controller {
                     //dd($detalle);
                     $detalle->save();
                 }
+
+                if (!empty($nombre)){
+                    $idreg=$registro->reg_id;
+                    foreach ($nombre as $datos){
+                        $ruta= 'C:\xampp\htdocs\pasoapasolaravel\public\archivos\ '.$datos;
+                        $archivo=new sw_adjunto;
+
+                        $archivo->adj_reg_id=$idreg;
+                        $archivo->adj_ruta =$ruta;
+                        $archivo->adj_nombre=$datos;
+                        $archivo->adj_creado_en= new DateTime();
+                        $archivo->adj_creado_por =Auth::user()->usr_name;
+                        $archivo->adj_modificado_en = new DateTime();
+                        $archivo->adj_modificado_por =Auth::user()->usr_name;
+
+                        $archivo->save();
+
+                    }
+
+                }
+                else {
+
+                }
+                Session::flash('message', 'Los archivos se han adjuntado de manera correcta ');
+
+
+
+
+
+
+
 
                 //return Redirect::action('RegistroController@index');
                 Session::flash('message', 'Registro Exitoso.');

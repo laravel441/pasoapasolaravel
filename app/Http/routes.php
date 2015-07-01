@@ -48,8 +48,8 @@ Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Lavado'], functio
 Route::group(['prefix'=>'facturacion','middleware'=>'auth','namespace'=>'Facturacion'], function()//ejecuta los middleware en orden LAVADO
 {
     resource('sticker','Fac1Controller');
-    resource('control_radicacion','Fac2Controller');
-    resource('revision','Fac3Controller');
+//    resource('control_radicacion','Fac2Controller');
+//    resource('revision','Fac3Controller');
     resource('pruebas','FacpController');
 
 });

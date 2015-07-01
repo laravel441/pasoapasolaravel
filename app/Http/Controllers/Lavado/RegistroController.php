@@ -8,6 +8,7 @@ use App\sw_empleado;
 use App\sw_usuario;
 use App\sw_ctl_lavado;
 use App\sw_registro_lavado;
+use App\sw_adjunto;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -48,6 +49,7 @@ class RegistroController extends Controller {
 
             $regs = sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
                 ->join('sw_vehiculo AS sveh', 'sw_registro_lavado.reg_veh_id', '=', 'sveh.veh_id')
+                ->join('sw_adjunto AS adj')
                 ->select('sw_registro_lavado.reg_id','sw_registro_lavado.reg_ctl_id','sveh.veh_id','sveh.veh_movil',
                     'sw_registro_lavado.reg_tanqueo','sw_registro_lavado.reg_observacion','sw_registro_lavado.reg_aprobacion',
                     'sw_registro_lavado.reg_creado_en')
@@ -184,8 +186,10 @@ class RegistroController extends Controller {
         ');
         $proveedores = \DB::select('select * from sw_proveedor
         ');
+        $adjunto = \DB::select('select * from sw_adjunto
+        ');
 
-        return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs','reg_list','id'));
+        return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs','reg_list','id','adjunto'));
 	}
 
 	/**
