@@ -65,7 +65,8 @@
 								@if($reg->reg_id==$adj->adj_reg_id)
 
 
-                              {{$adj->adj_nombre}}
+                               <i class="fa fa-picture-o text-info"></i> {{$adj->adj_nombre}}<br/>
+
 
 
                               @endif

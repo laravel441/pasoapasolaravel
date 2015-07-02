@@ -21,6 +21,7 @@ Route::post('auth/recuperar', 'ResetController@recuperarpassword');
 Route::get('auth/home', 'ResetController@home');
 
 
+
 Route::controllers([
 	'users' => 'UsersController',
 	'auth' => 'Auth\AuthController',
@@ -42,6 +43,9 @@ Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Lavado'], functio
     resource('lavado','LavadoController');
     resource('registro','RegistroController');
     resource('reporte','ReporteController');
+    resource('adjunto','AdjuntoController');
+
+
 
 });
 

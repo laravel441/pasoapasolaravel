@@ -47,7 +47,8 @@
 
 
 
-                            {!! Form::model(Request::all(),['route' => 'lavado.update', 'method' => 'PUT']) !!}
+  {!! Form::model(Request::all(),['route' => 'lavado.update', 'method' => 'PUT','enctype'=>'multipart/form-data']) !!}
+
                             @include('lavado.partials.list')
                             {!!Form::close()!!}
 

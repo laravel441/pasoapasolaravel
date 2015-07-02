@@ -21,7 +21,7 @@
 
 
 
-                            {!!Form::open(['route'=>['reporte.create'], 'method'=> 'GET'])!!}
+                            {!!Form::open(['route'=>['adjunto.store'], 'method'=> 'POST','enctype'=>'multipart/form-data'])!!}
 
                            @include('lavado.partials.checklistregupdate')
                             {!!Form::close()!!}

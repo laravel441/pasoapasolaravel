@@ -184,10 +184,9 @@
                                                     @foreach($adjunto as $adj)
                                                           @if($reg->reg_id==$adj->adj_reg_id)
 
-                                                          <li class="form-control " rows="8" id="comment" name="Archivos Adjuntos" value="{{$adj->adj_nombre}}"><br>
-                                                          {{$adj->adj_nombre}}
 
-                                                          </li>
+                                                          <i class="fa fa-picture-o text-info" name="Archivos Adjuntos" value ="{{$adj->adj_nombre}}"></i> {{$adj->adj_nombre}}<br/>
+
 
                                                           @endif
                                                           @endforeach
@@ -204,7 +203,16 @@
 
                                                 </div>
                                         </div>
-
+  <div class="form-group">
+                                           <button type="button"class="btn btn-info btn btn-xs">
+                                             <i class="fa fa-folder-open">
+                                                  <input name="archivos[]" type="file" multiple="multiple"/>
+                                                  <!--  <input  type="submit" name="Enviar"  value="Enviar"/>-->
+                                                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                                 <input type="hidden" name="action" value="upload" />
+                                              </i>
+                                        </button>
+                                </div>
 
 
 

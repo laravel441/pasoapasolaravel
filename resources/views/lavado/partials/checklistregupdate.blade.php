@@ -49,9 +49,9 @@
 
 
 
-                {!! Form::model(Request::all(),['route' => 'reporte.update', 'method' => 'PUT']) !!}
+
                             @include('lavado.partials.listupdate')
-                            {!!Form::close()!!}
+
 
 
 

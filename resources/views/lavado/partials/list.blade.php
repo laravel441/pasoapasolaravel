@@ -111,9 +111,9 @@
                             </div>
                            </div>
                   </div>
-                                    <form action="{{route('lavado.update')}}" name="action" method="post" enctype="multipart/form-data">
-                                                        <div class="form-group">
-                                                        <div class="col-md-3 col-md-offset-5">
+
+                                        <div class="form-group">
+                                                <div class="col-md-3 col-md-offset-5">
                                                         <button type="submit" class=" btn btn-danger btn-sm glyphicon glyphicon-floppy-save" value="Guardar" name="Guardar">
                                                         Guardar
                                                         </button>
@@ -131,4 +131,4 @@
                                                                 </button>
                                                         </div>
 
-                                                       </form>
+

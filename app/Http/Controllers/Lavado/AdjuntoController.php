@@ -34,56 +34,16 @@ use DateInterval;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 
-class LavadoController extends Controller {
+class AdjuntoController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-    public function __construct()
-    {
-        $this->middleware('auth');
-
-    }
-	public function index(Request $request)
+	public function index()
 	{
-        //dd($request->all);
-        $id =Auth::user()->usr_id;
-
-        $menus = \DB::select('
-                            select * from
-                            fn_get_modules(?)',array($id));
-
-
-
-        $ctls = sw_ctl_lavado::join('sw_usuarios AS su','sw_ctl_lavado.ctl_usr_id','=','su.usr_id')
-                                ->join('sw_patio AS spatio', 'sw_ctl_lavado.ctl_pto_id', '=', 'spatio.pto_id')
-                                 ->join('sw_proveedor AS sprovee', 'sw_ctl_lavado.ctl_pve_an8', '=', 'sprovee.pvd_an8')
-                                ->select('sw_ctl_lavado.ctl_id','su.usr_id','su.usr_name','spatio.pto_nombre',
-                                         'sw_ctl_lavado.ctl_fecha_inicio','sw_ctl_lavado.ctl_fecha_fin','sprovee.pvd_nombre')
-
-            ->where ('ctl_usr_id',$id)
-            ->orderBY('ctl_id', 'DESC')
-            ->control($request->get('control'))
-            ->paginate(5);
-
-
-
-
-//dd($ctls);
-
-
-        $usr_name = Auth::user()->usr_name ;
-
-        $patios = \DB::select('select * from sw_patio
-        ');
-
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
-
-        return view('lavado.index',compact('menus','ctls','patios','proveedores','usr_name'));
-
+		//
 	}
 
 	/**
@@ -93,7 +53,7 @@ class LavadoController extends Controller {
 	 */
 	public function create()
 	{
-
+		//
 	}
 
 	/**
@@ -103,136 +63,12 @@ class LavadoController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		//dd($request->all());
-
-        $control = new sw_ctl_lavado();
-        $control->fill($request->all());
-
-        $control->ctl_usr_id = Auth::user()->usr_id;
-        $control->ctl_pto_id = ($request->pto_id);
-        $control->ctl_pve_an8 = ($request->prove_id);
-        $control->ctl_fecha_inicio =new DateTime();
-        $control->ctl_fecha_fin = new DateTime('0001-01-01 00:00:00');
-        $control->ctl_creado_en = new DateTime();
-        $control->ctl_creado_por =Auth::user()->usr_name;
-        $control->ctl_modificado_en = new DateTime();
-        $control->ctl_modificado_por =Auth::user()->usr_name;
-        //dd($control);
-        $control->save();
-
-        Session::flash('message', 'Se ha creado en nuevo control. ID: '.$control->ctl_id );
-
-        return redirect()->route('lavado.edit',compact('control'));
-
-    }
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show(Request $request, $id)
-	{
-        $iduser =Auth::user()->usr_id;
-
-        $menus = \DB::select('
-                            select * from
-                            fn_get_modules(?)',array($iduser));
-
-        //dd($menus);
-
-        $ctl = sw_ctl_lavado::find($id);
-
-        $pto_id = $ctl->ctl_pto_id;
-        $pvd_id = $ctl->ctl_pve_an8;
-
-
-        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
-        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
-
-        $pto_nombre= $ptonombre[0];
-        $pvd_nombre= $pvdnombre[0];
-
-        //dd($ptonombre);
-        $usr_name = Auth::user()->usr_name ;
-
-        //dd($ctl_id);
-        $acciones = \DB::select('select * from sw_accion_lavado
-        ');
-
-        $patios = \DB::select('select * from sw_patio
-        ');
-        $vehiculos = \DB::select('select * from sw_vehiculo
-        ');
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
-
-        //dd($vehiculos);
-
-        return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores'));
-
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit(Request $request, $id)
-	{
-        //dd($id);
-        $iduser =Auth::user()->usr_id;
-
-        $menus = \DB::select('
-                            select * from
-                            fn_get_modules(?)',array($iduser));
-
-        //dd($menus);
-
-        $ctl = sw_ctl_lavado::find($id);
-
-        $pto_id = $ctl->ctl_pto_id;
-        $pvd_id = $ctl->ctl_pve_an8;
-
-
-        $ptonombre = \DB::select('select pto_nombre from sw_patio where pto_id ='.$pto_id);
-        $pvdnombre = \DB::select('select pvd_nombre from sw_proveedor where pvd_an8 ='.$pvd_id);
-
-        $pto_nombre= $ptonombre[0];
-        $pvd_nombre= $pvdnombre[0];
-
-        //dd($ptonombre);
-        $usr_name = Auth::user()->usr_name ;
-
-               //dd($ctl_id);
-        $acciones = \DB::select('select * from sw_accion_lavado
-        ');
-
-
-        $vehiculos = \DB::select('select * from sw_vehiculo
-        ');
-
-        //dd($vehiculos);
-
-        return view('lavado.edit',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre'));
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update(Request $request)
-    {
-        //dd($request->all());
-        //$nombre=$request->archivos;
+        //dd($_FILES["archivos"]);
+        $idreg = ($request->reg_id);
         $id = $request->reg_ctl_id;
         $ctlactual[] = $request->reg_ctl_id;
-        $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
-        $vehmov= $vehmovil[0];
+
+        //dd($request->vehi_id, $request->vehi_id_original);
 
         $ctl = sw_ctl_lavado::find($id);
         //dd($ctl);
@@ -256,12 +92,10 @@ class LavadoController extends Controller {
         }
 
 
-
         $ctlsturnos = array_diff($ctlsturnosa,$ctlactual);
 
-
-
         //$v = 100004; //Id vehiculo quemado
+        //dd($ctlsturnos,$ctlsturnosa);
 
         $e= 0;
         $f = 0;
@@ -274,74 +108,84 @@ class LavadoController extends Controller {
             }
         }
 
-        $zmovil[] = $request->vehi_id;
-        $zmoviles = \DB::select('
+        if ($request->vehi_id != $request->vehi_id_original){
+            $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
+            $vehmov= $vehmovil[0];
+            $zmovil[] = $request->vehi_id;
+            $zmoviles = \DB::select('
                             select * from
                             fn_registro(?)', array($id));
-
-        if(empty($zmoviles)) {
-            $zmovs=[];
-            $zmov =array_sum($zmovs);
-
-
-        }else{
             foreach ($zmoviles as $zmovile) {
                 $zmovils[] = $zmovile->veh_id;
             }
-            $zmovs = array_intersect($zmovils, $zmovil);
+            $zmovs = array_diff($zmovil,$zmovils);//quital
+            //$zmovs = array_intersect($zmovils, $zmovil);
             $zmov =array_sum($zmovs);
+            $vehiupdate = $request->vehi_id;
+
+
+
+
+
+        }else{
+            $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id_original);
+            $vehmov= $vehmovil[0];
+            $zmovil[] = $request->vehi_id_original;
+            $zmoviles = \DB::select('
+                            select * from
+                            fn_registro(?)', array($id));
+            foreach ($zmoviles as $zmovile) {
+                $zmovils[] = $zmovile->veh_id;
+            }
+            //$zmovis = array_diff($zmovils, $zmovil);//quital
+            $zmovs = [1];
+            $zmov =array_sum($zmovs);
+            $vehiupdate = $request->vehi_id_original;
+
+
+            // dd($request->vehi_id, $request->vehi_id_original,$zmov);
         }
 
 
-
-//        echo 'primer registro';
-//
-
-
-        if($zmov != 0 and $e != 0 ){
-
+        if($zmov == 0 and $e != 0 ){
+            //dd($zmov,$e,$zmovil,$zmovs,'mismo y otro control');
             Session::flash('message', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno(Serrucho!!!).');
             return redirect()->back();
-        }elseif ($zmov!= 0 and $e==0){
-
+        }elseif ($zmov == 0 and $e== 0){
+            //dd($zmov,$e,$zmovil,$zmovs,'mismo  control');
             Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
             return redirect()->back();
-        }elseif($zmov == '0'  and $e != 0){
-
+        }elseif($zmov != 0 and $e != 0){
+            //dd($zmov,$e,$zmovil,$zmovs,'otro control');
             Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
 
             return redirect()->back();
-        }elseif($zmov == '0' and $e=='0'){//validar ingreso registro....
-
-
-
-        //if (empty($zmov)and $e=='0') {//Movil repetido en el control y en otros cntroles en el turno presente
-
+        }elseif($zmov != 0 and $e== 0){
+            //dd($zmov,$e,$zmovil,$zmovs,'registro valido');
+            //dd($request->all());
             $array_bd = ($request->acciones_bd);
             $array_true = ($request->acciones);
-            //dd($array_true);
-            if (empty($array_true)) {//se debe seleccionar un elemento de la lista
-                Session::flash('message', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
+            if (empty($array_true)) {
+                Session::flash('message', 'Las listas de Revisión Externa y/o Interna no pueden estar vacias.');
                 return redirect()->back();
             } else {
                 $array_false = array_diff($array_bd, $array_true);
                 //dd($array_false);
-
-                $registro = new sw_registro_lavado();
+                $registro = sw_registro_lavado::find($idreg);
                 $registro->fill($request->all());
-                $registro->reg_veh_id = $request->vehi_id;
+                //dd($registro);
+                $registro->reg_veh_id = $vehiupdate;
                 $registro->reg_aprobacion = $request->reg_aprobacion;
                 $registro->reg_observacion = $request->reg_observacion;
                 $registro->reg_creado_en = new DateTime();
                 $registro->reg_creado_por = Auth::user()->usr_name;
                 $registro->reg_modificado_en = new DateTime();
                 $registro->reg_modificado_por = Auth::user()->usr_name;
-
                 $registro->save();
-
-
                 //dd($registro);
-
+                $regsdelete = \DB::select('
+                           delete from
+                            sw_det_lavado where det_reg_id =' . $idreg . '');
                 foreach ($array_true as $arreglotrue) {
                     $detalle = new sw_det_lavado();
                     $detalle->fill($request->all());
@@ -369,22 +213,43 @@ class LavadoController extends Controller {
                     $detalle->save();
                 }
 
+
+
+
+
                 $idreg=$registro->reg_id;
+                $files_exists= \DB::select('select * from sw_adjunto where adj_reg_id =' . $idreg);
+
+                foreach($files_exists as $adj_name){
+                    $x[]= $adj_name->adj_nombre;
+                }
+               if(empty ($x)){
+                    $x=[0];
+               }
+
+                $files_new = $_FILES["archivos"]['name'];
+                $valid_files_r = array_intersect($x,$files_new);
+                $valid_files_r1 = count($valid_files_r);
+
+                if ($valid_files_r1 != 0){
+                    Session::flash('message', 'Ya se encuentra un archivo con el mismo nombre en este registro. ');
+                    return redirect()->back();
+                }else{
 
                 $array_nombre=$_FILES["archivos"]['name'];
-                $ruta1 = 'D:\adjuntos_swcapital\ ';
-                $rutareg = '\ ';
-                $rutareg = rtrim($rutareg);
-                $ruta11 = rtrim($ruta1).$idreg.$rutareg;
-                mkdir($ruta11, 0777);
-
                 for($i=0;$i<count($_FILES["archivos"]['name']);$i++){
                     $tmpFilePath = $_FILES["archivos"]['tmp_name'][$i];
+
 
                     if ($tmpFilePath != ""){
 
 
 
+
+                        $ruta1 = 'D:\adjuntos_swcapital\ ';
+                        $rutareg = '\ ';
+                        $rutareg = rtrim($rutareg);
+                        $ruta11 = rtrim($ruta1).$idreg.$rutareg;
                         $ruta2 = $_FILES['archivos']['name'][$i];
 
                         $ruta = $ruta11.$ruta2;
@@ -408,7 +273,7 @@ class LavadoController extends Controller {
                         $rutareg = '\ ';
                         $rutareg = rtrim($rutareg);
                         $ruta11 = rtrim($ruta1).$idreg.$rutareg;
-                         $route=$datos;
+                        $route=$datos;
                         $ruta = $ruta11.$route;
 
 
@@ -424,18 +289,13 @@ class LavadoController extends Controller {
 
                         $archivo->save();
                     }
-                }
+                 }
 
-
-
-
-
-
-
+               }
+                Session::flash('message', 'Se ha editado el registro. ID: ' . $idreg);
+                return redirect()->back();
                 //return Redirect::action('RegistroController@index');
-                Session::flash('message', 'Registro Exitoso.');
-
-                return redirect()->route('lavado.edit', compact('id'));
+                //return redirect()->route('reporte.show',compact('id'));
 
             }
         }else{
@@ -443,9 +303,40 @@ class LavadoController extends Controller {
         }
 
 
-        }
+    }
 
-    //}
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		//
+	}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -457,10 +348,5 @@ class LavadoController extends Controller {
 	{
 		//
 	}
-
-    public function updatectl(Request $request)
-    {
-        dd($request);
-    }
 
 }
