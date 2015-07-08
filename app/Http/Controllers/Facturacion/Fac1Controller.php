@@ -116,7 +116,6 @@ class Fac1Controller extends Controller {
 	public function store(Request $request)
 	{
 
-
         $identi = $request->num_identi;
         $idprovee = \DB::select('select pvd_an8 from sw_proveedor where pvd_nombre LIKE '."'".$identi."'");
         $idprove = $idprovee[0]->pvd_an8;
@@ -162,9 +161,9 @@ class Fac1Controller extends Controller {
         $reg_factura->fac_valor = 0;
         $reg_factura->fac_asunto = "";
         if(($request->tipo_doc) == 3) {
-        $reg_factura->fac_num_documento = "NULL";
+            $reg_factura->fac_num_documento = "NULL";
         }else{
-        $reg_factura->fac_num_documento= ($request->num_doc);
+            $reg_factura->fac_num_documento= ($request->num_doc);
         }
         $reg_factura->fac_creado_en= new DateTime();
         $reg_factura->fac_creado_por= Auth::user()->usr_name;
@@ -184,10 +183,7 @@ class Fac1Controller extends Controller {
         Session::flash('message', 'Se ha agregado un nuevo sticker: '.$reg_factura->fac_consecutivo );
         return redirect()->route('facturacion.sticker.index');
 
-
-
-
-	}
+    }
 
 	/**
 	 * Display the specified resource.
@@ -195,10 +191,10 @@ class Fac1Controller extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show()
+	public function show($id)
 	{
-
-       	}
+		//
+	}
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -208,7 +204,7 @@ class Fac1Controller extends Controller {
 	 */
 	public function edit($id)
 	{
-		//dd($id);
+        //dd($id);
         $reg_factura = sw_factura::find($id);
         //dd($reg_factura->fac_creado_en);
         //$fecharad=date_format($reg_factura->fac_creado_en,'Y-m-d (H:i)');
@@ -287,7 +283,7 @@ class Fac1Controller extends Controller {
 	 */
 	public function update($id)
 	{
-		//dd($id);
+		//
 	}
 
 	/**
@@ -300,5 +296,5 @@ class Fac1Controller extends Controller {
 	{
 		//
 	}
+
 }
-                                                                                                          
