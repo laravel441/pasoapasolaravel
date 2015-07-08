@@ -1,51 +1,26 @@
+    @if ($d==1)
 
               <table class="table table-hover" data-options="rownumbers:true">
                     <thead>
                       <tr>
-                            <th>ID</th>
-                            <th># Identificación</th>
-                            <th>Tipo Documento</th>
-                            <th># Documento</th>
-                             <th>Fecha de documento</th>
-                             <th>Dirigido</th>
-                               <th>Acciones</th>
+                            <th></th>
+
                       </tr>
                     </thead>
                        <tbody>
-
-
-
-
-
-                                <tr  data-id="">
-
-
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-
-                                <td><i class="text-primary">6</i></td>
-
-
-
-                                <td>
-
+                                <td align="center">
                                             <div class="fa-hover ">
-
-                                                <a href="{{route('lavado.edit')}}">
-                                                <i class="fa fa-plus fa-9x text-info" title="Agregar Registro"></i></a>
-                                                <a href="{{route('registro.edit')}}">
-                                                <i class="fa fa-pencil fa-9x text-danger" title="Editar Control"></i></a>
-                                                <a href="{{route('registro.show')}}">
-                                                <i class="fa fa-eye fa-9x text-primary" title="Ver Control"></i></a>
-
+                                                <a target="_blank"  href="{{route('facturacion.sticker.edit',$reg_factura->fac_id)}}">
+                                                <i class="fa fa-file-pdf-o fa-3x text-danger" title="Generar ultimo sticker"></i></a>
+                                                <h4>{{$reg_factura->fac_consecutivo}}</h4>
+                                                <h5 class="text-info"><i>Este es el útlimo sticker generado</i></h5>
                                             </div>
-
 
                                 </td>
                               </tr>
 
                       </tbody>
                 </table>
+    @else
+    <p></p>
+    @endif

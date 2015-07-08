@@ -259,7 +259,7 @@ class ReporteController extends Controller {
         $mpdf->WriteHTML($html6);
         $mpdf->SetColumns(5);
         $mpdf->WriteHTML($html2);
-        $mpdf->Output('Reporte_control_'.$id.'.pdf', 'D');
+        $mpdf->Output('Reporte_control_'.$id.'.pdf', 'I');
 
     }
     /**
