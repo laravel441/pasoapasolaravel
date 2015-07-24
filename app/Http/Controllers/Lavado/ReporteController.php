@@ -338,8 +338,7 @@ class ReporteController extends Controller {
         ');
         $vehiculos = \DB::select('select * from sw_vehiculo
         ');
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
+        $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 ');
         //dd($vehiculos);
         return view('lavado.updatectl',compact('menus','usr_name','acciones','vehiculos','id','pto_nombre','pvd_nombre','patios','proveedores','ctl'));
     }

@@ -117,6 +117,7 @@ class FacpController extends Controller {
                 $sheet->fromArray($data, null, 'A1', false, false);
             });
         })->download('xlsx');
+
     }
 
     /**

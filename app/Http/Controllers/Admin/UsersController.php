@@ -201,11 +201,20 @@ class UsersController extends Controller {
 	public function edit(Route $route, $id)
 	{
 
-        $id =Auth::user()->usr_id;
+
+        $rolestabla = \DB::table('sw_roles')
+            ->where('sw_roles.rol_estado','=',true)//->select('rol_id','uxr_id','rol_nombre')
+            ->leftJoin ('sw_usuario_x_roles', function($join) use($id){
+                    $join->on('sw_usuario_x_roles.uxr_rol_id','=','sw_roles.rol_id')
+                        ->where( 'sw_usuario_x_roles.uxr_usr_id' ,'=', $id);
+                })->orderBy('rol_id')
+            ->get();
+        // dd($rolestabla);
+        $ids =Auth::user()->usr_id;
 
         $menus = \DB::select('
                             select * from
-                            fn_get_modules (?)',array($id));
+                            fn_get_modules (?)',array($ids));
 
         $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
             ->select(
@@ -217,7 +226,7 @@ class UsersController extends Controller {
         findOrFail($route->getParameter('users'));
 
         //dd($users);
-        return view('admin.users.edit')->with ('user',$users)->with ('menus',$menus);
+        return view('admin.users.edit')->with ('user',$users)->with ('menus',$menus)->with('rolestabla',$rolestabla);
 
 	}
 
@@ -229,6 +238,63 @@ class UsersController extends Controller {
 	 */
 	public function update(Route $route, EditUserRequest $request, $id)
 	{
+        //dd($id);
+        $usuario = Auth::user()->usr_name;
+        $roles_seleccionados= $request->input('roles_seleccionados');
+        $lista_todos_roles= $request->input('lista_todos_roles');
+        $roles_asignados = $request->input('roles_asignados');
+
+        // dd($roles_seleccionados,$lista_todos_roles,$roles_asignados);
+        $valores =count($roles_seleccionados);
+        if($valores == 0 && $roles_asignados == null){
+
+            return redirect()->back();
+        }else{
+            if($roles_asignados != null){
+                if($roles_seleccionados == null){
+
+                    foreach($roles_asignados as $delete){
+                        \DB::table('sw_usuario_x_roles')->where('uxr_rol_id', '=',$delete )
+                            ->where('uxr_usr_id','=',$id)
+                            ->delete();
+                    }
+                    return redirect()->back();
+                }else{
+                    $eliminar = array_diff($roles_asignados,$roles_seleccionados);
+                    //dd($eliminar);
+                    foreach($eliminar as $delete){
+                        \DB::table('sw_usuario_x_roles')->where('uxr_rol_id', '=',$delete )
+                            ->where('uxr_usr_id','=',$id)
+                            ->delete();
+                    }
+                }
+
+            }
+        }
+
+
+        if($roles_asignados == null){
+
+            foreach ($roles_seleccionados as $ins){
+                \DB::table('sw_usuario_x_roles')->insert(
+                    array('uxr_usr_id' => $id, 'uxr_rol_id' => $ins, 'uxr_creado_en' => new DateTime(),'uxr_creado_por' => 'Swcapital',
+                        'uxr_modificado_en' => new DateTime(), 'uxr_modificado_por' => $usuario)
+                );
+            }
+
+        }else{
+            $noasignados = array_diff($lista_todos_roles,$roles_asignados);
+            //dd($noasignados);
+            $insertar =array_intersect($noasignados,$roles_seleccionados);
+            //dd($insertar);
+            foreach ($insertar as $ins){
+                \DB::table('sw_usuario_x_roles')->insert(
+                    array('uxr_usr_id' => $id, 'uxr_rol_id' => $ins, 'uxr_creado_en' => new DateTime(),'uxr_creado_por' => 'Swcapital',
+                        'uxr_modificado_en' => new DateTime(), 'uxr_modificado_por' => $usuario)
+                );
+            }
+        }
+
         $pass='';
         $users = sw_usuario::leftjoin('sw_empleados','sw_usuarios.usr_emp_an8','=','sw_empleados.emp_an8')
             ->select(

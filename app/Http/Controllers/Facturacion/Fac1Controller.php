@@ -67,7 +67,7 @@ class Fac1Controller extends Controller {
                             fn_get_modules(?)',array($id));
         $proveedores = \DB::select('select * from sw_proveedor ');
         $tipos_facturas = \DB::select('select * from sw_detalle_tipos where tip_mtp_id = 1');
-        $companias = \DB::select('select * from sw_companias');
+        $companias = \DB::select('select * from sw_companias ORDER by comp_id ASC');
 
 
 
@@ -87,12 +87,12 @@ class Fac1Controller extends Controller {
         $vmai = $umai+1;
 
 
-        $x = 'F15-MAS'.$vmas;
-        $y = 'F15-MUB'.$vmub;
-        $z = 'F15-MAI'.$vmai;
+        $x = 'F15-MAS-'.$vmas;
+        $y = 'F15-MUB-'.$vmub;
+        $z = 'F15-MAI-'.$vmai;
 
 
-        //dd($companias[0]->comp_nombre);
+        //dd($x,$y,$z);
 
         //dd($newsticker);
         return view('facturacion.sticker.index',compact('menus','proveedores','x','y','z', 'tipos_facturas','companias','d','reg_factura'));
@@ -140,16 +140,16 @@ class Fac1Controller extends Controller {
         $vmai = $umai+1;
 
 
-        $x = 'F15-MAS'.$vmas;
-        $y = 'F15-MUB'.$vmub;
-        $z = 'F15-MAI'.$vmai;
+        $x = 'F15-MAS-'.$vmas;
+        $y = 'F15-MUB-'.$vmub;
+        $z = 'F15-MAI-'.$vmai;
 
 //----------------------Facturas-----------------
         $reg_factura = new sw_factura();
         $reg_factura->fac_pvd_an8 = $idprove;
         $reg_factura->fac_comp_id = $idcompa;
         $reg_factura->fac_usr_id = Auth::user()->usr_id;
-        $reg_factura->fac_tip_id = ($request->tipo_doc);
+        $reg_factura->fac_tip_fac = ($request->tipo_doc);
         if($idcompa == 1){
             $reg_factura->fac_consecutivo = $x;
         }else if ($idcompa ==2){
@@ -159,9 +159,10 @@ class Fac1Controller extends Controller {
         }
         $reg_factura->fac_fecha_rad = ($request->date_doc);
         $reg_factura->fac_valor = 0;
+        $reg_factura->fac_tip_mon = 0;
         $reg_factura->fac_asunto = "";
         if(($request->tipo_doc) == 3) {
-            $reg_factura->fac_num_documento = "NULL";
+            $reg_factura->fac_num_documento = "NA";
         }else{
             $reg_factura->fac_num_documento= ($request->num_doc);
         }

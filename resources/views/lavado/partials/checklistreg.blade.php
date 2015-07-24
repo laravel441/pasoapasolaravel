@@ -1,44 +1,35 @@
 
-                                <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
-                                         <div class="form-control-wrapper col-md-1 col-md-offset-0">
-                                                      <a href="http://swcapital.com/lavado">
-                                                      <i class="fa fa-arrow-circle-o-left fa-2x text-info" title="Regresar Controles"></i></a>
-                                           </div>
+                            <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
 
-                                        <div class="form-group-danger ">
-                                        	<div class="form-control-wrapper col-md-2 col-md-offset-0">
-                                        		<input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$usr_name}}">
-                                        		<div class="floating-label">Usuario:</div>
-                                        		<span class="material-input"></span>
-                                        	</div>
-                                        </div>
+                              <table class="table table-hover" data-options="rownumbers:true" >
+                                                  <thead>
+                                                      <tr>
+                                                          <th> </th>
+                                                          <th>Usuario</th>
+                                                          <th>Terminal</th>
+                                                          <th>Proveedor</th>
+                                                           <th>Fecha de inicio</th>
+                                                            <th class="form-group-danger">{!! Form::text('registro',null,['class'=>'form-control floating-label','placeholder'=>'Buscar movil '])!!}
+
+                                                            </th>
+
+                                                      </tr>
+                                                  </thead>
+                                           <tbody>
+
+                                        <td> <a href="http://swcapital.com/lavado">
+                                          <i class="fa fa-arrow-circle-o-left fa-2x text-info" title="Regresar Controles"></i></a></td>
+                                        <td><input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$usr_name}}"></td>
+                                        <td><input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ptoctl->pto_nombre}}"></td>
+                                        <td><input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$pvectl->pvd_nombre}}"></td>
+                                        <td><input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ctls->ctl_fecha_inicio}}"></td>
+                                        <td><button type="submit" class="btn btn-danger btn-sm">
+                                                                                <span class="glyphicon glyphicon-search "></span> Buscar
+                                                                            </button></td>
+                                         </tbody>
+                                   </table>
 
 
-
-
-                                        <div class="form-group-danger ">
-                                            <div class="form-control-wrapper col-md-2 col-md-offset-0">
-                                                <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ptoctl->pto_nombre}}">
-                                                <div class="floating-label">Terminal:</div>
-                                                <span class="material-input"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group-danger ">
-                                                <div class="form-control-wrapper col-md-2 col-md-offset-0">
-                                                    <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$pvectl->pvd_nombre}}">
-                                                    <div class="floating-label">Proveedor:</div>
-                                                    <span class="material-input"></span>
-                                                </div>
-                                            </div>
-
-                                        <div class="form-group-danger">
-                                            <div class="form-control-wrapper col-md-2 col-md-offset-0">
-                                                <input class="form-control text-info" disabled="disabled" name="usr_name" type="text" value="{{$ctls->ctl_fecha_inicio}}">
-                                                <div class="floating-label">Fecha de inicio:</div>
-                                                <span class="material-input"></span>
-                                            </div>
-                                        </div>
 
 
 

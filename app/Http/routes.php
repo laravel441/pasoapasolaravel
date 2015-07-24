@@ -31,6 +31,18 @@ Route::controllers([
 	
 
 ]);
+
+Route::group(['middleware' => 'auth'], function()
+{
+    Route::resource('/admin/roles', 'RRolesController');
+    Route::get('admin/roles/rol/destroy/{id}', ['as' => 'rol.destroy', 'uses' => 'RRolesController@destroy']);
+    Route::post('admin/roles/rol/modulos/{id}', ['as' => 'rol.modulos', 'uses' => 'RRolesController@modulos']);
+    Route::get('admin/roles/rol/permisos/{id}/{idm}', ['as' => 'rol.permisos', 'uses' => 'RRolesController@permisos']);
+    Route::post('admin/roles/rol/permisos/{id?}/{idm?}', ['as' => 'rol.permisos', 'uses' => 'RRolesController@permisoscambiar']);
+    Route::get('admin/roles/rol/detalles/{id}', ['as' => 'rol.detalles', 'uses' => 'RRolesController@show']);
+    Route::get('admin/roles/verpermisos/{id}', ['as' => 'rol.verpermisos', 'uses' => 'RRolesController@verpermisos']);
+    Route::get('admin/roles/rol/borrar/{id}', ['as' => 'rol.borrar', 'uses' => 'RRolesController@borrar']);
+});
 	resource('terceros','TerceroController');
 Route::group(['prefix'=>'admin','middleware'=>'auth','namespace'=>'Admin'], function()//ejecuta los middleware en orden ADMIN
 {
@@ -46,15 +58,32 @@ Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Lavado'], functio
     resource('adjunto','AdjuntoController');
 
 
-
 });
 
 Route::group(['prefix'=>'facturacion','middleware'=>'auth','namespace'=>'Facturacion'], function()//ejecuta los middleware en orden LAVADO
 {
     resource('sticker','Fac1Controller');
+    resource('radicacion','Fac2Controller');
 //    resource('control_radicacion','Fac2Controller');
 //    resource('revision','Fac3Controller');
     resource('pruebas','FacpController');
+
+});
+Route::group(['prefix'=>'contabilidad','middleware'=>'auth','namespace'=>'Contabilidad'], function()//ejecuta los middleware en orden LAVADO
+{
+    resource('revision','Con1Controller');
+//    resource('control_radicacion','Fac2Controller');
+//    resource('revision','Fac3Controller');
+    resource('pruebas','ConpController');
+
+});
+
+Route::group(['prefix'=>'tesoreria','middleware'=>'auth','namespace'=>'Tesoreria'], function()//ejecuta los middleware en orden LAVADO
+{
+    resource('revision','Tes1Controller');
+//    resource('control_radicacion','Fac2Controller');
+//    resource('revision','Fac3Controller');
+    resource('pruebas','TespController');
 
 });
 

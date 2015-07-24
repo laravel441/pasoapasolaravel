@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.sidebar_lavado')
 
 
 @section('content')
@@ -6,40 +6,39 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-0">
                 <div class="panel panel-default">
-                               <div class="panel-heading"><h2 align="center">Control de calidad y planilla de servicio de lavado
-                                           [#{{$ctls->ctl_id}}] </h2><h6 align="center"> {{ Auth::user()->usr_name }}
+                               <div class="panel-heading"><h3 align="center">Control de calidad y planilla de servicio de lavado
+                                           [#{{$ctls->ctl_id}}] </h3><h6 align="center"> {{ Auth::user()->usr_name }}
                                            <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?></h6>
                                 </div>
                                 <div class="form-group">
-                                         @if(Session::has('message'))
-                                         <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
-                                         @endif
+                                        @if(Session::has('message'))
+                                       <p class="alert alert-primary" text-center>{{Session::get('message')}} </p>
+                                       @endif
+                                       @if(Session::has('message2'))
+                                       <p class="alert alert-info" text-center>{{Session::get('message2')}} </p>
+                                        @endif
+                                       @if(Session::has('message3'))
+                                       <p class="alert alert-danger" text-center>{{Session::get('message3')}} </p>
+                                        @endif
 
 
 
 
 
+                                {{--<div class="col-md-6 col-md-offset-0 form-group-danger">--}}
+                                      {{--{!! Form::text('registro',null,['class'=>'form-control floating-label','placeholder'=>'Buscar movil '])!!}--}}
+                                  {{--</div>--}}
 
-                                {!! Form::model(Request::all(),['route' => 'registro.index', 'method' => 'GET', 'class'=>'navbar-form navbar-left pull-right', 'role' =>'search']) !!}
+                                   {{--<button type="submit" class="btn btn-danger btn-sm">--}}
+                                        {{--<span class="glyphicon glyphicon-search "></span> Buscar--}}
+                                    {{--</button>--}}
 
-                                <div class="col-md-6 col-md-offset-0 form-group-danger">
-                                      {!! Form::text('registro',null,['class'=>'form-control floating-label','placeholder'=>'Buscar movil '])!!}
-                                  </div>
 
-                                   <button type="submit" class="btn btn-danger btn-sm">
-                                        <span class="glyphicon glyphicon-search "></span> Buscar
-                                    </button>
                                 </div>
+                                 {!! Form::model(Request::all(),['route' => 'registro.index', 'method' => 'GET', 'class'=>'', 'role' =>'search']) !!}
+                                @include('lavado.partials.checklistreg')
+                                {!!Form::close()!!}
 
-
-
-
-
-
-
-
-                                    <div>@include('lavado.partials.checklistreg')</div>
-                                    {!!Form::close()!!}
 
                     @if($ctls->ctl_fecha_fin == '0001-01-01 00:00:00')
                               {!!Form::open(['route'=>['reporte.store'], 'method'=> 'POST'])!!}

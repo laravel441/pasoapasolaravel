@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.sidebar_lavado')
 
 
 @section('content')
@@ -11,8 +11,14 @@
                             </div>
                                  <div class="form-group">
                                      @if(Session::has('message'))
-                                     <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
-                                     @endif
+                                        <p class="alert alert-primary" text-center>{{Session::get('message')}} </p>
+                                        @endif
+                                        @if(Session::has('message2'))
+                                        <p class="alert alert-info" text-center>{{Session::get('message2')}} </p>
+                                         @endif
+                                        @if(Session::has('message3'))
+                                        <p class="alert alert-danger" text-center>{{Session::get('message3')}} </p>
+                                         @endif
                                  </div>
                          <div>
                             <div class="col-md-3 col-md-offset-0">

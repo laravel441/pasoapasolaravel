@@ -15,7 +15,7 @@
                                           @if($errors -> has('vehi_id'))
                                                <p class="text-danger">{{$errors->first('vehi_id')}} </p>
                                             @endif
-                                       </div>
+                                       </div></br></br></br>
 
 
                                  <div class="form-group-danger">
@@ -34,22 +34,7 @@
                                                </div>
                                         </div>
                                     </div><br>
-                                    <div class="form-group-danger">
-                                          <div class="form-control-wrapper">
-                                              <p>Aprobación:</p>
 
-                                             <div class="radio" >
-                                               <label>
-                                                 <input type="radio" name="reg_aprobacion"  value="TRUE" required>
-                                                  Si
-                                               </label>
-                                               <label>
-                                              <input type="radio" name="reg_aprobacion" value="FALSE" >
-                                                  No
-                                            </label>
-                                             </div>
-                                          </div>
-                                      </div><br>
 
 
                                </div>

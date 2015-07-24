@@ -10,7 +10,7 @@
 
                                          <div class="form-group-danger">
 
-                                                <select class="form-control combobox" name="pto_id">
+                                                <select class="form-control combobox" name="pto_id" required="required">
                                                     <option value="" disabled selected>Sel. Terminal</option>
                                                      <?php foreach ($patios as $key => $patio): ?>
                                                        <option value="{{ $patio->pto_id }}">{{ $patio->pto_nombre }}</option>
@@ -24,7 +24,7 @@
 
                                         <div class="form-group-danger">
 
-                                                <select class="form-control combobox" name="prove_id">
+                                                <select class="form-control combobox" name="prove_id" required="required">
                                                     <option value="" disabled selected>Sel. Proveedor</option>
                                                      <?php foreach ($proveedores as $key => $provee): ?>
                                                        <option value="{{ $provee->pvd_an8 }}">{{ $provee->pvd_nombre }}</option>

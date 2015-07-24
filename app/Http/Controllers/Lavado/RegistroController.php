@@ -47,9 +47,8 @@ class RegistroController extends Controller {
 
 
 
-            $regs = sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
+            $regs =sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
                 ->join('sw_vehiculo AS sveh', 'sw_registro_lavado.reg_veh_id', '=', 'sveh.veh_id')
-                ->join('sw_adjunto AS adj')
                 ->select('sw_registro_lavado.reg_id','sw_registro_lavado.reg_ctl_id','sveh.veh_id','sveh.veh_movil',
                     'sw_registro_lavado.reg_tanqueo','sw_registro_lavado.reg_observacion','sw_registro_lavado.reg_aprobacion',
                     'sw_registro_lavado.reg_creado_en')
@@ -59,6 +58,9 @@ class RegistroController extends Controller {
                 ->orderBY('reg_id', 'DESC')
 
                 ->paginate(3);
+
+
+
 
             //dd($regs);
 
@@ -85,10 +87,11 @@ class RegistroController extends Controller {
 
             $patios = \DB::select('select * from sw_patio
         ');
-            $proveedores = \DB::select('select * from sw_proveedor
+        $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 ');
+        $adjunto = \DB::select('select * from sw_adjunto
         ');
 
-            return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs','reg_list','id'));
+            return view('lavado.indexreg',compact('menus','ctls','usr_name','ptoctl','pvectl','regs','reg_list','id','adjunto'));
 	}
 
 	/**
@@ -184,8 +187,7 @@ class RegistroController extends Controller {
 
         $patios = \DB::select('select * from sw_patio
         ');
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
+        $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 ');
         $adjunto = \DB::select('select * from sw_adjunto
         ');
 
@@ -231,8 +233,7 @@ class RegistroController extends Controller {
         ');
         $vehiculos = \DB::select('select * from sw_vehiculo
         ');
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
+        $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 ');
 
         //dd($vehiculos);
 
@@ -258,6 +259,7 @@ class RegistroController extends Controller {
 
         //dd($ctl);
         $ctl->save();
+        Session::flash('message', 'Se ha cerrado el control. ID: '.$request->ctl_id);
         return redirect()->route('lavado.index');
 
 	}

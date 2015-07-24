@@ -149,6 +149,33 @@
                                 <p class="text-danger">{{$errors->first('usr_stu_id')}} </p>
                              @endif
                         </div>
+                        <h4>Roles del usuario</h4>
+                            <div class="col-md-12 col-md-offset-0" style="height: 170px; overflow-y: scroll">
+
+                                    @foreach ($rolestabla as $rol)
+                            <div class="col-md-6">
+
+                                        <input type="hidden" class="hidden" value="{{ $rol->rol_id }}" name="lista_todos_roles[]"/>
+
+                                            @if($rol->uxr_id != null)
+                                                <span class="button-checkbox-au btn-xs" style="padding: -1px;margin: -15px">
+                                                <button type="button" class="btn btn-block btn-xs" style="padding: -20px;margin: -7px;text-align: left" data-color="info">{{$rol->rol_nombre}}</button>
+                                                <input type="checkbox" name="roles_seleccionados[]" value="{{ $rol->rol_id  }}" class="hidden" style="padding: -20px;margin: -10px" checked />
+                                                </span>
+                                                <input type="hidden" name="roles_asignados[]" value="{{ $rol->rol_id  }}" checked class="pull-right">
+
+                                            @else
+                                                <span class="button-checkbox-au btn-xs" style="padding: -1px;margin: -15px">
+                                                <button type="button" class="btn btn-block btn-xs" style="padding: -20px;margin: -7px;text-align: left" data-color="info">{{ $rol->rol_nombre }}</button>
+                                                <input type="checkbox" name="roles_seleccionados[]" value="{{ $rol->rol_id }}" class="hidden" style="padding: -1px;margin: -4px"  />
+                                                </span>
+                                            @endif
+                                             </div>
+                                    @endforeach
+
+                            </div>
+                            <br>
+                            <br>
 
 
                             <div class="col-md-6 col-md-offset-0">

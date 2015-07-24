@@ -79,8 +79,7 @@ class LavadoController extends Controller {
         $patios = \DB::select('select * from sw_patio
         ');
 
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
+        $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 '); //proveedores Lavado
 
         return view('lavado.index',compact('menus','ctls','patios','proveedores','usr_name'));
 
@@ -165,8 +164,7 @@ class LavadoController extends Controller {
         ');
         $vehiculos = \DB::select('select * from sw_vehiculo
         ');
-        $proveedores = \DB::select('select * from sw_proveedor
-        ');
+        $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1');
 
         //dd($vehiculos);
 
@@ -300,15 +298,15 @@ class LavadoController extends Controller {
 
         if($zmov != 0 and $e != 0 ){
 
-            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno(Serrucho!!!).');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno.');
             return redirect()->back();
         }elseif ($zmov!= 0 and $e==0){
 
-            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
             return redirect()->back();
         }elseif($zmov == '0'  and $e != 0){
 
-            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
 
             return redirect()->back();
         }elseif($zmov == '0' and $e=='0'){//validar ingreso registro....
@@ -319,9 +317,16 @@ class LavadoController extends Controller {
 
             $array_bd = ($request->acciones_bd);
             $array_true = ($request->acciones);
+            $uri = count($array_bd);
+            if(count ($array_true)== $uri){
+                $aprobacion = 'TRUE';
+            }else{
+                $aprobacion = 'FALSE';
+            }
+
             //dd($array_true);
             if (empty($array_true)) {//se debe seleccionar un elemento de la lista
-                Session::flash('message', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
+                Session::flash('message2', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
                 return redirect()->back();
             } else {
                 $array_false = array_diff($array_bd, $array_true);
@@ -330,7 +335,7 @@ class LavadoController extends Controller {
                 $registro = new sw_registro_lavado();
                 $registro->fill($request->all());
                 $registro->reg_veh_id = $request->vehi_id;
-                $registro->reg_aprobacion = $request->reg_aprobacion;
+                $registro->reg_aprobacion = $aprobacion;
                 $registro->reg_observacion = $request->reg_observacion;
                 $registro->reg_creado_en = new DateTime();
                 $registro->reg_creado_por = Auth::user()->usr_name;
@@ -372,7 +377,7 @@ class LavadoController extends Controller {
                 $idreg=$registro->reg_id;
 
                 $array_nombre=$_FILES["archivos"]['name'];
-                $ruta1 = 'D:\adjuntos_swcapital\ ';
+                $ruta1 = 'Z:\adjuntos_swcapital\lavado\ ';
                 $rutareg = '\ ';
                 $rutareg = rtrim($rutareg);
                 $ruta11 = rtrim($ruta1).$idreg.$rutareg;
@@ -404,7 +409,7 @@ class LavadoController extends Controller {
 
 
                     foreach ($array_nombre as $datos){
-                        $ruta1 = 'D:\adjuntos_swcapital\ ';
+                        $ruta1 = 'Z:\adjuntos_swcapital\lavado\ ';
                         $rutareg = '\ ';
                         $rutareg = rtrim($rutareg);
                         $ruta11 = rtrim($ruta1).$idreg.$rutareg;
@@ -458,9 +463,6 @@ class LavadoController extends Controller {
 		//
 	}
 
-    public function updatectl(Request $request)
-    {
-        dd($request);
-    }
+
 
 }

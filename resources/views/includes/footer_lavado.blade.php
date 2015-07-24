@@ -1,0 +1,1 @@
+<div class="main-footer" style="height: 0%" >© Copyright Masivo Capital S.A.S | <a class="text-danger"  title="Masivo Capital" target="_blank" href="http://www.masivocapital.com/">www.masivocapital.com</a> | TIC | IDI | 2015</div>

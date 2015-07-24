@@ -17,7 +17,7 @@
                                           @if($errors -> has('vehi_id'))
                                                <p class="text-danger">{{$errors->first('vehi_id')}} </p>
                                             @endif
-                                       </div>
+                                       </div><br><br>
 
 
 
@@ -52,35 +52,7 @@
                                         </div>
                                     </div><br>
 
-                                    <div class="form-group-danger">
-                                          <div class="form-control-wrapper">
-                                              <p>Aprobación:</p>
-                                            @if($reg->reg_aprobacion == '1')
-                                             <div class="radio" >
-                                               <label>
-                                                 <input type="radio" name="reg_aprobacion"  value="TRUE" checked>
-                                                  Si
-                                               </label>
-                                               <label>
-                                                 <input type="radio" name="reg_aprobacion" value="FALSE" >
-                                                  No
-                                            </label>
-                                             </div>
-                                                 @else
-                                               <div class="radio" >
-                                                     <label>
-                                                       <input type="radio" name="reg_aprobacion"  value="TRUE" >
-                                                        Si
-                                                     </label>
-                                                     <label>
-                                                       <input type="radio" name="reg_aprobacion" value="FALSE" checked>
-                                                        No
-                                                  </label>
-                                                   </div>
-                                             @endif
 
-                                          </div>
-                                      </div><br>
 
 
                                </div>

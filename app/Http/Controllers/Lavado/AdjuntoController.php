@@ -149,15 +149,15 @@ class AdjuntoController extends Controller {
 
         if($zmov == 0 and $e != 0 ){
             //dd($zmov,$e,$zmovil,$zmovs,'mismo y otro control');
-            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno(Serrucho!!!).');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno.');
             return redirect()->back();
         }elseif ($zmov == 0 and $e== 0){
             //dd($zmov,$e,$zmovil,$zmovs,'mismo  control');
-            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
             return redirect()->back();
         }elseif($zmov != 0 and $e != 0){
             //dd($zmov,$e,$zmovil,$zmovs,'otro control');
-            Session::flash('message', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
 
             return redirect()->back();
         }elseif($zmov != 0 and $e== 0){
@@ -165,17 +165,23 @@ class AdjuntoController extends Controller {
             //dd($request->all());
             $array_bd = ($request->acciones_bd);
             $array_true = ($request->acciones);
+
             if (empty($array_true)) {
-                Session::flash('message', 'Las listas de Revisión Externa y/o Interna no pueden estar vacias.');
+                Session::flash('message2', 'Las listas de Revisión Externa y/o Interna no pueden estar vacias.');
                 return redirect()->back();
             } else {
                 $array_false = array_diff($array_bd, $array_true);
-                //dd($array_false);
+                $uri = count($array_bd);
+                if(count ($array_true)== $uri){
+                    $aprobacion = 'TRUE';
+                }else{
+                    $aprobacion = 'FALSE';
+                }
                 $registro = sw_registro_lavado::find($idreg);
                 $registro->fill($request->all());
                 //dd($registro);
                 $registro->reg_veh_id = $vehiupdate;
-                $registro->reg_aprobacion = $request->reg_aprobacion;
+                $registro->reg_aprobacion = $aprobacion;
                 $registro->reg_observacion = $request->reg_observacion;
                 $registro->reg_creado_en = new DateTime();
                 $registro->reg_creado_por = Auth::user()->usr_name;
@@ -232,7 +238,7 @@ class AdjuntoController extends Controller {
                 $valid_files_r1 = count($valid_files_r);
 
                 if ($valid_files_r1 != 0){
-                    Session::flash('message', 'Ya se encuentra un archivo con el mismo nombre en este registro. ');
+                    Session::flash('message2', 'Ya se encuentra un archivo con el mismo nombre en este registro. ');
                     return redirect()->back();
                 }else{
 
@@ -246,7 +252,7 @@ class AdjuntoController extends Controller {
 
 
 
-                        $ruta1 = 'D:\adjuntos_swcapital\ ';
+                        $ruta1 = 'Z:\adjuntos_swcapital\lavado\ ';
                         $rutareg = '\ ';
                         $rutareg = rtrim($rutareg);
                         $ruta11 = rtrim($ruta1).$idreg.$rutareg;
@@ -269,7 +275,7 @@ class AdjuntoController extends Controller {
 
 
                     foreach ($array_nombre as $datos){
-                        $ruta1 = 'D:\adjuntos_swcapital\ ';
+                        $ruta1 = 'Z:\adjuntos_swcapital\lavado\ ';
                         $rutareg = '\ ';
                         $rutareg = rtrim($rutareg);
                         $ruta11 = rtrim($ruta1).$idreg.$rutareg;
