@@ -89,11 +89,12 @@
                                                     <h5 class="modal-title text-center text-primary">Los documentos seleccionados no se aprobaran.</h5></br>
                                                                <div class='col-sm-7 col-sm-offset-3'>
                                                                     <label for="comment">Enviar a:</label>
-                                                                    <div class="form-group-danger">
+                                                                    <div class="form-control-wrapper">
 
                                                                        <label class="radio-inline "><input type="radio" name="optradio" value="1" CHECKED>RADICACIÓN</label>
                                                                        <label class="radio-inline "><input type="radio" name="optradio" value="2">ABASTECIMIENTO</label>
                                                                     </div>
+
                                                                </div>
 
 

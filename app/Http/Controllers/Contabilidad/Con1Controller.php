@@ -107,7 +107,7 @@ class Con1Controller extends Controller {
              WHERE htc_fac_id = ' . $r);
 
             }
-            Session::flash('message3', 'Se ha aprobado la(s) factura(s)');
+            Session::flash('message', 'Se ha aprobado la(s) factura(s)');
             return redirect()->route('contabilidad.revision.index');
         }elseif($e == 2){
             if ($f == 1){
@@ -123,7 +123,7 @@ class Con1Controller extends Controller {
              WHERE htc_fac_id = ' . $r);
 
                  }
-                Session::flash('message', 'No se ha aprobado la(s) factura(s). Se han enviado a RADICACIÓN');
+                Session::flash('message3', 'No se ha aprobado la(s) factura(s). Se han enviado a RADICACIÓN');
                 return redirect()->route('contabilidad.revision.index');
             }elseif($f == 2){
                 $g = $request->observaciones.' (NO APROBADO REVISION->ABASTECIMIENTO)';
@@ -138,7 +138,7 @@ class Con1Controller extends Controller {
              WHERE htc_fac_id = ' . $r);
 
                 }
-                Session::flash('message', 'No se ha aprobado la(s) factura(s). Se han enviado a ABASTECIMIENTO');
+                Session::flash('message3', 'No se ha aprobado la(s) factura(s). Se han enviado a ABASTECIMIENTO');
                 return redirect()->route('contabilidad.revision.index');
             }
 

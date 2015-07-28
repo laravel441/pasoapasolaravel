@@ -11,16 +11,16 @@
 
                     </div>
                      <div class="form-group">
-                          @if(Session::has('message'))
-                             <p class="alert alert-primary" text-center>{{Session::get('message')}} </p>
-                             @endif
-                             @if(Session::has('message2'))
-                             <p class="alert alert-info" text-center>{{Session::get('message2')}} </p>
-                              @endif
-                             @if(Session::has('message3'))
-                             <p class="alert alert-danger" text-center>{{Session::get('message3')}} </p>
-                              @endif
-                      </div>
+                         @if(Session::has('message'))
+                         <p class="alert alert-danger" text-center>{{Session::get('message')}}</p>
+                         @endif
+                         @if(Session::has('message2'))
+                          <p class="alert alert-info" text-center>{{Session::get('message2')}}</p>
+                          @endif
+                          @if(Session::has('message3'))
+                            <p class="alert alert-primary" text-center>{{Session::get('message3')}}</p>
+                            @endif
+                     </div>
 
 				<div class="panel-body">
 
@@ -35,9 +35,46 @@
 
                                                                         {{--</button>--}}
                                                                         {{--</div>--}}
-                                 @include('contabilidad.revision.partials.table')
 
+                                    <title>WebRTC WebCam</title>
+                                    <link rel="stylesheet" href="webcam.css"/>
+                                    <script src="webcam.js"></script>
 
+                                  <video id="player" autoplay="true"></video>
+<style>
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#player {
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+<script>
+(function(){
+  var mediaOptions = { audio: false, video: true };
+
+  if (!navigator.getUserMedia) {
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  }
+
+  if (!navigator.getUserMedia){
+    return alert('getUserMedia not supported in this browser.');
+  }
+
+  navigator.getUserMedia(mediaOptions, success, function(e) {
+    console.log(e);
+  });
+
+  function success(stream){
+    var video = document.querySelector("#player");
+    video.src = window.URL.createObjectURL(stream);
+  }
+})();
+</script>
 
 
 				</div>

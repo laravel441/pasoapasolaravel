@@ -11,10 +11,16 @@
 
                     </div>
                      <div class="form-group">
-                         @if(Session::has('message'))
-                         <p class="alert alert-info" text-center>{{Session::get('message')}}</p>
-                         @endif
-                     </div>
+                          @if(Session::has('message'))
+                             <p class="alert alert-primary" text-center>{{Session::get('message')}} </p>
+                             @endif
+                             @if(Session::has('message2'))
+                             <p class="alert alert-info" text-center>{{Session::get('message2')}} </p>
+                              @endif
+                             @if(Session::has('message3'))
+                             <p class="alert alert-danger" text-center>{{Session::get('message3')}} </p>
+                              @endif
+                      </div>
 
 				<div class="panel-body">
 

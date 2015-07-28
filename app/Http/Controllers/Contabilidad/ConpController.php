@@ -44,7 +44,15 @@ class ConpController extends Controller {
 	 */
 	public function index()
 	{
-		//
+        $id =Auth::user()->usr_id;
+        $d = 3;
+        $menus = \DB::select('
+                            select * from
+                            fn_get_modules(?)',array($id));
+
+
+        //dd($facs);
+        return view('contabilidad.pruebas.index',compact('menus'));
 	}
 
 	/**

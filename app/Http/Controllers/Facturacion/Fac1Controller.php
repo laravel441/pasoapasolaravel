@@ -115,7 +115,7 @@ class Fac1Controller extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
+        //dd($request->all());
         $identi = $request->num_identi;
         $idprovee = \DB::select('select pvd_an8 from sw_proveedor where pvd_nombre LIKE '."'".$identi."'");
         $idprove = $idprovee[0]->pvd_an8;

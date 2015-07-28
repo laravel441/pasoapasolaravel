@@ -249,7 +249,7 @@ class Fac2Controller extends Controller {
            //dd($d);
         if (is_null($d)){
             //dd($request->all(),':(');
-            Session::flash('message', 'Debes seleccionar la(s) factura(s) para enviar' );
+            Session::flash('message2', 'Debes seleccionar la(s) factura(s) para enviar' );
             return redirect()->back();
 
         }
