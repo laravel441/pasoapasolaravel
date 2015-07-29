@@ -226,11 +226,21 @@ class LavadoController extends Controller {
 	public function update(Request $request)
     {
         //dd($request->all());
+
+        $veh_name = strtoupper(trim($request->vehi_name));
+
+        $veh_id= \DB::select('select veh_id from sw_vehiculo where veh_movil = \'' . $veh_name . '\'');
+
+        if (empty($veh_id)){
+            Session::flash('message3', 'El Movil '. $veh_name .' no existe o no se encuentra en nuestros registros.');
+            return redirect()->back();
+        }
+        //dd($request->all(),$veh_name,);
         //$nombre=$request->archivos;
         $id = $request->reg_ctl_id;
         $ctlactual[] = $request->reg_ctl_id;
-        $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
-        $vehmov= $vehmovil[0];
+        //$vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
+        $vehmov= $veh_name;
 
         $ctl = sw_ctl_lavado::find($id);
         //dd($ctl);
@@ -264,7 +274,7 @@ class LavadoController extends Controller {
         $e= 0;
         $f = 0;
         foreach($ctlsturnos as $ctlsturno) {
-            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$request->vehi_id);
+            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$veh_id[0]->veh_id);
             if (empty ($x)){
                 $f = $f+1;
             }else {
@@ -334,7 +344,7 @@ class LavadoController extends Controller {
 
                 $registro = new sw_registro_lavado();
                 $registro->fill($request->all());
-                $registro->reg_veh_id = $request->vehi_id;
+                $registro->reg_veh_id = $veh_id[0]->veh_id;
                 $registro->reg_aprobacion = $aprobacion;
                 $registro->reg_observacion = $request->reg_observacion;
                 $registro->reg_creado_en = new DateTime();

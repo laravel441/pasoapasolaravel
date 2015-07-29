@@ -4,18 +4,13 @@
 
 
 
-                               <div class="form-control-wrapper col-md-3 col-md-offset-0">
-                                       <div class="form-group-danger">
-                                               <select class="form-control combobox" name="vehi_id" required>
-                                                   <option value="" disabled selected >Sel. Movil</option>
-                                                    <?php foreach ($vehiculos as $key => $vehiculo): ?>
-                                                      <option value="{{ $vehiculo->veh_id }}">{{ $vehiculo->veh_movil }}</option>
-                                                    <?php endforeach ?>
-                                               </select>
-                                          @if($errors -> has('vehi_id'))
-                                               <p class="text-danger">{{$errors->first('vehi_id')}} </p>
-                                            @endif
-                                       </div></br></br></br>
+
+                           <div class=" col-md-3 col-md-offset-0">
+                                <div class="form-group-danger">
+                                      <input type="text" name="vehi_name" class="form-control floating-label" placeholder="Digite el Movil" required="required" style="text-transform: uppercase" >
+
+                            </div></br></br>
+
 
 
                                  <div class="form-group-danger">
@@ -37,6 +32,7 @@
 
 
 
+                               </div>
                                </div>
 
 

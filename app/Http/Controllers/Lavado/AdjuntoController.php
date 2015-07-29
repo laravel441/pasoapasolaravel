@@ -97,10 +97,19 @@ class AdjuntoController extends Controller {
         //$v = 100004; //Id vehiculo quemado
         //dd($ctlsturnos,$ctlsturnosa);
 
+        $veh_name = strtoupper(trim($request->vehi_name));
+
+        $veh_id= \DB::select('select veh_id from sw_vehiculo where veh_movil = \'' . $veh_name . '\'');
+
+        if (empty($veh_id)){
+            Session::flash('message3', 'El Movil '. $veh_name .' no existe o no se encuentra en nuestros registros.');
+            return redirect()->back();
+        }
+
         $e= 0;
         $f = 0;
         foreach($ctlsturnos as $ctlsturno) {
-            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$request->vehi_id);
+            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$veh_id[0]->veh_id);
             if (empty ($x)){
                 $f = $f+1;
             }else {
@@ -108,10 +117,12 @@ class AdjuntoController extends Controller {
             }
         }
 
-        if ($request->vehi_id != $request->vehi_id_original){
-            $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$request->vehi_id);
+
+
+        if ($veh_id[0]->veh_id != $request->vehi_id_original){
+            $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$veh_id[0]->veh_id);
             $vehmov= $vehmovil[0];
-            $zmovil[] = $request->vehi_id;
+            $zmovil[] = $veh_id[0]->veh_id;
             $zmoviles = \DB::select('
                             select * from
                             fn_registro(?)', array($id));
@@ -121,7 +132,7 @@ class AdjuntoController extends Controller {
             $zmovs = array_diff($zmovil,$zmovils);//quital
             //$zmovs = array_intersect($zmovils, $zmovil);
             $zmov =array_sum($zmovs);
-            $vehiupdate = $request->vehi_id;
+            $vehiupdate = $veh_id[0]->veh_id;
 
 
 
