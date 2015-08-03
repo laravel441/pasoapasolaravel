@@ -434,38 +434,44 @@ class LavadoController extends Controller {
 
                     if ($tmpFilePath != ""){
 
-                        $ruta2 = $_FILES['archivos']['name'][$i];
+                        //$ruta2 = $_FILES['archivos']['name'][$i];
+                        $temp = explode(".", $_FILES["archivos"]["name"][$i]);
 
-                        $ruta = $ruta11.$ruta2;
+                        $newfilename = round(microtime(true)) .$i. '.' . end($temp);
+                        $ruta = $ruta11.$newfilename;
+                        //dd($_FILES["archivos"]["tmp_name"],$ruta);
 
                         //dd($ruta);
-                        if(move_uploaded_file($tmpFilePath, $ruta)){
+                        if(move_uploaded_file($_FILES["archivos"]["tmp_name"][$i], $ruta)){
 
                         }
 
                     }
 
                 }
-
-                if($array_nombre[0]== null){
+                $tmpname = $_FILES["archivos"]['tmp_name'];
+                if($tmpname[0]== null){
 
                 }else {
 
 
-                    foreach ($array_nombre as $datos){
+                    for($i=0;$i<count($_FILES["archivos"]['name']);$i++){
                         $ruta1 = 'Z:\adjuntos_swcapital\lavado\ ';
                         $rutareg = '\ ';
                         $rutareg = rtrim($rutareg);
                         $ruta11 = rtrim($ruta1).$idreg.$rutareg;
-                        $route=$datos;
-                        $ruta = $ruta11.$route;
+                        $temp = explode(".", $_FILES["archivos"]["name"][$i]);
+
+
+                        $newfilename = round(microtime(true)) .$i. '.' . end($temp);
+                        $ruta = $ruta11.$newfilename;
 
 
                         $archivo=new sw_adjunto;
 
                         $archivo->adj_reg_id=$idreg;
                         $archivo->adj_ruta =$ruta;
-                        $archivo->adj_nombre=$datos;
+                        $archivo->adj_nombre=$newfilename;
                         $archivo->adj_creado_en= new DateTime();
                         $archivo->adj_creado_por =Auth::user()->usr_name;
                         $archivo->adj_modificado_en = new DateTime();
