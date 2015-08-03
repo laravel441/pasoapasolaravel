@@ -7,7 +7,7 @@
 
                            <div class=" col-md-3 col-md-offset-0">
                                 <div class="form-group-danger">
-                                      <input type="text" name="vehi_name" class="form-control floating-label" placeholder="Digite el Movil" required="required" style="text-transform: uppercase" >
+                                      <input type="text" name="vehi_name" class="form-control floating-label" placeholder="Digite el Movil" required="required" style="text-transform:uppercase">
 
                             </div></br></br>
 
@@ -87,7 +87,7 @@
                             <div class="form-control-wrapper">
                                 <div class="form-group">
                                       <label for="comment">Observaciones:</label>
-                                      <textarea class="form-control" rows="5" id="comment" name="reg_observacion"></textarea>
+                                      <textarea class="form-control" rows="3" id="comment" name="reg_observacion"></textarea>
                                     </div>
                             </div>
                            </div>

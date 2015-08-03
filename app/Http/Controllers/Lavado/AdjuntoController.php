@@ -101,10 +101,13 @@ class AdjuntoController extends Controller {
 
         $veh_id= \DB::select('select veh_id from sw_vehiculo where veh_movil = \'' . $veh_name . '\'');
 
+
+        //dd($veh_name,$veh_id);
         if (empty($veh_id)){
             Session::flash('message3', 'El Movil '. $veh_name .' no existe o no se encuentra en nuestros registros.');
             return redirect()->back();
         }
+
 
         $e= 0;
         $f = 0;
@@ -178,7 +181,7 @@ class AdjuntoController extends Controller {
             $array_true = ($request->acciones);
 
             if (empty($array_true)) {
-                Session::flash('message2', 'Las listas de Revisión Externa y/o Interna no pueden estar vacias.');
+                Session::flash('message2', 'Las listas de Revisi&oacute;n Externa y/o Interna no pueden estar vacias.');
                 return redirect()->back();
             } else {
                 $array_false = array_diff($array_bd, $array_true);
@@ -232,7 +235,10 @@ class AdjuntoController extends Controller {
 
 
 
-
+                if (empty($_FILES["archivos"]['name'][0])){
+                    Session::flash('message', 'Se ha editado el registro. ID: ' . $idreg);
+                    return redirect()->back();
+                }
 
                 $idreg=$registro->reg_id;
                 $files_exists= \DB::select('select * from sw_adjunto where adj_reg_id =' . $idreg);
@@ -248,10 +254,33 @@ class AdjuntoController extends Controller {
                 $valid_files_r = array_intersect($x,$files_new);
                 $valid_files_r1 = count($valid_files_r);
 
+                for($i=0;$i<count($_FILES["archivos"]['size']);$i++){
+                    $x = $_FILES["archivos"]['size'][$i];
+                    if ($x > 2000000 or $x == 0){
+                        Session::flash('message3', 'El archivo supera el tama&ntilde;o m&aacute;ximo de subida.');
+                        return redirect()->back();
+                    }
+                }
+
+
+                for($i=0;$i<count($_FILES["archivos"]['type']);$i++){
+                    $y = $_FILES["archivos"]['type'][$i];
+                    if ($y == "image/gif" || $y == "image/jpeg" || $y == "image/jpg"){
+
+                    }else{
+                        Session::flash('message3', 'El archivo que quiere adjuntar no es un formato de imagen.');
+                        return redirect()->back();
+                    }
+
+                }
+
+
                 if ($valid_files_r1 != 0){
                     Session::flash('message2', 'Ya se encuentra un archivo con el mismo nombre en este registro. ');
                     return redirect()->back();
                 }else{
+
+
 
                 $array_nombre=$_FILES["archivos"]['name'];
                 for($i=0;$i<count($_FILES["archivos"]['name']);$i++){

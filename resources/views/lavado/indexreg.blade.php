@@ -23,8 +23,6 @@
 
 
 
-
-
                                 {{--<div class="col-md-6 col-md-offset-0 form-group-danger">--}}
                                       {{--{!! Form::text('registro',null,['class'=>'form-control floating-label','placeholder'=>'Buscar movil '])!!}--}}
                                   {{--</div>--}}
@@ -45,21 +43,19 @@
 
 
                                    <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
-                                        <div class="form-control-wrapper col-md-10 col-md-offset-1">
-                                                 <div class="form-group-danger">
-                                                  <div class="form-control-wrapper">
-                                                      <div class="form-group">
+                                        <div class="form-control-wrapper form-group-danger col-md-10 col-md-offset-1">
+
 
                                                  <label  for="comment">Observaciones del Control:</label>
-                                                      <textarea class="form-control text-justify" rows="8" id="comment" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
+                                                      <textarea class="form-control text-justify" rows="2" id="comment" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
+
                                                              <button type="submit"
-                                                                class=" btn btn-info btn-xs glyphicon glyphicon-lock">
+                                                                class=" btn btn-info btn-sm glyphicon glyphicon-lock">
                                                                 Guardar Observación
                                                                 </button>
-                                                          </div>
-                                                  </div>
+
+
                                                  </div>
-                                        </div>
 
 
 
@@ -88,7 +84,7 @@
                            <div class="form-group">
                                        <div class="col-md-0 col-md-offset-1">
                                               <label  for="comment">Observaciones del Control:</label>
-                                              <textarea class="form-control text-info text-justify"  rows=8" id="comment" disabled="disabled" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
+                                              <textarea class="form-control text-info text-justify"  rows=2" id="comment" disabled="disabled" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
 
                                        </div>
                              </div>

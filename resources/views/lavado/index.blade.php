@@ -50,10 +50,11 @@
 
 
 
-                            @include('lavado.partials.table')
+@include('lavado.partials.table')
 
+<div>
                        {!! $ctls->appends(Request::only(['control']))->render() !!}
-
+</div>
 
                 </div>
             </div>

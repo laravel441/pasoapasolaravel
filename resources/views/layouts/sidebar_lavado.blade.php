@@ -8,7 +8,7 @@
             @include('includes.header_lavado')
         </header>
 
-        <div id="wrapper" >
+        <div id="wrapper" class="toggled">
 
             <!-- sidebar content -->
             <div id="sidebar-wrapper">

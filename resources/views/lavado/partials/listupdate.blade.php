@@ -141,7 +141,7 @@
                             <div class="form-control-wrapper">
 
                                       <label  for="comment">Observaciones:</label>
-                                      <textarea class="form-control " rows="8" id="comment" name="reg_observacion" value="{{$reg->reg_observacion}}">{{$reg->reg_observacion}}</textarea>
+                                      <textarea class="form-control " rows="3" id="comment" name="reg_observacion" value="{{$reg->reg_observacion}}">{{$reg->reg_observacion}}</textarea>
 
                             </div>
                            </div>

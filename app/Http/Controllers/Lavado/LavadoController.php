@@ -231,10 +231,12 @@ class LavadoController extends Controller {
 
         $veh_id= \DB::select('select veh_id from sw_vehiculo where veh_movil = \'' . $veh_name . '\'');
 
+
         if (empty($veh_id)){
             Session::flash('message3', 'El Movil '. $veh_name .' no existe o no se encuentra en nuestros registros.');
             return redirect()->back();
         }
+
         //dd($request->all(),$veh_name,);
         //$nombre=$request->archivos;
         $id = $request->reg_ctl_id;
@@ -274,7 +276,7 @@ class LavadoController extends Controller {
         $e= 0;
         $f = 0;
         foreach($ctlsturnos as $ctlsturno) {
-            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id =' . $ctlsturno.'AND reg_veh_id ='.$veh_id[0]->veh_id);
+            $x = \DB::select('select reg_veh_id from sw_registro_lavado where reg_ctl_id = ' . $ctlsturno.' AND reg_veh_id = '.$veh_id[0]->veh_id);
             if (empty ($x)){
                 $f = $f+1;
             }else {
@@ -282,7 +284,7 @@ class LavadoController extends Controller {
             }
         }
 
-        $zmovil[] = $request->vehi_id;
+        $zmovil[] = $veh_id[0]->veh_id;
         $zmoviles = \DB::select('
                             select * from
                             fn_registro(?)', array($id));
@@ -308,22 +310,46 @@ class LavadoController extends Controller {
 
         if($zmov != 0 and $e != 0 ){
 
-            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' se encuentra registrado en este control y en otro en el mismo turno.');
+            Session::flash('message3', 'El Movil '. $vehmov .' se encuentra registrado en este control y en otro en el mismo turno.');
             return redirect()->back();
         }elseif ($zmov!= 0 and $e==0){
 
-            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en el control.');
+            Session::flash('message3', 'El Movil '. $vehmov .' ya se encuentra registrado en el control.');
             return redirect()->back();
         }elseif($zmov == '0'  and $e != 0){
 
-            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
+            Session::flash('message3', 'El Movil '. $vehmov .' ya se encuentra registrado en otro control en el mismo turno.');
 
             return redirect()->back();
         }elseif($zmov == '0' and $e=='0'){//validar ingreso registro....
 
+            if ($_FILES["archivos"]['name'][0] != ""){
+                for($i=0;$i<count($_FILES["archivos"]['size']);$i++){
+                    $x = $_FILES["archivos"]['size'][$i];
+                    if ($x > 2000000 or $x == 0){
+                        Session::flash('message3', 'El archivo supera el tama&ntilde;o m&aacute;ximo de subida.');
+                        return redirect()->back();
+                    }
+                }
+
+                for($i=0;$i<count($_FILES["archivos"]['type']);$i++){
+                    $y = $_FILES["archivos"]['type'][$i];
+                    if ($y == "image/gif" || $y == "image/jpeg" || $y == "image/jpg"){
+
+                    }else{
+                        Session::flash('message3', 'El archivo que quiere adjuntar no es un formato de imagen.');
+                        return redirect()->back();
+                    }
+                }
 
 
-        //if (empty($zmov)and $e=='0') {//Movil repetido en el control y en otros cntroles en el turno presente
+
+            }
+
+
+
+
+            //if (empty($zmov)and $e=='0') {//Movil repetido en el control y en otros cntroles en el turno presente
 
             $array_bd = ($request->acciones_bd);
             $array_true = ($request->acciones);
@@ -336,7 +362,7 @@ class LavadoController extends Controller {
 
             //dd($array_true);
             if (empty($array_true)) {//se debe seleccionar un elemento de la lista
-                Session::flash('message2', 'Para crear el Registro debe seleccionar un item de la Revisión Externa y/o Interna.');
+                Session::flash('message2', 'Para crear el Registro debe seleccionar un item de la Revisi&oacute;n Externa y/o Interna.');
                 return redirect()->back();
             } else {
                 $array_false = array_diff($array_bd, $array_true);
@@ -384,6 +410,10 @@ class LavadoController extends Controller {
                     $detalle->save();
                 }
 
+//                if (empty($_FILES["archivos"]['name'][0])){
+//                    Session::flash('message', 'Registro Exitoso.');
+//                    return redirect()->route('lavado.edit', compact('id'));
+//                }
                 $idreg=$registro->reg_id;
 
                 $array_nombre=$_FILES["archivos"]['name'];
@@ -393,12 +423,16 @@ class LavadoController extends Controller {
                 $ruta11 = rtrim($ruta1).$idreg.$rutareg;
                 mkdir($ruta11, 0777);
 
+
+           //dd(array_values($_FILES["archivos"]['size']));
+
+
                 for($i=0;$i<count($_FILES["archivos"]['name']);$i++){
+
                     $tmpFilePath = $_FILES["archivos"]['tmp_name'][$i];
 
+
                     if ($tmpFilePath != ""){
-
-
 
                         $ruta2 = $_FILES['archivos']['name'][$i];
 
@@ -423,7 +457,7 @@ class LavadoController extends Controller {
                         $rutareg = '\ ';
                         $rutareg = rtrim($rutareg);
                         $ruta11 = rtrim($ruta1).$idreg.$rutareg;
-                         $route=$datos;
+                        $route=$datos;
                         $ruta = $ruta11.$route;
 
 
@@ -458,20 +492,20 @@ class LavadoController extends Controller {
         }
 
 
-        }
+    }
 
     //}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 
 
 
