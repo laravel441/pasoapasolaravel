@@ -5,15 +5,19 @@
              $mod = '';
              $smod = '';
              $count = 0;
+              // dd($menus);
              while ( count($menus) > $count ) {
                     // Recorre los Proyectos
+
                     $menu = $menus[$count++];
+
                     if ($proy != $menu->mod_proyecto) {
-                           echo "<a href='#$menu->mod_proyecto' class='list-group-item list-group-item-success' data-toggle='collapse' data-parent='#sidebar-wrapper'>$menu->mod_proyecto</a>";
+                           echo "<a href='#".$menu->mod_proyecto."ó' class='list-group-item list-group-item-success' data-toggle='collapse' data-parent='#sidebar-wrapper'>$menu->mod_proyecto</a>";
                            $proy = $menu->mod_proyecto;
                     }
                     // Recorre los modulos.
-                    echo "<div class='collapse' id='$menu->mod_proyecto'>";
+                    echo "<div class='collapse' id='".$menu->mod_proyecto."ó'>";
+
                     if ($mod != $menu->mod_nombre) {
                             if ( $menu->mod_nombre!= $menu->smod_nombre) {
                                echo "<a href='#$menu->mod_nombre' class='list-group-item' data-toggle='collapse'>$menu->mod_nombre <i class='fa fa-caret-down'></i></a>";

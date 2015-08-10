@@ -27,6 +27,7 @@
 {!! Html::style('bower_components/jquery-ui/css/jquery-ui.structure.min.css') !!}
 <!-- Bootstrap Table-->
 {!! Html::style('bower_components/bootstrap-table/src/bootstrap-table.css') !!}
+{!! Html::style('bower_components/bootstrap-table/src/bootstrap-table-filter.css') !!}
 
 
 

@@ -56,6 +56,7 @@ Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Lavado'], functio
     resource('registro','RegistroController');
     resource('reporte','ReporteController');
     resource('adjunto','AdjuntoController');
+    resource('lav/admin','Lav1Controller');
 
 
 });
@@ -64,6 +65,7 @@ Route::group(['prefix'=>'facturacion','middleware'=>'auth','namespace'=>'Factura
 {
     resource('sticker','Fac1Controller');
     resource('radicacion','Fac2Controller');
+    resource('hfacturas','Fac3Controller');
 //    resource('control_radicacion','Fac2Controller');
 //    resource('revision','Fac3Controller');
     resource('pruebas','FacpController');

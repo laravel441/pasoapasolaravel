@@ -1,7 +1,7 @@
 {!!Form::model(Request::all(),['route'=>['facturacion.radicacion.update'], 'method'=> 'PUT'])!!}
-               <div class="form-group-danger">
-                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-search="true" >
-                   <thead>
+               <div class="form-group-danger" >
+                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-search="true" data-height="340">
+                   <thead >
                       <tr>
                             <th class="bs-checkbox" data-checkbox="true"> <input name="all_items" type="checkbox"></th>
                              <th data-field="id" data-visible="false" data-switchable="false" class="hidden">ID</th>

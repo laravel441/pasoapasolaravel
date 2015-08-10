@@ -33,11 +33,12 @@
              <div class="tab-content">
                <div id="home" class="tab-pane fade in active">
 
-                    {{--@include('facturacion.radicacion.partials.tab1')--}}
-                      {{--{!! $radicacion->appends(Request::only(['radicacion']))->render() !!}--}}
+                    @include('tesoreria.revision.partials.tab1')
+
               </div>
                <div id="menu1" class="tab-pane fade ">
-                    {{--@include('facturacion.radicacion.partials.tab2')--}}
+
+                    @include('tesoreria.revision.partials.tab2')
 
                </div>
 

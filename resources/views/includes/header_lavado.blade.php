@@ -70,7 +70,9 @@
     {!! Html::script('bower_components/datepicker/js/bootstrap-datepicker.min.js') !!}
     {!! Html::script('bower_components/datepicker/locales/bootstrap-datepicker.es.min.js') !!}
     <!-- Jquery-ui-->
+
     {!! Html::script('bower_components/bootstrap-table/src/bootstrap-table.js') !!}
+    {!! Html::script('bower_components/bootstrap-table/src/bootstrap-table-filter.js') !!}
 
 
     <!--{!! Html::script('bower_components/jquery-ui/js/jquery-ui.min.js') !!}-->

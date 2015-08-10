@@ -146,13 +146,23 @@ class Fac2Controller extends Controller {
         //dd($registro);
         $fac->save();
 /** Factura valor y asunto */
-        $id_htc = \DB::select('select htc_id from sw_historico_facturas where htc_fac_id ='.$id);
-        $idhtc = array_pop($id_htc);
-        $hfac= sw_historico_factura::find($idhtc->htc_id);
-        $hfac->htc_dtl_id=2;
-        $hfac->htc_modificado_en=new DateTime();
-        $hfac->htc_modificado_por=Auth::user()->usr_name;
-        $hfac->save();
+//        $id_htc = \DB::select('select htc_id from sw_historico_facturas where htc_fac_id ='.$id);
+//        $idhtc = array_pop($id_htc);
+//        $hfac= sw_historico_factura::find($idhtc->htc_id);
+//        $hfac->htc_dtl_id=2;
+//        $hfac->htc_modificado_en=new DateTime();
+//        $hfac->htc_modificado_por=Auth::user()->usr_name;
+//        $hfac->save();
+        $reg_hfactura = new sw_historico_factura();
+        $reg_hfactura->htc_fac_id=$id;
+        $reg_hfactura->htc_dtl_id=2;
+        $reg_hfactura->htc_descripcion=2;
+        $reg_hfactura->htc_creado_en= new DateTime();
+        $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
+        $reg_hfactura->htc_modificado_en= new DateTime();
+        $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
+        $reg_hfactura->save();
+
 
 
         $array_nombre=$_FILES["archivos"]['name'];

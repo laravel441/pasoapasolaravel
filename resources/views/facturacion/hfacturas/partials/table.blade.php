@@ -1,20 +1,31 @@
 
-{!!Form::model(Request::all(),['route'=>['contabilidad.revision.store'], 'method'=> 'POST'])!!}
                <div class="form-group-danger">
-                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-search="true" data-height="360">
+                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-search="true" data-height="360" data-show-columns="true" data-show-filter="true">
                    <thead>
                       <tr>
                             <th class="bs-checkbox" data-checkbox="true"> <input name="all_items" type="checkbox"></th>
                              <th data-field="id" data-visible="false" data-switchable="false" class="hidden">ID</th>
                             <th>ID</th>
-                            <th>Consecutivo</th>
-                            <th>Tipo</th>
-                            <th># de Documento</th>
-                            <th>Empresa</th>
-                            <th>Asunto</th>
-                            <th>Fecha de Recibido</th>
-                            <th>Fecha de Radicado</th>
+                            <th class="danger">Semana</th>
+                            <th data-visible="false">Fecha Radicado</th>
+                            <th data-visible="false">Compañia</th>
+                            <th data-visible="false">Radica</th>
+                            <th data-visible="false">Tipo</th>
+                            <th data-visible="false">Consecutivo Documento</th>
+                            <th data-visible="false">Asunto</th>
+                            <th data-visible="false">Fecha Documento</th>
+                            <th data-visible="false">Valor</th>
+                            <th data-visible="false">An8</th>
+                            <th data-visible="false">Empresa</th>
+                            <th data-visible="false">NIT</th>
+                            <th class="danger">Fecha Envio</th>
+                            <th class="danger">Fecha Revisión</th>
+                            <th class="danger">Envio Devolución</th>
+                            <th class="danger">Respuesta</th>
                             <th>Adjunto</th>
+                            <th>Consecutivo Orden de Pago</th>
+                            <th>Orden de Pago</th>
+                            <th>Documento Equivalente</th>
 
 
                       </tr>
@@ -28,17 +39,36 @@
                                 <td class="bs-checkbox" name="items[]" value="{{$fac->fac_id}}"><input data-index="0" data-select-item-name="items[]" type="checkbox"  ></td>
                                 <td>{{$fac->fac_id}}</td>
                                 <td>{{$fac->fac_id}}</td>
-                                <td>{{$fac->fac_consecutivo}}</td>
-                                <td>{{$fac->tip_nombre}}</td>
-                                <td>{{$fac->fac_num_documento}}</td>
-                                <td>{{$fac->comp_nombre}}</td>
-                                {{--@if($ctl->ctl_fecha_fin == '0001-01-01 00:00:00')--}}
-                                <td>{{$fac->fac_asunto}}</td>
-                                <td>{{$fac->fac_creado_en}}</td>
-                                {{--@else--}}
-                                <td>{{$fac->fac_fecha_rad}}</td>
-                                <td align="center"> <a  target="_blank" href="/facturas_adj/{{$fac->fac_consecutivo}}/{{$fac->arc_fac_nombre}}">
-                                    <i class="fa fa fa-paperclip fa-9x text-danger " title="Ver Adjunto"></i></a></td>
+                                <td>Semana</td>
+                                <td nowrap>{{$fac->fac_creado_en}}</td>
+                                <td nowrap>{{$fac->comp_nombre}}</td>
+                                <td nowrap>{{$fac->fac_modificado_por}}</td>
+                                <td nowrap>{{$fac->tip_nombre}}</td>
+                                <td nowrap>{{$fac->fac_num_documento}}</td>
+                                <td nowrap>{{$fac->fac_asunto}}</td>
+                                <td nowrap>{{$fac->fac_fecha_rad}}</td>
+                                <td nowrap>{{$fac->fac_valor}}</td>
+                                <td nowrap>{{$fac->fac_pvd_an8}}</td>
+                                <td nowrap>{{$fac->pvd_nombre}}</td>
+                                <td nowrap>{{$fac->pvd_identificacion}}</td>
+                                <td>Fecha Envio</td>
+                                <td>Fecha Revisión</td>
+                                <td>Envio Devolución</td>
+                                <td>Respuesta</td>
+                                 <td align="center"> <a  target="_blank" href="/facturas_adj/{{$fac->fac_consecutivo}}/{{$fac->arc_fac_nombre}}">
+                                                                    <i class="fa  fa-paperclip fa-9x text-danger " title="Ver Adjunto"></i></a></td>
+                                                                {{--@if($ctl->ctl_fecha_fin == '0001-01-01 00:00:00')--}}
+                                        <td>{{$fac->op_consecutivo}}</td>
+                                        <td align="center"> <a  target="_blank" href="/facturas_adj/{{$fac->fac_consecutivo}}/OP/{{$fac->op_nombre_adjunto}}">
+                                            <i  class="fa fa-paperclip fa-9x text-primary fa-align-center" title="Ver Adjunto"></i></a></td>
+                                        {{--@else--}}
+                                        @if(is_null($fac->doc_equi_id))
+                                         <td align="center"><i>No Aplica</i></td>
+
+                                         @else
+                                          <td align="center"> <a  target="_blank" href="/facturas_adj/{{$fac->fac_consecutivo}}/DE/{{$fac->doc_equi_nombre_archivo}}">
+                                                                             <i class="fa fa-file-pdf-o fa-9x text-danger " title="Ver Adjunto"></i></a></td>
+                                         @endif
 
                                 {{--@endif--}}
                             </tr>
@@ -120,5 +150,5 @@
 
       </div>
 
-{!!Form::close()!!}
+
 
