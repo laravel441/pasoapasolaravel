@@ -53,25 +53,33 @@ class Fac2Controller extends Controller {
 
         $d = 1; //Estado generado el sticker
         $f = 5; //Estado No aprobado contabilidad y enviado a radicación
+        $g = 't';
+
         $radicacion = sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
             ->join('sw_companias AS comp', 'comp.comp_id', '=', 'sw_facturas.fac_comp_id')
             ->join('sw_detalle_tipos AS dett', 'dett.tip_id', '=', 'sw_facturas.fac_tip_fac')
             ->join('sw_proveedor AS pvd', 'pvd.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
-            ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','pvd.pvd_nombre','htc.htc_dtl_id')
-            ->where ('htc.htc_dtl_id', $d)
-            ->Orwhere ('htc.htc_dtl_id', $f)
+            ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','pvd.pvd_nombre','htc.htc_dtl_id','htc.htc_bandera')
+            ->whereIn('htc.htc_dtl_id', array($d, $f))
+            ->where ('htc.htc_bandera', $g)
+
+
+
+
             ->orderBY('fac_id', 'DESC')
-            ->radicacion($request->get('radicacion'))
-            ->paginate();
+
+            ->get();
+            //dd($radicacion);
         $e = 2;
 
-        //dd($radicacion);
+
 
         $envio = sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
             ->join('sw_companias AS comp', 'comp.comp_id', '=', 'sw_facturas.fac_comp_id')
             ->join('sw_detalle_tipos AS dett', 'dett.tip_id', '=', 'sw_facturas.fac_tip_fac')
             ->join('sw_proveedor AS pvd', 'pvd.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
             ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','pvd.pvd_nombre')
+            ->where('htc.htc_bandera', $g)
             ->where ('htc.htc_dtl_id', $e)
             ->orderBY('fac_id', 'DESC')
             ->get();
@@ -83,7 +91,7 @@ class Fac2Controller extends Controller {
         //dd($envio,$envi,'si tiene');
 
 
-
+//dd($radicacion,$envio);
 
         $users_contabilidad = \DB::select('
                              SELECT DISTINCT 	usr.usr_id,
@@ -131,10 +139,18 @@ class Fac2Controller extends Controller {
 	public function store(Request $request)
 	{
         //dd($request->all());
-        //$array_nombre=$_FILES["archivos"]['name'];
-        //dd($array_nombre);
+
         $con = $request->con;
         $id=$request->a;
+
+        $y= \DB::select('
+             SELECT htc_id
+             FROM sw_historico_facturas
+             WHERE   htc_fac_id = '.$id.'
+             AND  htc_dtl_id = 5
+             AND htc_bandera = \'' .'TRUE'. '\'');
+
+
         $fac= sw_factura::find($id);
         $fac->fac_pvd_an8=$request->provee;
         $fac->fac_valor=$request->valor_fac;
@@ -145,25 +161,60 @@ class Fac2Controller extends Controller {
         $fac->fac_modificado_por =Auth::user()->usr_name;
         //dd($registro);
         $fac->save();
-/** Factura valor y asunto */
-//        $id_htc = \DB::select('select htc_id from sw_historico_facturas where htc_fac_id ='.$id);
-//        $idhtc = array_pop($id_htc);
-//        $hfac= sw_historico_factura::find($idhtc->htc_id);
-//        $hfac->htc_dtl_id=2;
-//        $hfac->htc_modificado_en=new DateTime();
-//        $hfac->htc_modificado_por=Auth::user()->usr_name;
-//        $hfac->save();
-        $reg_hfactura = new sw_historico_factura();
-        $reg_hfactura->htc_fac_id=$id;
-        $reg_hfactura->htc_dtl_id=2;
-        $reg_hfactura->htc_descripcion=2;
-        $reg_hfactura->htc_creado_en= new DateTime();
-        $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
-        $reg_hfactura->htc_modificado_en= new DateTime();
-        $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
-        $reg_hfactura->save();
+
+        if (count($y)== 1){
+            $a= \DB::statement('
+             UPDATE sw_historico_facturas
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
+             htc_modificado_en = CURRENT_TIMESTAMP
+             WHERE htc_fac_id = '.$id.'
+             AND  htc_dtl_id = 5 ');
+
+            $c= \DB::statement('
+             DELETE
+             FROM sw_archivos_facturas
+             WHERE arc_fac_id = '.$id);
+
+            $b= \DB::statement('
+             UPDATE sw_historico_facturas
+             SET htc_bandera =  \'' .'TRUE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
+             htc_modificado_en = CURRENT_TIMESTAMP
+             WHERE htc_fac_id = '.$id.'
+             AND  htc_dtl_id = 2 ');
+
+            $ruta1 = 'Z:\adjuntos_swcapital\facturas\ ';
+            $rutafac = '\ ';
+            $rutafac= rtrim($rutafac);
+            $ruta11 = rtrim($ruta1).$con.$rutafac;
+
+            $dir = strtr($ruta11, '/', '\\');
+            system('RMDIR /S /Q "'.$dir.'"');
 
 
+        }else{
+            $x= \DB::statement('
+             UPDATE sw_historico_facturas
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
+             htc_modificado_en = CURRENT_TIMESTAMP
+             WHERE htc_fac_id = '.$id.'
+             AND  htc_dtl_id = 1 ');
+
+
+            $reg_hfactura = new sw_historico_factura();
+            $reg_hfactura->htc_fac_id=$id;
+            $reg_hfactura->htc_dtl_id=2;
+            $reg_hfactura->htc_bandera='TRUE';
+            $reg_hfactura->htc_descripcion='DOCUMENTO RADICADO';
+            $reg_hfactura->htc_creado_en= new DateTime();
+            $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
+            $reg_hfactura->htc_modificado_en= new DateTime();
+            $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
+            $reg_hfactura->save();
+
+        }
 
         $array_nombre=$_FILES["archivos"]['name'];
         $ruta1 = 'Z:\adjuntos_swcapital\facturas\ ';
@@ -171,6 +222,7 @@ class Fac2Controller extends Controller {
         $rutafac= rtrim($rutafac);
         $ruta11 = rtrim($ruta1).$con.$rutafac;
         if (!file_exists($ruta11)) {
+
             mkdir($ruta11, 0777);
         }
 
@@ -249,7 +301,7 @@ class Fac2Controller extends Controller {
 	 */
 	public function update(Request $request)
 	{
-       // dd($request->all());
+       //dd($request->all());
 
         $d = $request->items;
         $e = $request->usr_asignado;
@@ -265,13 +317,51 @@ class Fac2Controller extends Controller {
         }
 
         foreach($d as $r){
-            $user = Auth::user()->usr_name;
+
+
+            $y= \DB::select('
+             SELECT htc_id
+             FROM sw_historico_facturas
+             WHERE   htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 3
+             AND htc_bandera = \'' .'FALSE'. '\'');
+
+            if (count($y)== 1){
+
+
+                $c= \DB::statement('
+             DELETE
+             FROM sw_historico_facturas
+             WHERE htc_fac_id = '.$r.'
+             AND htc_dtl_id = 3
+             AND htc_bandera = \'' .'FALSE'. '\'');
+
+                $cc= \DB::statement('
+             DELETE
+             FROM sw_asignacion_facturas
+             WHERE asg_fac_id = '.$r);
+
+            }
+
             $x= \DB::statement('
              UPDATE sw_historico_facturas
-             SET htc_dtl_id = 3,
-             htc_modificado_por =  \'' .$user. '\',
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
              htc_modificado_en = CURRENT_TIMESTAMP
-             WHERE htc_fac_id = '.$r);
+             WHERE htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 2 ');
+
+
+            $reg_hfactura = new sw_historico_factura();
+            $reg_hfactura->htc_fac_id=$r;
+            $reg_hfactura->htc_dtl_id=3;
+            $reg_hfactura->htc_bandera='TRUE';
+            $reg_hfactura->htc_descripcion='ASIGNADO USUARIO CONTABILIDAD';
+            $reg_hfactura->htc_creado_en= new DateTime();
+            $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
+            $reg_hfactura->htc_modificado_en= new DateTime();
+            $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
+            $reg_hfactura->save();
         }
 
         foreach($d as $f) {

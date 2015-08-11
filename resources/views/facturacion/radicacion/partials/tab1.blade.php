@@ -1,4 +1,4 @@
-
+<div class="table-responsive">
 
               <table class="table table-hover">
                     <thead>
@@ -177,3 +177,4 @@ function justNumbers(e)
         return /\d/.test(String.fromCharCode(keynum));
         }
 </script>
+</div>

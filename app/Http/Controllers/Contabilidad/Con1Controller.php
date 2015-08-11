@@ -47,6 +47,7 @@ class Con1Controller extends Controller {
 	{
         $id =Auth::user()->usr_id;
         $d = 3;
+        $g = 't';
         $menus = \DB::select('
                             select * from
                             fn_get_modules(?)',array($id));
@@ -57,10 +58,10 @@ class Con1Controller extends Controller {
             ->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
                 ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','arcf.arc_fac_nombre')
             ->where ('htc.htc_dtl_id', $d)
+            ->where ('htc.htc_bandera', $g)
             ->where('asf.asg_usr_asignado', $id)
             ->orderBY('fac_id', 'DESC')
-            ->factus($request->get('factus'))
-            ->paginate();
+            ->get();
 
         //dd($facs);
         return view('contabilidad.revision.index',compact('menus','facs'));
@@ -97,14 +98,25 @@ class Con1Controller extends Controller {
         if ($e == 1) {
 
             foreach ($d as $r) {
-                $user = Auth::user()->usr_name;
-                $x = \DB::statement('
+                $x= \DB::statement('
              UPDATE sw_historico_facturas
-             SET htc_dtl_id = 4,
-             htc_descripcion =  \'APROBADO CONTABILIDAD\',
-             htc_modificado_por =  \'' . $user . '\',
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
              htc_modificado_en = CURRENT_TIMESTAMP
-             WHERE htc_fac_id = ' . $r);
+             WHERE htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 3 ');
+
+
+                $reg_hfactura = new sw_historico_factura();
+                $reg_hfactura->htc_fac_id=$r;
+                $reg_hfactura->htc_dtl_id=4;
+                $reg_hfactura->htc_bandera='TRUE';
+                $reg_hfactura->htc_descripcion='APROBADO POR CONTABILIDAD';
+                $reg_hfactura->htc_creado_en= new DateTime();
+                $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
+                $reg_hfactura->htc_modificado_en= new DateTime();
+                $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
+                $reg_hfactura->save();
 
             }
             Session::flash('message', 'Se ha aprobado la(s) factura(s)');
@@ -113,14 +125,25 @@ class Con1Controller extends Controller {
             if ($f == 1){
             $g = $request->observaciones.' (NO APROBADO REVISION->RADICACIÓN)';
             foreach ($d as $r) {
-                $user = Auth::user()->usr_name;
-                $x = \DB::statement('
+                $x= \DB::statement('
              UPDATE sw_historico_facturas
-             SET htc_dtl_id = 5,
-             htc_descripcion =  \'' . $g. '\',
-             htc_modificado_por =  \'' . $user . '\',
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
              htc_modificado_en = CURRENT_TIMESTAMP
-             WHERE htc_fac_id = ' . $r);
+             WHERE htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 3 ');
+
+
+                $reg_hfactura = new sw_historico_factura();
+                $reg_hfactura->htc_fac_id=$r;
+                $reg_hfactura->htc_dtl_id=5;
+                $reg_hfactura->htc_bandera='TRUE';
+                $reg_hfactura->htc_descripcion=$g;
+                $reg_hfactura->htc_creado_en= new DateTime();
+                $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
+                $reg_hfactura->htc_modificado_en= new DateTime();
+                $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
+                $reg_hfactura->save();
 
                  }
                 Session::flash('message3', 'No se ha aprobado la(s) factura(s). Se han enviado a RADICACIÓN');
@@ -128,14 +151,25 @@ class Con1Controller extends Controller {
             }elseif($f == 2){
                 $g = $request->observaciones.' (NO APROBADO REVISION->ABASTECIMIENTO)';
                 foreach ($d as $r) {
-                    $user = Auth::user()->usr_name;
-                    $x = \DB::statement('
+                    $x= \DB::statement('
              UPDATE sw_historico_facturas
-             SET htc_dtl_id = 6,
-             htc_descripcion =  \'' . $g. '\',
-             htc_modificado_por =  \'' . $user . '\',
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
              htc_modificado_en = CURRENT_TIMESTAMP
-             WHERE htc_fac_id = ' . $r);
+             WHERE htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 3 ');
+
+
+                    $reg_hfactura = new sw_historico_factura();
+                    $reg_hfactura->htc_fac_id=$r;
+                    $reg_hfactura->htc_dtl_id=6;
+                    $reg_hfactura->htc_bandera='TRUE';
+                    $reg_hfactura->htc_descripcion=$g;
+                    $reg_hfactura->htc_creado_en= new DateTime();
+                    $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
+                    $reg_hfactura->htc_modificado_en= new DateTime();
+                    $reg_hfactura->htc_modificado_por= Auth::user()->usr_name;
+                    $reg_hfactura->save();
 
                 }
                 Session::flash('message3', 'No se ha aprobado la(s) factura(s). Se han enviado a ABASTECIMIENTO');

@@ -61,7 +61,7 @@ class Fac3Controller extends Controller {
             ->select('sw_facturas.*', 'dett.tip_nombre', 'odp.op_consecutivo', 'odp.op_ruta_archivo_adjunto',
                 'odp.op_nombre_adjunto','pvd.pvd_nombre','pvd.pvd_identificacion', 'comp.comp_nombre', 'arcf.arc_fac_nombre',
                 'doce.doc_equi_id', 'doce.doc_equi_ruta_archivo_adj', 'doc_equi_nombre_archivo')
-            ->where('htc.htc_dtl_id', $pen)
+
             ->orderBY('fac_id', 'DESC')
             ->paginate();
 

@@ -175,6 +175,8 @@ class Fac1Controller extends Controller {
         $reg_hfactura = new sw_historico_factura();
         $reg_hfactura->htc_fac_id=$reg_factura->fac_id;
         $reg_hfactura->htc_dtl_id=1;
+        $reg_hfactura->htc_bandera='TRUE';
+        $reg_hfactura->htc_descripcion='STICKER GENERADO';
         $reg_hfactura->htc_creado_en= new DateTime();
         $reg_hfactura->htc_creado_por= Auth::user()->usr_name;
         $reg_hfactura->htc_modificado_en= new DateTime();
