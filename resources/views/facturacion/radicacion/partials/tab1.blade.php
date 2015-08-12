@@ -1,3 +1,12 @@
+
+<table class="table table-hover" style="height: 15px;width: 500px" align="center" >
+                    <thead class="center">
+                      <tr>
+                            <th class="danger"></th>
+                            <th><h4 class="text-center" style="margin-top: 3px;margin-bottom:3px ">Rechazado por Contabilidad</h4></th>
+                    </tr>
+                    </thead>
+                    </table>
 <div class="table-responsive">
 
               <table class="table table-hover">
