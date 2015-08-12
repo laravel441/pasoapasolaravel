@@ -1,7 +1,7 @@
 
 {!!Form::model(Request::all(),['route'=>['contabilidad.revision.store'], 'method'=> 'POST'])!!}
                <div class="table-responsive form-group-danger">
-                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-pagination="true" data-search="true" data-height="360">
+                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-pagination="true" data-search="true" data-height="340">
                    <thead>
                       <tr>
                             <th class="bs-checkbox" data-checkbox="true"> <input name="all_items" type="checkbox"></th>

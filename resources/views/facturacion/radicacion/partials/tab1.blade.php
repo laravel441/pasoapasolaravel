@@ -132,7 +132,7 @@
 
                                                                 <div class="form-group-danger">
                                                                    <div class="form-control-wrapper">
-                                                                           <input class="form-control"  name="valor_fac" type="text" onkeypress="return justNumbers(event);" value="" required >
+                                                                           <input class="form-control"  name="valor_fac" type="number" min="0" max="999999999" onkeypress="return justNumbers(event);" value="" required >
                                                                            <div class="floating-label">Valor de la Factura:</div>
                                                                            <span class="material-input"></span>
                                                                    </div>

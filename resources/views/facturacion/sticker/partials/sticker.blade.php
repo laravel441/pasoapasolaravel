@@ -38,7 +38,7 @@
                                      <div class="form-group-danger">
                                         <div class="col-md-2 col-md-offset-0">
                                             <div class="form-control-wrapper">
-                                                <input class="form-control"  name="num_doc" type="text" id="s3"   onkeypress="return justNumbers(event);" value="" required >
+                                                <input class="form-control"  name="num_doc" type="text" maxlength="20" id="s3"    required >
                                                 <div class="floating-label">Número de documento:</div>
                                                 <span class="material-input"></span>
                                             </div>

@@ -74,6 +74,7 @@ Route::group(['prefix'=>'facturacion','middleware'=>'auth','namespace'=>'Factura
 Route::group(['prefix'=>'contabilidad','middleware'=>'auth','namespace'=>'Contabilidad'], function()//ejecuta los middleware en orden LAVADO
 {
     resource('revision','Con1Controller');
+    resource('generadordoc','Con2Controller');
 //    resource('control_radicacion','Fac2Controller');
 //    resource('revision','Fac3Controller');
     resource('pruebas','ConpController');
