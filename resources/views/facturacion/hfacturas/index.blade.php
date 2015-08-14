@@ -5,7 +5,7 @@
 	<div class="row">
 		  <div class="col-md-12 col-md-offset-0">
 			<div class="panel panel-default">
-				 <div class="panel-heading"><h2 align="center">Revisión de facturas y/o cuentas de cobro
+				 <div class="panel-heading"><h2 align="center">Historico Facturas
                          </h2><h6 align="center"> {{ Auth::user()->usr_name }}
                            <?php $date = new DateTime();  echo date_format($date, 'd-m-Y (H:i)');?></h6>
 

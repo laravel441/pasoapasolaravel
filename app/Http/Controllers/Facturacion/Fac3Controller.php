@@ -45,28 +45,39 @@ class Fac3Controller extends Controller {
 	public function index()
 	{
         $id = Auth::user()->usr_id;
-        $pen = 9;
-        $rev = 10;
+        $k = 0;
+        $l = 12;
+        $g = 't';
         $menus = \DB::select('
                             select * from
                             fn_get_modules(?)', array($id));
-        $facs = sw_factura::join('sw_historico_facturas AS htc', 'sw_facturas.fac_id', '=', 'htc.htc_fac_id')
-            ->join('sw_companias AS comp', 'comp.comp_id', '=', 'sw_facturas.fac_comp_id')
-            ->join('sw_proveedor AS pvd', 'pvd.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
-            ->join('sw_detalle_tipos AS dett', 'dett.tip_id', '=', 'sw_facturas.fac_tip_fac')
-            ->join('sw_archivos_facturas AS arcf', 'arcf.arc_fac_id', '=', 'sw_facturas.fac_id')
-            ->leftjoin('sw_orden_pago AS odp', 'odp.op_fac_id', '=', 'sw_facturas.fac_id')
-            ->leftjoin('sw_documento_equivalente AS doce', 'doce.doc_equi_fac_id', '=', 'sw_facturas.fac_id')
-            //->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
-            ->select('sw_facturas.*', 'dett.tip_nombre', 'odp.op_consecutivo', 'odp.op_ruta_archivo_adjunto',
-                'odp.op_nombre_adjunto','pvd.pvd_nombre','pvd.pvd_identificacion', 'comp.comp_nombre', 'arcf.arc_fac_nombre',
-                'doce.doc_equi_id', 'doce.doc_equi_ruta_archivo_adj', 'doc_equi_nombre_archivo')
 
+        $facs=sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
+            ->join('sw_companias AS comp', 'comp.comp_id', '=', 'sw_facturas.fac_comp_id')
+            ->join('sw_detalle_tipos AS dett', 'dett.tip_id', '=', 'sw_facturas.fac_tip_fac')
+            ->leftjoin('sw_archivos_facturas AS arcf', 'arcf.arc_fac_id', '=', 'sw_facturas.fac_id')
+            ->join('sw_proveedor AS pves', 'pves.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
+            ->join('sw_detalle_estados as dete', 'dete.dtl_id', '=', 'htc.htc_dtl_id')
+            ->leftjoin('sw_documento_equivalente AS doce', 'doce.doc_equi_fac_id', '=', 'sw_facturas.fac_id')
+            ->leftjoin('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
+            ->select('sw_facturas.*', 'dett.tip_nombre', 'pves.pvd_nombre','pves.pvd_identificacion', 'comp.comp_nombre', 'arcf.arc_fac_nombre',
+                'doce.doc_equi_id', 'doce.doc_equi_ruta_archivo_adj', 'doc_equi_nombre_archivo','dete.dtl_nombre')
+            ->whereBetween ('htc.htc_dtl_id', array($k,$l))
+            ->where ('htc.htc_bandera', $g)
             ->orderBY('fac_id', 'DESC')
-            ->paginate();
+            ->get();
+
+        $cuenta5=sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
+            ->join('sw_orden_pago AS op','op.op_fac_id','=','sw_facturas.fac_id')
+            ->select('sw_facturas.fac_id','sw_facturas.fac_consecutivo','op.op_consecutivo','op.op_nombre_adjunto')
+            ->whereBetween ('htc.htc_dtl_id', array($k,$l))
+            ->where ('htc.htc_bandera', $g)
+            ->orderBY('fac_id', 'DESC')
+            ->get();
+
 
         //dd($facs);
-        return view('facturacion.hfacturas.index', compact('menus', 'facs'));
+        return view('facturacion.hfacturas.index', compact('menus', 'facs','cuenta5'));
 	}
 
 	/**
