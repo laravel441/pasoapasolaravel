@@ -22,16 +22,6 @@
                                         @endif
 
 
-
-                                {{--<div class="col-md-6 col-md-offset-0 form-group-danger">--}}
-                                      {{--{!! Form::text('registro',null,['class'=>'form-control floating-label','placeholder'=>'Buscar movil '])!!}--}}
-                                  {{--</div>--}}
-
-                                   {{--<button type="submit" class="btn btn-danger btn-sm">--}}
-                                        {{--<span class="glyphicon glyphicon-search "></span> Buscar--}}
-                                    {{--</button>--}}
-
-
                                 </div>
                                  {!! Form::model(Request::all(),['route' => 'registro.index', 'method' => 'GET', 'class'=>'', 'role' =>'search']) !!}
                                 @include('lavado.partials.checklistreg')
@@ -43,19 +33,30 @@
 
 
                                    <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
-                                        <div class="form-control-wrapper form-group-danger col-md-10 col-md-offset-1">
 
 
-                                                 <label  for="comment">Observaciones del Control:</label>
-                                                      <textarea class="form-control text-justify" rows="2" id="comment" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
 
-                                                             <button type="submit"
-                                                                class=" btn btn-info btn-sm glyphicon glyphicon-lock">
+
+                                                 <div class="form-group-danger">
+                                                                  <div class="col-md-7 col-md-offset-2">
+                                                                         <label  for="comment">Observaciones del Control:</label>
+                                                                        <textarea class="form-control text-justify" rows="2" id="comment" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
+
+                                                                  </div><br>
+                                                    </div><br><br><br>
+
+                                                      <div class="col-md-offset-2">
+                                                             <button type="submit" class=" btn btn-info btn-sm glyphicon glyphicon-lock">
                                                                 Guardar Observación
                                                                 </button>
+                                                                <div class="col-md-0 col-md-offset-4">
+                                                                          <button type="button" class="btn btn-danger btn-lg fa fa-lock fa-2x " data-toggle='modal' data-target='#Si' title="Cerrar Control"></button>
+                                                                 </div>
+                                                      </div>
 
 
-                                                 </div>
+
+
 
 
 
@@ -69,20 +70,40 @@
                             <input class="form-control text-info"  name="ctl_id" type="hidden" value="{{$id}}">
                             <input class="form-control text-info"  name="ctl_observacion" type="hidden" value="{{$ctls->ctl_observacion}}">
 
-                                            <div class="form-group">
-                                                        <div class="col-md-0 col-md-offset-5">
-                                                                <button type="submit"
-                                                                class=" btn btn-danger btn-sm glyphicon glyphicon-lock">
-                                                                Cerrar Control
-                                                                </button>
-                                                        </div>
-                                              </div>
+
+
+
+
+
+
+
+                                                                         <div class="modal fade" id="Si" role="dialog" style='top: 180px'>
+                                                                                   <div class="modal-dialog">
+                                                                                       <div class="modal-content">
+                                                                                                             <div class="modal-header well-material-grey-300">
+                                                                                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                                                   <h2 class="modal-title text-center">Cerrar Control</h2>
+                                                                                                              </div>
+                                                                                                  <div class="modal-body"></br>
+                                                                                                      <h5 class="modal-title text-center text-primary">El control {{$id}} se cerrara</h5>
+                                                                                                  </div>
+                                                                                                  <div class="modal-footer">
+                                                                                                      <div class="col-sm-8 col-sm-offset-0">
+                                                                                                            <button type="submit" name="submit" value="1" class="btn btn"><span class="text-primary fa fa-check-square-o fa-3x" title="Cerrar Control"></span></button>
+                                                                                                            <button type="button" class="btn btn" data-dismiss="modal"><span class="text-danger fa fa-times fa-3x" title="Cancelar"></span></button>
+                                                                                                      </div>
+                                                                                                  </div>
+                                                                                       </div>
+                                                                                   </div>
+                                                                         </div>
+
+
 
                                      {!!Form::close()!!}
 
                              @else
-                           <div class="form-group">
-                                       <div class="col-md-0 col-md-offset-1">
+                           <div class="form-group col-md-0   col-md-offset-1">
+                                       <div class="col-md-0 col-md-offset-2">
                                               <label  for="comment">Observaciones del Control:</label>
                                               <textarea class="form-control text-info text-justify"  rows=2" id="comment" disabled="disabled" name="ctl_observacion" value="{{$ctls->ctl_observacion}}">{{$ctls->ctl_observacion}}</textarea>
 
