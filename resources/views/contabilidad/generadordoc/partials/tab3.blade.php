@@ -1,44 +1,113 @@
 
-  		<div class="table-responsive">
-  				<table class="table table-hover table-striped table-condensed table-scrollable">
-                          <thead>
-                        	<tr >
-                           <th><input type="checkbox" name="enviar"value="false"></th>
-                           <th>ID</th>
-                           <th>Consecutivo<br></th>
-                           <th>Tipo<br></th>
-                           <th>Empresa<br></th>
-                           <th>Orden de Pago<br></th>
-                           <th>Consecutivo Orden de Pago<br></th>
-                           <th>Adjunto<br></th>
-                           <th>Documento Equivalente<br></th>
-                           <th>Envio<br></th>
-                       </tr>
-                       </thead>
-                        <?php foreach($cuenta3 as $cont){?>
-                    <tbody>
-                    <tr>
-                   		<td><input type="checkbox" name="enviar"value="false"></td>
-                   		<td><input type="hidden" name="id_fac" value="{{$cont->fac_id}}">{{$cont->fac_id}}</td>
-                   		<td><input type="hidden" name="cons" value="{{$cont->fac_consecutivo}}">{{ $cont->fac_consecutivo }}</td>
-                    	<td><input type="hidden" name="tipo" value="{{$cont->tip_nombre}}">{{ $cont->tip_nombre }}</td>
-                    	<td><input type="hidden" name="empresa" value="{{$cont->pvd_nombre}}">{{ $cont->pvd_nombre }}</td>
-                    	<?php
-                  			 if ($cont->op_op_id =="11")
-									$cont->op_op_id= "PD";
-							elseif($cont->op_op_id =="12")
-									$cont->op_op_id= "PZ";
-							if ($cont->op_op_id=="13")
-									$cont->op_op_id= "PV";
-						?>
+  		{!!Form::model(Request::all(),['route'=>['contabilidad.generadordoc.show'], 'method'=> 'GET'])!!}
+                       <div class="table-responsive form-group-danger">
+                             <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-pagination="true" data-search="true" data-height="340">
+                           <thead>
+                              <tr>
+                                    <th class="bs-checkbox" data-checkbox="true"> <input name="all_items" type="checkbox"></th>
+                                     <th data-field="id" data-visible="false" data-switchable="false" class="hidden">ID</th>
+                                    <th>ID</th>
+                                    <th>Consecutivo</th>
+                                    <th>Tipo</th>
+                                    <th>Empresa</th>
+                                    <th>Consecutivo Orden de Pago</th>
+                                    <th>Adjunto(s)(OP) </th>
+                                    <th>Adjunto (Documento Equivalente)</th>
+                                    <th>Adjunto (Radicado)</th>
 
-                    	<td><input type="hidden" value="{{$cont->op_op_id}}" name="op_id">{{$cont->op_op_id}}</td>
-                    	<td><input type="hidden" value="{{$cont->op_consecutivo}}" name="op_consecutivo">{{$cont->op_consecutivo}}</td>
-                    	<td><button type="button" class='btn btn-xs' value="" title="Adjunto"><span class='text-danger fa fa-paperclip fa-2x'></span></button></td>
-                    	<td><button type="button" class='btn btn-xs' value="" title="PDF Generado"><span class='text-danger fa fa-file-pdf-o fa-2x'></span></button></td>
-                    	<td><button type='submit' class='btn btn' title="Enviar"><span class='text-danger fa fa-check-circle fa-2x'></span></button></td>
-                   </tr>
-                    </tbody>
-                    <?php }?>
-                    </table>
-  				  </div>
+                              </tr>
+                            </thead>
+                               <tbody>
+
+                                @foreach ($cuenta3 as $fac)
+
+
+                                          <tr data-id="{{$fac->fac_id}}">
+
+                                         {{--@endif--}}
+                                        <td class="bs-checkbox" name="items[]" value="{{$fac->fac_id}}"><input data-index="0" data-select-item-name="items[]" type="checkbox"  ></td>
+                                        <td>{{$fac->fac_id}}</td>
+                                        <td>{{$fac->fac_id}}</td>
+                                        <td>{{$fac->fac_consecutivo}}</td>
+                                        <td>{{$fac->tip_nombre}}</td>
+                                        <td>{{$fac->pvd_nombre}}</td>
+                                        <td>
+                                        <?php $x=0;?>
+                                        @foreach($cuenta4 as $op)
+                                            @if($fac->fac_id == $op->fac_id and $x ==0)
+                                                  {{$op->op_consecutivo}}
+                                                  <?php $x=1;?>
+                                            @endif
+                                        @endforeach
+
+                                        </td>
+
+                                        <td align="center">
+                                             @foreach($cuenta4 as $ops)
+                                                 @if($fac->fac_id == $ops->fac_id)
+                                                    <a  target="_blank" href="/facturas_adj/{{$ops->fac_consecutivo}}/OP/{{$ops->op_nombre_adjunto}}">
+                                                     <i class="fa fa fa-file-text-o fa-9x text-danger " title="Ver Documento Equivalente"></i></a>
+                                                 @endif
+                                              @endforeach
+                                        </td>
+
+                                        @if(empty($fac->doc_equi_nombre_archivo))
+                                        <td><i class="text-primary">NA</i></td>
+                                        @else
+                                         <td align="center"> <a  target="_blank" href="/facturas_adj/{{$fac->fac_consecutivo}}/DE/{{$fac->doc_equi_nombre_archivo}}">
+                                                        <i class="fa fa fa-file-pdf-o fa-9x text-danger " title="Ver Documento Equivalente"></i></a></td>
+                                        @endif
+
+                                        <td align="center"> <a  target="_blank" href="/facturas_adj/{{$fac->fac_consecutivo}}/{{$fac->arc_fac_nombre}}">
+                                            <i class="fa fa fa-paperclip fa-9x text-danger " title="Ver Adjunto"></i></a></td>
+
+                                        {{--@endif--}}
+                                    </tr>
+                                        @endforeach
+                                        </tbody>
+                                  </table>
+                                          @if($envi == 1)
+                                          <div class='col-sm-offset-5'>
+                                         <button type="button" class="btn btn-danger btn-sm fa fa-envelope-o fa-2x " data-toggle='modal' data-target='#Si' title="Enviar Factura" disabled></button>
+                                         </div>
+                                         @else
+                                         <div class='col-sm-offset-5'>
+                                        <button type="button" class="btn btn-danger btn-sm fa fa-envelope-o fa-2x " data-toggle='modal' data-target='#Si' title="Enviar Factura"></button>
+                                         </div>
+
+
+
+                                         @endif
+
+                                        <div class="modal fade" id="Si" role="dialog" style='top: 180px'>
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                               <div class="modal-header well-material-grey-300">
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                         <h2 class="modal-title text-center">Enviar a Tesorería</h2>
+
+                                                               </div>
+                                                            <div class="modal-body"></br>
+                                                                <h5 class="modal-title text-center text-primary">Los documentos seleccionados se enviaran a Tesorería.</h5>
+
+
+                                                         </div>
+                                                            <div class="modal-footer">
+                                                                <div class="col-sm-8 col-sm-offset-0">
+                                                                      <button type="submit" name="submit" value="1" class="btn btn"><span class="text-primary fa fa-check-square-o fa-3x" title="Enviar"></span></button>
+                                                                      <button type="button" class="btn btn" data-dismiss="modal"><span class="text-danger fa fa-times fa-3x" title="Cancelar"></span></button>
+                                                                </div>
+                                                            </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+
+
+
+
+
+              </div>
+
+        {!!Form::close()!!}
+

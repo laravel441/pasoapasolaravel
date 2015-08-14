@@ -62,9 +62,14 @@ class Con1Controller extends Controller {
             ->where('asf.asg_usr_asignado', $id)
             ->orderBY('fac_id', 'DESC')
             ->get();
+        if (empty($facs[0])){
+            $envi = 1;
+            //dd($envio,$envi,'no tiene');
+        }else
+            $envi = 2;
 
         //dd($facs);
-        return view('contabilidad.revision.index',compact('menus','facs'));
+        return view('contabilidad.revision.index',compact('menus','facs','envi'));
 	}
 
 	/**

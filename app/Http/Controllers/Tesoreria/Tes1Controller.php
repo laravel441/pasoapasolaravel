@@ -47,43 +47,63 @@ class Tes1Controller extends Controller
     public function index()
     {
         $id = Auth::user()->usr_id;
-        $pen = 9;
-        $rev = 10;
+        $j = 10;//Estado Enviado a Tesoreria
+        $k = 11;// Estado Aprobado por tesorería
+        $l = 12;// Rechazado por tesorería
+
+        $g = 't';
         $menus = \DB::select('
                             select * from
                             fn_get_modules(?)', array($id));
-        $facs = sw_factura::join('sw_historico_facturas AS htc', 'sw_facturas.fac_id', '=', 'htc.htc_fac_id')
+        $pendientes=sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
             ->join('sw_companias AS comp', 'comp.comp_id', '=', 'sw_facturas.fac_comp_id')
-            ->join('sw_proveedor AS pvd', 'pvd.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
             ->join('sw_detalle_tipos AS dett', 'dett.tip_id', '=', 'sw_facturas.fac_tip_fac')
             ->join('sw_archivos_facturas AS arcf', 'arcf.arc_fac_id', '=', 'sw_facturas.fac_id')
-            ->leftjoin('sw_orden_pago AS odp', 'odp.op_fac_id', '=', 'sw_facturas.fac_id')
-            ->leftjoin('sw_documento_equivalente AS doce', 'doce.doc_equi_fac_id', '=', 'sw_facturas.fac_id')
-            //->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
-            ->select('sw_facturas.*', 'dett.tip_nombre', 'odp.op_consecutivo', 'odp.op_ruta_archivo_adjunto',
-                'odp.op_nombre_adjunto', 'pvd.pvd_nombre', 'comp.comp_nombre', 'arcf.arc_fac_nombre',
-                'doce.doc_equi_id', 'doce.doc_equi_ruta_archivo_adj', 'doc_equi_nombre_archivo')
-            ->where('htc.htc_dtl_id', $pen)
+            ->join('sw_proveedor AS pves', 'pves.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
+            ->leftjoin('sw_documento_equivalente AS de', 'de.doc_equi_fac_id', '=', 'sw_facturas.fac_id')
+            ->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
+            ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','arcf.arc_fac_nombre','pves.pvd_nombre','de.doc_equi_nombre_archivo')
+            ->where ('htc.htc_dtl_id', $j)
+            ->where ('htc.htc_bandera', $g)
             ->orderBY('fac_id', 'DESC')
-            ->paginate();
+            ->get();
+        if (empty($pendientes[0])){
+            $envi = 1;
+            //dd($envio,$envi,'no tiene');
+        }else
+            $envi = 2;
 
-        $facsi = sw_factura::join('sw_historico_facturas AS htc', 'sw_facturas.fac_id', '=', 'htc.htc_fac_id')
+        $cuenta4=sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
+            ->join('sw_orden_pago AS op','op.op_fac_id','=','sw_facturas.fac_id')
+            ->select('sw_facturas.fac_id','sw_facturas.fac_consecutivo','op.op_consecutivo','op.op_nombre_adjunto')
+            ->where ('htc.htc_dtl_id', $j)
+            ->where ('htc.htc_bandera', $g)
+            ->orderBY('fac_id', 'DESC')
+            ->get();
+
+        $revision=sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
             ->join('sw_companias AS comp', 'comp.comp_id', '=', 'sw_facturas.fac_comp_id')
-            ->join('sw_proveedor AS pvd', 'pvd.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
             ->join('sw_detalle_tipos AS dett', 'dett.tip_id', '=', 'sw_facturas.fac_tip_fac')
             ->join('sw_archivos_facturas AS arcf', 'arcf.arc_fac_id', '=', 'sw_facturas.fac_id')
-            ->leftjoin('sw_orden_pago AS odp', 'odp.op_fac_id', '=', 'sw_facturas.fac_id')
-            ->leftjoin('sw_documento_equivalente AS doce', 'doce.doc_equi_fac_id', '=', 'sw_facturas.fac_id')
-            //->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
-            ->select('sw_facturas.*', 'dett.tip_nombre', 'odp.op_consecutivo', 'odp.op_ruta_archivo_adjunto',
-                'odp.op_nombre_adjunto', 'pvd.pvd_nombre', 'comp.comp_nombre', 'arcf.arc_fac_nombre',
-                'doce.doc_equi_id', 'doce.doc_equi_ruta_archivo_adj', 'doc_equi_nombre_archivo')
-            ->where('htc.htc_dtl_id', $rev)
+            ->join('sw_proveedor AS pves', 'pves.pvd_an8', '=', 'sw_facturas.fac_pvd_an8')
+            ->leftjoin('sw_documento_equivalente AS de', 'de.doc_equi_fac_id', '=', 'sw_facturas.fac_id')
+            ->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
+            ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','arcf.arc_fac_nombre','pves.pvd_nombre','de.doc_equi_nombre_archivo','htc.htc_dtl_id')
+            ->wherein ('htc.htc_dtl_id', array($k,$l))
+            ->where ('htc.htc_bandera', $g)
             ->orderBY('fac_id', 'DESC')
-            ->paginate();
+            ->get();
 
-        //dd($facs);
-        return view('tesoreria.revision.index', compact('menus', 'facs','facsi'));
+         $cuenta5=sw_factura::join('sw_historico_facturas AS htc','sw_facturas.fac_id','=','htc.htc_fac_id')
+            ->join('sw_orden_pago AS op','op.op_fac_id','=','sw_facturas.fac_id')
+            ->select('sw_facturas.fac_id','sw_facturas.fac_consecutivo','op.op_consecutivo','op.op_nombre_adjunto')
+            ->wherein ('htc.htc_dtl_id', array($k,$l))
+            ->where ('htc.htc_bandera', $g)
+            ->orderBY('fac_id', 'DESC')
+            ->get();
+
+       // dd($revision);
+        return view('tesoreria.revision.index', compact('menus', 'cuenta4','pendientes','revision','cuenta5','envi'));
     }
 
     /**
@@ -110,40 +130,60 @@ class Tes1Controller extends Controller
 
 
         //dd($d);
-        if (is_null($d)) {
-            //dd($request->all(),':(');
-            Session::flash('message2', 'Debes seleccionar la(s) factura(s) para su respectiva aprobación o no.');
-            return redirect()->back();
-        }
+
         if ($e == 1) {
             $observ_apro = $request->observaciones_1;
             foreach ($d as $r) {
                 $user = Auth::user()->usr_name;
-                $x = \DB::statement('
+                $a= \DB::statement('
              UPDATE sw_historico_facturas
-             SET htc_dtl_id = 10,
-             htc_descripcion =  \'' . $observ_apro . '\',
-             htc_modificado_por =  \'' . $user . '\',
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
              htc_modificado_en = CURRENT_TIMESTAMP
-             WHERE htc_fac_id = ' . $r);
+             WHERE htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 10 ');
+
+                $historico= new sw_historico_factura();
+                $historico->htc_fac_id=$r;
+                $historico->htc_dtl_id= 11;
+                $historico->htc_bandera= 't';
+                $historico->htc_descripcion=$observ_apro.' (APROBADO POR TESORERÍA)';
+                $historico->htc_creado_en=new DateTime();
+                $historico->htc_creado_por=Auth::user()->usr_name;
+                $historico->htc_modificado_en=new DateTime();
+                $historico->htc_modificado_por=Auth::user()->usr_name;
+
+                $historico->save();
 
             }
-            Session::flash('message', 'Se ha aprobado la(s) factura(s)');
+            Session::flash('message', 'Se han aprobado la(s) factura(s)');
             return redirect()->route('tesoreria.revision.index');
         } elseif ($e == 2) {
             $g = $request->observaciones_2;
             foreach ($d as $r) {
                 $user = Auth::user()->usr_name;
-                $x = \DB::statement('
+                $a= \DB::statement('
              UPDATE sw_historico_facturas
-             SET htc_dtl_id = 11,
-             htc_descripcion =  \'' . $g . '\',
-             htc_modificado_por =  \'' . $user . '\',
+             SET htc_bandera =  \'' .'FALSE'. '\',
+             htc_modificado_por =  \'' . Auth::user()->usr_name . '\',
              htc_modificado_en = CURRENT_TIMESTAMP
-             WHERE htc_fac_id = ' . $r);
+             WHERE htc_fac_id = '.$r.'
+             AND  htc_dtl_id = 10 ');
+
+                $historico= new sw_historico_factura();
+                $historico->htc_fac_id=$r;
+                $historico->htc_dtl_id= 12;
+                $historico->htc_bandera= 't';
+                $historico->htc_descripcion=$g.' (RECHAZADO POR TESORERÍA)';
+                $historico->htc_creado_en=new DateTime();
+                $historico->htc_creado_por=Auth::user()->usr_name;
+                $historico->htc_modificado_en=new DateTime();
+                $historico->htc_modificado_por=Auth::user()->usr_name;
+
+                $historico->save();
 
             }
-            Session::flash('message3', 'No se ha aprobado la(s) factura(s)');
+            Session::flash('message3', 'No se han aprobado la(s) factura(s)');
             return redirect()->route('tesoreria.revision.index');
         }
 

@@ -31,26 +31,18 @@
              </ul>
 
              <div class="tab-content">
-               <div id="home" class="tab-pane fade in active">
+                       <div id="home" class="tab-pane fade in active">
+                           @include('contabilidad.generadordoc.partials.tab1')
+                       </div>
+                       <div id="menu1" class="tab-pane fade ">
+                          @include('contabilidad.generadordoc.partials.tab2')
+                       </div>
 
+                       <div id="menu2" class="tab-pane fade ">
 
-                                                       @include('contabilidad.generadordoc.partials.tab1')
+                                                       @include('contabilidad.generadordoc.partials.tab3')
 
-
-                      {{--{!! $radicacion->appends(Request::only(['radicacion']))->render() !!}--}}
-              </div>
-               <div id="menu1" class="tab-pane fade ">
-                    {!! Form::model(Request::all(),['route' => 'contabilidad.generadordoc.update', 'method' => 'PUT','enctype'=>'multipart/form-data']) !!}
-                                                          @include('contabilidad.generadordoc.partials.tab2')
-                                                       {!!Form::close()!!}
-
-               </div>
-
-               <div id="menu2" class="tab-pane fade ">
-                                   {!! Form::model(Request::all(),['route' => 'contabilidad.generadordoc.show', 'method' => 'GET'])!!}
-                                                                       @include('contabilidad.generadordoc.partials.tab3')
-                                                                       {!!Form::close()!!}
-              </div>
+                       </div>
 
              </div>
 

@@ -45,10 +45,23 @@
                                 @endforeach
                                 </tbody>
                           </table>
-                                  <div class='col-sm-offset-5'>
-                                            <button type="button" class="btn btn-primary btn-sm fa fa-check fa-2x " data-toggle='modal' data-target='#Si' title="Aprobar Factura (s)"></button>
-                                            <button type="button" class="btn btn-danger btn-sm fa fa-times fa-2x " data-toggle='modal' data-target='#No' title="No Aprobar Factura (s)" ></button>
-                                   </div>
+
+                           @if($envi == 1)
+                               <div class='col-sm-offset-5'>
+                              <button type="button" class="btn btn-primary btn-sm fa fa-check fa-2x " data-toggle='modal' data-target='#Si' title="Aprobar Factura (s)" disabled></button>
+                             <button type="button" class="btn btn-danger btn-sm fa fa-times fa-2x " data-toggle='modal' data-target='#No' title="No Aprobar Factura (s)" disabled></button>
+
+                              </div>
+                              @else
+                              <div class='col-sm-offset-5'>
+                            <button type="button" class="btn btn-primary btn-sm fa fa-check fa-2x " data-toggle='modal' data-target='#Si' title="Aprobar Factura (s)"></button>
+                           <button type="button" class="btn btn-danger btn-sm fa fa-times fa-2x " data-toggle='modal' data-target='#No' title="No Aprobar Factura (s)" ></button>
+                              </div>
+
+                              @endif
+
+
+
 
                                 <div class="modal fade" id="Si" role="dialog" style='top: 180px'>
                                      <div class="modal-dialog">

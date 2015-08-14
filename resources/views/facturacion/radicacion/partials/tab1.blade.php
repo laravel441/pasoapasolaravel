@@ -114,7 +114,12 @@
 
                                                                  <div class="form-group-danger">
                                                                         <div class="form-control-wrapper">
-                                                                                <input class="form-control text-danger"  name="num_doc" type="text" onkeypress="return justNumbers(event);" value="{{$fac->fac_num_documento}}" required="required">
+                                                                        @if($fac->fac_tip_fac ==3)
+                                                                                <input class="form-control text-primary"  name="num_doc" type="text"  value="{{$fac->fac_num_documento}}" disabled>
+                                                                                <input class="hidden" name="num_doc" value="{{$fac->fac_num_documento}}">
+                                                                        @else
+                                                                        <input class="form-control text-danger"  name="num_doc" type="text" onkeypress="return justNumbers(event);" value="{{$fac->fac_num_documento}}" required="required">
+                                                                        @endif
                                                                                 <div class="floating-label">Numero de Documento:</div>
                                                                                 <span class="material-input"></span>
                                                                         </div>
