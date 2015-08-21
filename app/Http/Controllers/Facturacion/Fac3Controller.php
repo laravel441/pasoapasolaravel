@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\PDF;
 use mPDF;
+use Carbon\Carbon;
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -77,6 +78,29 @@ class Fac3Controller extends Controller {
 
 
         //dd($facs);
+        //setlocale(LC_ALL,"esp");
+
+
+
+        //echo strftime("%A %d de %B del %Y");
+       // dd($mesin,$mes,$dia,$semana,$mesa);
+       // echo strftime($date, 'd/m/y');
+//        echo strftime("%A %d de %B del %Y");
+//        $date = new DateTime('2000-01-01');
+//        echo $date->format('Y-m-d H:i:s');
+
+
+
+
+//        $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+//        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+//
+//        echo $dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
+//        //Salida: Viernes 24 de Febrero del 2012
+//        echo strftime("%A %d de %B del %Y");
+
+
+#output: 5:45pm on Saturday 24th March 2012
         return view('facturacion.hfacturas.index', compact('menus', 'facs','cuenta5'));
 	}
 

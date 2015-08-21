@@ -104,10 +104,13 @@ class LavadoController extends Controller {
 	{
 		//dd($request->all());
 
-        if (empty($request->pto_id) or empty($request->prove_id)){
+        $re = is_numeric($request->pto_id) && is_numeric($request->prove_id);
+
+        if ($re == 0){
             Session::flash('message2', 'Debe Seleccionar un Patio y Proveedor');
             return redirect()->back();
         }
+
 
         $control = new sw_ctl_lavado();
         $control->fill($request->all());

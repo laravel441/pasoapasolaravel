@@ -1,13 +1,30 @@
 
-               <div class="form-group-danger">
-                     <table data-toggle="table" class="table table-hover" data-id-field="id" data-click-to-select="true" data-select-item-name="items[]" data-pagination="true" data-search="true" data-height="380" data-show-columns="true"  data-show-filter="true" data-show-export="true">
+               <div  class="form-group-danger">
+               <div id="filter-bar"> </div>
+                     <table data-toggle="table"
+                      class="table table-hover"
+                      id="idp" data-id-field="id"
+                      data-click-to-select="true"
+                      data-select-item-name="items[]"
+                      data-pagination="true"
+                      data-height="380"
+                      {{--data-show-toggle="true"--}}
+                      data-toolbar="#filter-bar"
+                      data-show-columns="true"
+                      data-show-filter="true"
+                      data-show-export="true"
+                      data-export-types="['excel']"
+                      {{--data-export-types="['json', 'xml', 'csv',  'sql', 'excel','pdf']"--}}
+                      data-search="true"
+                      >
                    <thead>
                       <tr>
                             <th class="bs-checkbox" data-checkbox="true"> <input name="all_items" type="checkbox"></th>
                              <th data-field="id" data-visible="false" data-switchable="false" class="hidden">ID</th>
                             <th>ID</th>
                             <th class="info" nowrap>Estado</th>
-                            <th class="">Semana</th>
+                            <th nowrap data-field="mes" data-sortable="true">Mes</th>
+                            <th nowrap data-sortable="true">Semana</th>
                             <th data-visible="false">Fecha Radicado</th>
                             <th data-visible="false">Compañia</th>
                             <th data-visible="false">Radica</th>
@@ -41,7 +58,70 @@
                                 <td>{{$fac->fac_id}}</td>
                                 <td>{{$fac->fac_id}}</td>
                                 <td nowrap>{{$fac->dtl_nombre}}</td>
-                                <td>Semana</td>
+                                <td nowrap>
+                                        <?php
+                                            $mes= date('m',strtotime($fac->fac_fecha_rad));
+                                                    switch ($mes) {
+                                                                case ($mes == 1):
+                                                                    echo 'ENERO';
+                                                                    break;
+                                                                case ($mes == 2):
+                                                                    echo 'FEBRERO';
+                                                                    break;
+                                                                case ($mes == 3):
+                                                                   echo 'MARZO';
+                                                                    break;
+                                                                case ($mes == 4):
+                                                                    echo 'ABRIL';
+                                                                    break;
+                                                                case ($mes == 5):
+                                                                    echo 'MAYO';
+                                                                    break;
+                                                                case ($mes == 6):
+                                                                    echo 'JUNIO';
+                                                                    break;
+                                                                case ($mes == 7):
+                                                                    echo 'JULIO';
+                                                                    break;
+                                                                case ($mes == 8):
+                                                                    echo 'AGOSTO';
+                                                                    break;
+                                                                case ($mes == 9):
+                                                                    echo 'SEPTIEMBRE';
+                                                                    break;
+                                                                case ($mes == 10):
+                                                                    echo 'OCTUBRE';
+                                                                    break;
+                                                                case ($mes == 11):
+                                                                    echo 'NOVIEMBRE';
+                                                                    break;
+                                                                case ($mes == 12):
+                                                                    echo 'DICIEMBRE';
+                                                                    break;
+                                                            }
+                                            ?>
+
+                                </td>
+                                  <td nowrap>
+                                    <?php
+                                         $dia = date  ('j',strtotime($fac->fac_fecha_rad));
+                                                switch ($dia) {
+                                                    case ($dia <= 7):
+                                                        echo 'Semana 1';
+                                                        break;
+                                                    case (  8 <= $dia  && $dia <= 14):
+                                                       echo 'Semana 2';
+                                                        break;
+                                                    case (15 <= $dia  && $dia <= 21):
+                                                        echo 'Semana 3';
+                                                        break;
+                                                    case (22 <= $dia  && $dia <= 31):
+                                                        echo 'Semana 4';
+                                                        break;
+                                                }
+                                        ?>
+
+                                </td>
                                 <td nowrap>{{$fac->fac_creado_en}}</td>
                                 <td nowrap>{{$fac->comp_nombre}}</td>
                                 <td nowrap>{{$fac->fac_modificado_por}}</td>
@@ -95,9 +175,13 @@
 
                                 {{--@endif--}}
                             </tr>
+
                                 @endforeach
                                 </tbody>
                           </table>
+
+
+
                                   {{--<div class='col-sm-offset-5'>--}}
                                             {{--<button type="button" class="btn btn-primary btn-sm fa fa-check fa-2x " data-toggle='modal' data-target='#Si' title="Aprobar Factura (s)"></button>--}}
                                             {{--<button type="button" class="btn btn-danger btn-sm fa fa-times fa-2x " data-toggle='modal' data-target='#No' title="No Aprobar Factura (s)" ></button>--}}
@@ -172,6 +256,3 @@
 
 
       </div>
-
-
-

@@ -72,10 +72,27 @@
     <!-- Jquery-ui-->
     {!! Html::script('bower_components/bootstrap-table/src/bootstrap-table.js') !!}
     {!! Html::script('bower_components/bootstrap-table/src/bootstrap-table-export.js') !!}
-    {!! Html::script('bower_components/bootstrap-table/src/bootstrap-table-filter.js') !!}
+
+    {!! Html::script('bower_components/bootstrap-table/src/extensions/export/bootstrap-table-export.js') !!}
+    {!! Html::script('tableExport/tableExport.min.js') !!}
+    {!! Html::script('tableExport/libs/FileSaver/FileSaver.min.js') !!}
+    {!! Html::script('tableExport/libs/html2canvas/html2canvas.min.js') !!}
+
+    {!! Html::script('tableExport/libs/jsPDF/jspdf.min.js') !!}
+    {!! Html::script('tableExport/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js') !!}
 
 
-    <!--{!! Html::script('bower_components/jquery-ui/js/jquery-ui.min.js') !!}-->
+
+     {!! Html::script('bower_components/bootstrap-table/src/extensions/filter/bootstrap-table-filter.js') !!}
+     {!! Html::script('bower_components/bootstrap-table-filter/src/bootstrap-table-filter.js') !!}
+
+
+
+
+
+
+
+
 
 
 
@@ -91,3 +108,4 @@
             $('.combobox').combobox();
           });
         </script>
+

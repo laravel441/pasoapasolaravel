@@ -127,7 +127,11 @@ class Tes1Controller extends Controller
         //dd($request->all());
         $d = $request->items;
         $e = $request->submit;
-
+        if (is_null($d)){
+            //dd($request->all(),':(');
+            Session::flash('message2', 'Debes seleccionar la(s) factura(s) para su respectiva aprobaci&oacute;n o no.' );
+            return redirect()->back();
+        }
 
         //dd($d);
 

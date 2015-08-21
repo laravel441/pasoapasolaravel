@@ -401,6 +401,13 @@ public function store(Request $request)
 public function show(Request $request)
 {
 
+    $d = $request->items;
+    if (is_null($d)){
+        //dd($request->all(),':(');
+        Session::flash('message2', 'Debes seleccionar la(s) factura(s) para su respectiva aprobaci&oacute;n o no.' );
+        return redirect()->back();
+    }
+
     foreach($request->items as $ids){
 
     $a= \DB::statement('

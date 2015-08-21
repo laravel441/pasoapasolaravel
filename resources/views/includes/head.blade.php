@@ -29,6 +29,13 @@
 {!! Html::style('bower_components/bootstrap-table/src/bootstrap-table.css') !!}
 {!! Html::style('bower_components/bootstrap-table/src/bootstrap-table-filter.css') !!}
 
+{!! Html::style('bower_components/bootstrap-table-filter/src/bootstrap-table-filter.css') !!}
+<link rel="../src/stylesheet" href="bootstrap-table-filter.css">
+
+
+
+
+
 
 
 <!-- Fonts -->
