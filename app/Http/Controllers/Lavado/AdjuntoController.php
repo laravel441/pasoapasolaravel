@@ -116,11 +116,12 @@ class AdjuntoController extends Controller {
             if (empty ($x)){
                 $f = $f+1;
             }else {
+                $g = \DB::select('select reg_creado_por from sw_registro_lavado where reg_ctl_id = ' . $ctlsturno.' AND reg_veh_id = '.$veh_id[0]->veh_id);
                 $e = $e+1;
             }
         }
 
-
+            //dd($e,$g[0]);
 
         if ($veh_id[0]->veh_id != $request->vehi_id_original){
             $vehmovil= \DB::select('select veh_movil from sw_vehiculo where veh_id ='.$veh_id[0]->veh_id);
@@ -171,7 +172,7 @@ class AdjuntoController extends Controller {
             return redirect()->back();
         }elseif($zmov != 0 and $e != 0){
             //dd($zmov,$e,$zmovil,$zmovs,'otro control');
-            Session::flash('message3', 'El Movil '. $vehmov->veh_movil .' ya se encuentra registrado en otro control en el mismo turno.');
+            Session::flash('message3', 'El Movil '. $vehmov->veh_movil  .' ya se encuentra registrado en otro control en el mismo turno. Usuario: '. strtoupper($g[0]->reg_creado_por) .'');
 
             return redirect()->back();
         }elseif($zmov != 0 and $e== 0){

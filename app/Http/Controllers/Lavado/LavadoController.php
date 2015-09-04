@@ -286,15 +286,19 @@ class LavadoController extends Controller {
             if (empty ($x)){
                 $f = $f+1;
             }else {
+                $g = \DB::select('select reg_creado_por from sw_registro_lavado where reg_ctl_id = ' . $ctlsturno.' AND reg_veh_id = '.$veh_id[0]->veh_id);
                 $e = $e+1;
             }
         }
+
+        //dd($f,$e,$g[0]->reg_creado_por);
 
         $zmovil[] = $veh_id[0]->veh_id;
         $zmoviles = \DB::select('
                             select * from
                             fn_registro(?)', array($id));
 
+        //dd($zmoviles);
         if(empty($zmoviles)) {
             $zmovs=[];
             $zmov =array_sum($zmovs);
@@ -324,7 +328,7 @@ class LavadoController extends Controller {
             return redirect()->back();
         }elseif($zmov == '0'  and $e != 0){
 
-            Session::flash('message3', 'El Movil '. $vehmov .' ya se encuentra registrado en otro control en el mismo turno.');
+            Session::flash('message3', 'El Movil '. $vehmov .' ya se encuentra registrado en otro control en el mismo turno. Usuario: '. strtoupper($g[0]->reg_creado_por) .'');
 
             return redirect()->back();
         }elseif($zmov == '0' and $e=='0'){//validar ingreso registro....
