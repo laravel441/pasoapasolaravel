@@ -76,8 +76,7 @@ class LavadoController extends Controller {
 
         $usr_name = Auth::user()->usr_name ;
 
-        $patios = \DB::select('select * from sw_patio
-        ');
+        $patios = \DB::select('select * from sw_patio where pto_bandera =\'' .'TRUE'. '\'');
 
         $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 '); //proveedores Lavado
 
@@ -168,8 +167,7 @@ class LavadoController extends Controller {
         $acciones = \DB::select('select * from sw_accion_lavado
         ');
 
-        $patios = \DB::select('select * from sw_patio
-        ');
+        $patios = \DB::select('select * from sw_patio where pto_bandera =\'' .'TRUE'. '\'');
         $vehiculos = \DB::select('select * from sw_vehiculo
         ');
         $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1');

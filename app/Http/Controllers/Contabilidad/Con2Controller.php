@@ -69,6 +69,7 @@ class Con2Controller extends Controller {
             ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','arcf.arc_fac_nombre','pves.pvd_nombre','htc.*')
             ->wherein ('htc.htc_dtl_id', array($d,$f))
             ->where ('htc.htc_bandera', $g)
+            ->where ('asf.asg_usr_asignado', $iduser)
             ->where ('sw_facturas.fac_tip_fac',$h)
             ->orderBY('fac_id', 'DESC')
             ->get();
@@ -82,6 +83,7 @@ class Con2Controller extends Controller {
             ->join('sw_asignacion_facturas AS asf', 'asf.asg_fac_id', '=', 'sw_facturas.fac_id')
             ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','arcf.arc_fac_nombre','pves.pvd_nombre','htc.*')
             ->wherein ('htc.htc_dtl_id', array($d,$i))
+            ->where ('asf.asg_usr_asignado', $iduser)
             ->where ('htc.htc_bandera', $g)
             ->orderBY('fac_id', 'DESC')
             ->get();
@@ -96,6 +98,7 @@ class Con2Controller extends Controller {
             ->select('sw_facturas.*','dett.tip_nombre','comp.comp_nombre','arcf.arc_fac_nombre','pves.pvd_nombre','de.doc_equi_nombre_archivo')
             ->where ('htc.htc_dtl_id', $j)
             ->where ('htc.htc_bandera', $g)
+            ->where ('asf.asg_usr_asignado', $iduser)
             ->orderBY('fac_id', 'DESC')
             ->get();
 

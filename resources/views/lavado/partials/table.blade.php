@@ -3,7 +3,7 @@
                     <thead>
                       <tr>
                             <th>ID</th>
-                            <th>Auxiliar</th>
+                            <th>Supervisor</th>
                             <th>Patio</th>
                             <th>Proveedor</th>
                              <th>Fecha Inicio</th>

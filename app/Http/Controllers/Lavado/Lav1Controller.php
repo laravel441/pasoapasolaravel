@@ -68,8 +68,7 @@ class Lav1Controller extends Controller {
 
         $usr_name = Auth::user()->usr_name ;
 
-        $patios = \DB::select('select * from sw_patio
-        ');
+        $patios = \DB::select('select * from sw_patio where pto_bandera =\'' .'TRUE'. '\'');
 
         $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 '); //proveedores Lavado
 
@@ -148,8 +147,7 @@ class Lav1Controller extends Controller {
 
         $usr_name = Auth::user()->usr_name ;
 
-        $patios = \DB::select('select * from sw_patio
-        ');
+        $patios = \DB::select('select * from sw_patio where pto_bandera =\'' .'TRUE'. '\'');
         $proveedores = \DB::select('select * from sw_proveedor where pvd_mpv_id = 1 ');
         $adjunto = \DB::select('select * from sw_adjunto
         ');
@@ -242,7 +240,7 @@ class Lav1Controller extends Controller {
 
 <th  align="center"> Proveedor</th>
 <td class="text-danger" align="center"></td>
-<th  align="center">Auxiliar de Lavado  </th>
+<th  align="center">Supervisor de Lavado  </th>
 <td class="text-danger" align="center"></td>
 
 </tr>
@@ -262,10 +260,10 @@ class Lav1Controller extends Controller {
 <h4 class="text-danger" align="center"> TERMINAL '. $ptoctl->pto_nombre.'</h4><br>
         <h4>Proveedor: '. $pvectl->pvd_nombre.'</h4>
         <h4>Fecha finalización: '. $ctl->ctl_fecha_fin.'</h4>
-        <h4>Auxiliar de Lavado: '. $ctl->ctl_creado_por.'</h4>
+        <h4>Supervisor de Lavado: '. $ctl->ctl_creado_por.'</h4>
         <h4>Cordial Saludo:</h4><br>
         <p align="justify" >La presente acta representa la información del control de lavado No.' . $id. ' realizado en la fecha:
-    ' . $ctl->ctl_fecha_inicio. ', hasta '. $ctl->ctl_fecha_inicio.' en la terminal de '. $ptoctl->pto_nombre.',
+    ' . $ctl->ctl_fecha_inicio. ', hasta '. $ctl->ctl_fecha_fin.' en la terminal de '. $ptoctl->pto_nombre.',
      realizado por el proveedor '. $pvectl->pvd_nombre.'. Con un total de ' . $numreg->count. ' registros. </p><br>
 
 
