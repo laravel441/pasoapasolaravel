@@ -5,7 +5,7 @@
                                                                <thead>
                                                                    <tr>
                                                                        <th> </th>
-                                                                       <th>Usuario</th>
+                                                                       <th>Supervisor</th>
                                                                        <th>            </th>
                                                                        <th>Terminal</th>
                                                                        <th>            </th>

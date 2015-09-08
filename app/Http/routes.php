@@ -57,7 +57,7 @@ Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Lavado'], functio
     resource('reporte','ReporteController');
     resource('adjunto','AdjuntoController');
     resource('lav/admin','Lav1Controller');
-
+    Route::get('lav/admin/excel/{id}', ['as' => 'lav.admin.excel', 'uses' => 'Lav1Controller@exceles']);
 
 });
 

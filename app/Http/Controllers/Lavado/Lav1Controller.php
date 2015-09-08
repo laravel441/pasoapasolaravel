@@ -15,6 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
 
+
 use App\User;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use DateTime;
 use mPDF;
-
+use Maatwebsite\Excel\Facades\Excel;
 use DateInterval;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
@@ -82,7 +83,7 @@ class Lav1Controller extends Controller {
 	 */
 	public function create()
 	{
-		//
+
 	}
 
 	/**
@@ -163,6 +164,8 @@ class Lav1Controller extends Controller {
 	 */
 	public function edit($id)
 	{
+
+
         $ctl=sw_ctl_lavado::find($id);
        //dd($ctl);
 
@@ -361,8 +364,113 @@ class Lav1Controller extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		//dd($id);
 	}
+
+    public function exceles($id)
+    {
+
+        $regs = sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
+            ->join('sw_vehiculo AS sveh', 'sw_registro_lavado.reg_veh_id', '=', 'sveh.veh_id')
+            ->select('sw_registro_lavado.reg_id','sw_registro_lavado.reg_ctl_id','sveh.veh_id','sveh.veh_movil',
+                'sw_registro_lavado.reg_tanqueo','sw_registro_lavado.reg_observacion','sw_registro_lavado.reg_aprobacion',
+                'sw_registro_lavado.reg_creado_por','sw_registro_lavado.reg_creado_en')
+
+            ->where ('reg_ctl_id',$id)
+            ->orderBY('reg_id', 'DESC')
+
+            ->get();
+
+        //dd($regs);
+        $ctl = sw_ctl_lavado::find($id);
+           Excel::create('Reporte_'.$ctl->ctl_id, function($excel) use($regs,$id)
+            {
+                $excel->sheet('Control '.$id, function($sheet) use($regs,$id)
+                {
+                   $sheet->mergeCells('B1:E1');
+
+                    $sheet->setBorder('A2:F2', 'thin');
+
+                    $sheet->cells('A2:F2', function($cells)
+                    {
+                        $cells->setBackground('#009688');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                    });
+                    $sheet->setAutoFilter('A2:E2');
+                    $sheet->setBorder('A1:F1', 'thin');
+
+                    $sheet->cells('B1:E1', function($cells)
+                    {
+                        $cells->setBackground('#009688');
+                        $cells->setFontColor('#FFFFFF');
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                        $cells->setFontSize(24);
+                        $cells->setFont(array(
+                            'family'     => 'Arial',
+                            'size'       => '26',
+                            'bold'       =>  false
+                        ));
+                    });
+
+
+
+                    $sheet->setAutoSize(true);
+                    $sheet->setWidth(array
+                        (
+                            'A' => '10',
+                            'B' => '20',
+                            'C' => '20',
+                            'D' => '80',
+                            'E' => '20',
+                            'F' => '20'
+
+                        )
+                    );
+
+                    $sheet->setHeight(array
+                        (
+                            '1' => '30',
+                            '2' => '20'
+                        )
+                    );
+
+
+                    $data=[];
+
+
+                    array_push($data, array('ID', '# De Movil', 'Tanqueo', 'Observación', 'Aprobación', 'Creado Por'));
+
+                    $sheet->fromArray($data, null, 'A2', false, false);
+                    $sheet->row('1', array(  //Impríme una fila en el excel con la información del registro recorrido.
+                        '','Reporte del Control # '.$id,'','','',
+                    ));
+
+                    $r = 3; //Indicador de la fila para excel.
+                    foreach($regs as $reg){   //Reccorre los registros encontrados.
+
+                        if ($reg->reg_tanqueo == 1){
+                            $tanqueo = "Interno";
+                        }else{
+                            $tanqueo = "Externo";
+                        }
+                        if ($reg->reg_aprobacion == 1){
+                            $aproba = "Si";
+                        }else{
+                            $aproba = "No";
+                        }
+
+                        $sheet->row($r, array(  //Impríme una fila en el excel con la información del registro recorrido.
+                            $reg->reg_id, $reg->veh_movil, $tanqueo, $reg->reg_observacion, $aproba, $reg->reg_creado_por
+                        ));
+                        $r++;
+                    }
+                });
+            })->download('xlsx');
+
+    }
 
 	/**
 	 * Remove the specified resource from storage.

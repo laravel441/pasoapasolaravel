@@ -2,7 +2,7 @@
                                         <div class="form-group-danger">
                                         	<div class="form-control-wrapper">
                                         		<input class="form-control" disabled="disabled" name="usr_name" type="text" value="{{$usr_name}}">
-                                        		<div class="floating-label">Usuario:</div>
+                                        		<div class="floating-label">Supervisor:</div>
                                         		<span class="material-input"></span>
                                         	</div>
                                         </div>

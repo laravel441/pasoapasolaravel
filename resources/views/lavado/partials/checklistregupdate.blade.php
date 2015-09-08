@@ -6,7 +6,7 @@
                                                                    <thead>
                                                                        <tr>
                                                                            <th> </th>
-                                                                           <th>Usuario</th>
+                                                                           <th>Supervisor</th>
                                                                            <th>Terminal</th>
                                                                            <th>Proveedor</th>
                                                                             <th>Fecha de inicio</th>

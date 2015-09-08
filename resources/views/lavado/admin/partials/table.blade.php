@@ -51,6 +51,8 @@
                                                 <i class="fa fa-eye fa-9x text-primary" title="Ver Control"></i></a>
                                                 <a  target='_blank' href="{{route('lav.admin.edit', $ctl->ctl_id)}}">
                                                 <i class="fa fa-file-pdf-o fa-9x text-danger" title="Generar Reporte"  target='_blank'></i></a>
+                                                <a href="{{route('lav.admin.excel', $ctl->ctl_id)}}">
+                                                <i class="fa fa-file-excel-o fa-9x text-primary" title="Generar Excel" target='_blank' ></i></a>
 
                                                 @endif
 
