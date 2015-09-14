@@ -5,7 +5,7 @@
                       <tr>
                             <th class="bs-checkbox" data-checkbox="true"> <input name="all_items" type="checkbox"></th>
                              <th data-field="id" data-visible="false" data-switchable="false" class="hidden">ID</th>
-                            <th>ID</th>
+                            <th >ID</th>
                             <th>Consecutivo</th>
                             <th>Tipo</th>
                             <th># de Documento</th>

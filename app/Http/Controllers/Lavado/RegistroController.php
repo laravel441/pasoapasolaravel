@@ -140,6 +140,24 @@ class RegistroController extends Controller {
 	public function show( $id)
 	{
 		//dd($id);
+
+        $regis = sw_registro_lavado::join('sw_ctl_lavado AS ctl','sw_registro_lavado.reg_ctl_id','=','ctl.ctl_id')
+            ->join('sw_vehiculo AS sveh', 'sw_registro_lavado.reg_veh_id', '=', 'sveh.veh_id')
+            ->select('sw_registro_lavado.reg_id','sw_registro_lavado.reg_ctl_id','sveh.veh_id','sveh.veh_movil',
+                'sw_registro_lavado.reg_tanqueo','sw_registro_lavado.reg_observacion','sw_registro_lavado.reg_aprobacion',
+                'sw_registro_lavado.reg_creado_en')
+
+            ->where ('reg_ctl_id',$id)
+            ->orderBY('reg_id', 'DESC')
+
+            ->first();
+
+        if (empty($regis)){
+            Session::flash('message2', 'No tiene aún registros creados');
+            return redirect()->back();
+        }
+
+
         $iduser =Auth::user()->usr_id;
 
         $menus = \DB::select('
@@ -160,6 +178,7 @@ class RegistroController extends Controller {
             ->paginate(3);
 
         //dd($regs);
+
 
         $reg_list = \DB::select('
                            select * from
