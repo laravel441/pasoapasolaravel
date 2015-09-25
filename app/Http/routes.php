@@ -90,4 +90,25 @@ Route::group(['prefix'=>'tesoreria','middleware'=>'auth','namespace'=>'Tesoreria
 
 });
 
+Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Remuneracion'], function()//ejecuta los middleware en orden REMUNERACIONES
+{
+    Route::get('remuneracion/km/index', ['as' => 'carguekm', 'uses' => 'CargueKmsController@index']);
+    Route::post('remuneracion/km/index', ['as' => 'carguekm.rem', 'uses' => 'CargueKmsController@storerem']);
+    Route::put('remuneracion/km/index', ['as' => 'carguekm.carguerem', 'uses' => 'CargueKmsController@updateRem']);
+    Route::get('remuneracion/km/formato/kms', ['as' => 'carguekm.desc', 'uses' => 'CargueKmsController@descForKilometros']);
+    Route::get('remuneracion/km/formato/rem', ['as' => 'carguekm.descrem', 'uses' => 'CargueKmsController@descForRemuneracion']);
+    resource('carguekm','CargueKmsController');
+    //resource('remreportes','BusquedaReportesController');
+});
+
+Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Remuneracion'], function()
+{
+    Route::put('remuneracion/reportes/index', ['as' => 'remreportes.generar', 'uses' => 'BusquedaReportesController@generarReporte']);
+    resource('remreportes','BusquedaReportesController');
+});
+
+
+
+
+
 

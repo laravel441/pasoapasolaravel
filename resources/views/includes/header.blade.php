@@ -86,6 +86,9 @@
      {!! Html::script('bower_components/bootstrap-table/src/extensions/filter/bootstrap-table-filter.js') !!}
      {!! Html::script('bower_components/bootstrap-table-filter/src/bootstrap-table-filter.js') !!}
 
+     {!! Html::script('bower_components/bootstrap-fileinput/js/fileinput.min.js') !!}
+     {!! Html::script('bower_components/bootstrap-fileinput/js/fileinput_locale_es.js') !!}
+
 
 
 
