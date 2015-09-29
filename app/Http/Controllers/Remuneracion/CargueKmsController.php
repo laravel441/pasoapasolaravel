@@ -114,6 +114,8 @@ class CargueKmsController extends Controller {
                 $x = array_keys($firstrow);
                 $y = ['ruta','tipo','vehiculo','placa'];
 
+
+
                 for ($i = 0; $i<12;$i++){
                     if ($i<4){
                         $arregloa[] = $x[$i];
@@ -124,13 +126,18 @@ class CargueKmsController extends Controller {
                     }
 
                 }
-                //dd($arregloc);
+                //dd($arregloa,$z,$arregloc);
                 foreach($z as $a){
                     $b = explode("_", $a);
-                    $arreglob[] = $b[0].'-'.$b[1].'-'.$b[2];
+                   if (isset($b[0])&& isset($b[1])&& isset($b[2])){
+                       $arreglob[] = $b[0].'-'.$b[1].'-'.$b[2];
+                   }else{
+                       Session::flash('message3', 'Las fechas no tienen un formato valido');
+                       return redirect()->back();
+                }
                 }
 
-
+                //dd('Holis2');
                 $arreglod = array_merge($arregloa,$arreglob);
                 $header = array_merge($arreglod,$arregloc);
                 //dd($header,array_keys($firstrow));
@@ -219,6 +226,16 @@ class CargueKmsController extends Controller {
 
 
                 }
+                foreach($arregloc as $fec_validas){
+
+                    if (isset ($fec_validas)){
+
+                    }else{
+                        Session::flash('message3', 'El campo fecha esta vacio');
+                        return redirect()->back();
+                    }
+                }
+
                 //dd($firstrow,$arregloa,$arreglob,$arregloc);
 
 
@@ -297,6 +314,7 @@ class CargueKmsController extends Controller {
 			->where('car_fecha_inicio','>=', $dateIni)
 			->where('car_fecha_fin','<=', $dateFin)
 			->get();
+
 		$archivo = new sw_remuneracion_cargue_archivos;
 		if(empty($arc)){
 			//S� el archivo no se ha cargado anteriormente, se crear� el registro

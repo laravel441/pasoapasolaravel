@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\sw_usuario;
 use Illuminate\Support\Facades\Auth;
 use Excel;
 
@@ -148,12 +149,16 @@ class BusquedaReportesController extends Controller {
 
         //B�squeda del archivo cargado correspondientes al per�odo seleccionado.
 
-
+        //dd($request->all());
         $periodo = explode(" ", $request->p);
 
         $fecha_inicio = $periodo[2].'-'.$periodo[1].'-'.$periodo[0];
         //dd($fecha_inicio);
+        $rem = \DB::select("SELECT * FROM fn_remuneraciones_reporte('".$fecha_inicio."')");
+        $cuentas = \DB::select("SELECT tip_valor2 FROM sw_detalle_tipos WHERE tip_mtp_id = 13");
+        $fidu = \DB::select("SELECT tip_valor3, tip_valor2 FROM sw_detalle_tipos WHERE tip_nombre = 'TER'");
 
+        //dd($rem,$cuentas,$fidu);
 
         $report = \DB::select("SELECT 	*
                                FROM	sw_remuneracion_cargue_archivos
@@ -166,9 +171,9 @@ class BusquedaReportesController extends Controller {
             ->where('rjd_fecha','<=', $report[0]->car_fecha_fin)
             ->get();
         //dd($rowsReport);
-        Excel::create('ReporteSW '.$request->p, function($excel) use($rowsReport) {  //Generaci�n del Reporte Final
+        Excel::create('ReporteSW '.$request->p, function($excel) use($rowsReport,$rem,$cuentas,$fidu) {  //Generaci�n del Reporte Final
 
-            $excel->sheet('Reporte', function($sheet) use($rowsReport) {    //Nombre de la hoja generada.
+            $excel->sheet('Reporte', function($sheet) use($rowsReport,$rem,$cuentas,$fidu) {    //Nombre de la hoja generada.
 
                 //Estilo de las columnas.
                 $sheet->setBorder('A1:I1', 'thin');
@@ -188,10 +193,10 @@ class BusquedaReportesController extends Controller {
                         'A' => '15',
                         'B' => '25',
                         'C' => '20',
-                        'D' => '20',
-                        'E' => '20',
+                        'D' => '15',
+                        'E' => '15',
                         'F' => '20',
-                        'G' => '20',
+                        'G' => '15',
                         'H' => '20',
                         'I' => '20'
 
@@ -226,6 +231,40 @@ class BusquedaReportesController extends Controller {
                     ));
                     $r++;
                 }
+                $s = $r+1;
+
+                $sheet->cells('A'.$s.':K'.$s, function($cells)
+                {
+                    $cells->setBackground('#009688');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                });
+                $sheet->setWidth(array
+                    (
+                        'J' => '20',
+                        'K' => '20',
+                        'L' => '20'
+
+                    )
+                );
+                $sheet->setBorder('A'.$s.':K'.$s, 'thin');
+
+                $sheet->row($s, array(  'Zona', 'Periodo','Cuenta', 'T. Aux','LM Aux','GMF', 'Renta', 'ICA', 'CREE', 'Total Retenciones', 'Total Recaudo' ));
+                $t = $s+1;
+                $i=0;
+                foreach($rem as $reg){   //Reccorre los registros encontrados.
+                    $sheet->row($t, array(  //Impr�me una fila en el excel con la informaci�n del registro recorrido.
+
+
+                        $reg->zon_nombre, $reg->fecha_inicio.'-'.$reg->fecha_final, $cuentas[$i]->tip_valor2, $fidu[0]->tip_valor2,$fidu[0]->tip_valor3,
+                        $reg->valor_gravamen, $reg->valor_renta, $reg->valor_ica,$reg->valor_cree,$reg->valor_total,$reg->total_recaudo
+                    ));
+                    $t++;
+                    $i++;
+                }
+
+
 
             });
         })->download('xlsx'); //Exportaci�n del archivo generado.
