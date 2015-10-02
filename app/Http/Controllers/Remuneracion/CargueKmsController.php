@@ -299,6 +299,7 @@ class CargueKmsController extends Controller {
 	 */
 	public function update(Request $request) {
 
+        //dd('kms');
         set_time_limit(0);
 
        $fechas = $request->fechas;
@@ -313,7 +314,9 @@ class CargueKmsController extends Controller {
 		$arc = \DB::table('sw_remuneracion_cargue_archivos')	//De acuerdo a las fechas, se b�sca si se ha cargado el archivo anteriormente.
 			->where('car_fecha_inicio','>=', $dateIni)
 			->where('car_fecha_fin','<=', $dateFin)
+            ->where ('car_tip_id',1)
 			->get();
+
 
 		$archivo = new sw_remuneracion_cargue_archivos;
 		if(empty($arc)){
@@ -332,6 +335,7 @@ class CargueKmsController extends Controller {
 			\DB::table('sw_remuneracion_cargue_archivos')
 				->where('car_id', $arc[0]->car_id)
 				->update(['car_modificado_en' => new DateTime(), 'car_modificado_por' => Auth::user()->usr_name]);
+
 		}
 
 
@@ -449,7 +453,7 @@ class CargueKmsController extends Controller {
 						->where('car_tip_id','=',2)
 						->get();
 
-            //dd($arch[0]->car_id);
+            //dd($arch);
 			$archivo = new sw_remuneracion_cargue_archivos;
 			$idArc = 0;
 			if(empty($arch)){
@@ -464,6 +468,7 @@ class CargueKmsController extends Controller {
 				$archivo->save();
                 //dd('No existe');
 				$idArc = $archivo->car_id;
+
 			} else {
 
 				//S� existe, se modificar� el registro.
@@ -484,9 +489,9 @@ class CargueKmsController extends Controller {
                 \DB::select('DELETE FROM sw_remuneracion_reporte_jde WHERE rjd_car_id ='.$idArc);
 			}
 
-			\DB::select('DELETE FROM sw_remuneracion_detalle_dia');	//Eliminar los registros de sw_remuneracion_detalle_dia
+			//\DB::select('DELETE FROM sw_remuneracion_detalle_dia');	//Eliminar los registros de sw_remuneracion_detalle_dia
 			//\DB::select('ALTER SEQUENCE sw_remuneracion_detalle_dia_ddr_id_seq RESTART'); // Restaurar el indice de la tabla sw_remuneracion_detalle_dia
-			\DB::select('DELETE FROM sw_remuneracion_detalle_semana');	//Eliminar los registros de sw_remuneracion_detalle_semana
+			//\DB::select('DELETE FROM sw_remuneracion_detalle_semana');	//Eliminar los registros de sw_remuneracion_detalle_semana
 			//\DB::select('ALTER SEQUENCE sw_remuneracion_detalle_semana_rds_id_seq  RESTART');	// Restaurar el indice de la tabla sw_remuneracion_detalle_semana
 
 			$rowDay = $request->firtsRowRem;
@@ -626,24 +631,25 @@ class CargueKmsController extends Controller {
 				}
 
 			}
+            //dd('Ok Día y Semana');
 
 			//Redistribucion de la informacion en las tablas correspondientes, seg�n el tipo del registro.
 			if($complete){
-				$complete = $this->insertRemuneracionRuta();	//Almacenamiento de los registros de tipo ingresos en la tabla sw_remuneracion_ruta
+				$complete = $this->insertRemuneracionRuta($idArc);	//Almacenamiento de los registros de tipo ingresos en la tabla sw_remuneracion_ruta
 				if($complete){
-					$complete = $this->insertRemuneracionRutaDetalle();	//Almacenamiento de los registros de tipo cantidad en la tabla sw_remuneracion_ruta_detalle
+					$complete = $this->insertRemuneracionRutaDetalle($idArc);	//Almacenamiento de los registros de tipo cantidad en la tabla sw_remuneracion_ruta_detalle
 					if($complete){
-						$complete = $this->insertRemuneracionTotalDia();	//Almacenamiento de los registros de tipo cantidad en la tabla sw_remuneracion_total_dia
+						$complete = $this->insertRemuneracionTotalDia($idArc);	//Almacenamiento de los registros de tipo cantidad en la tabla sw_remuneracion_total_dia
 						if($complete){
-							$complete = $this->insertRemuneracionTotalSemanaDetalle();	//Almacenamiento de los registros da tipo cantidad por semana en la tabla sw_remuneracion_total_semana_detalle.
+							$complete = $this->insertRemuneracionTotalSemanaDetalle($idArc);	//Almacenamiento de los registros da tipo cantidad por semana en la tabla sw_remuneracion_total_semana_detalle.
 							if($complete){
-								$complete = $this->insertRemuneracionTotalSemana();	//Almacenamiento de los registros da tipo cantidad por semana en la tabla sw_remuneracion_total_semana.
+								$complete = $this->insertRemuneracionTotalSemana($idArc);	//Almacenamiento de los registros da tipo cantidad por semana en la tabla sw_remuneracion_total_semana.
 								if($complete){
 									$complete= $this->insertRemuneracionZonaDia();	//Almacenamiento de los registros da tipo remuneraci�n por semana en la tabla sw_remuneracion_zona_semana.
 									if($complete){
-										$complete = $this->insertRemuneracionZonaSemana();	//Almacenamiento de los registros da tipo remuneraci�n por d�a en la tabla sw_remuneracion_zona_dia.
+										$complete = $this->insertRemuneracionZonaSemana($idArc);	//Almacenamiento de los registros da tipo remuneraci�n por d�a en la tabla sw_remuneracion_zona_dia.
 										if($complete){
-											$complete = $this->insertRemuneraciones();	//Almacenamiento de los registros de remuneraci�n en la tablas sw_remuneraciones.
+											$complete = $this->insertRemuneraciones($idArc);	//Almacenamiento de los registros de remuneraci�n en la tablas sw_remuneraciones.
 											if($complete){
                                                 $complete = $this->reportJde($dateIni, $dateFin); //Almacenamiento de los registros para el reporte de JDE.
                                                 Session::flash('message2', 'Informe de remuneraciones cargado correctamente.');
@@ -674,11 +680,11 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionRuta(){
+	function insertRemuneracionRuta($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_ruta()');	//Busca los registros de tipo Ingreso en la BD.
-		//
-		//dd($rows);
+
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_ruta(?)',array($idArc));	//Busca los registros de tipo Ingreso en la BD.
+        //dd($rows,$idArc);
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_ruta.
 
 
@@ -695,7 +701,7 @@ class CargueKmsController extends Controller {
             $remRuta->save();
 
 		}
-
+        //dd('remuneracion_ruta');
 		return $complete;
 	}
 
@@ -708,9 +714,9 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionRutaDetalle(){
+	function insertRemuneracionRutaDetalle($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_ruta_detalle()');	//Busca los registros de tipo Cantidad en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_ruta_detalle(?)',array($idArc));		//Busca los registros de tipo Cantidad en la BD.
 		//echo "insert Rutas Ingresos";
 		foreach($rows as $key => $row){ //Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_ruta_detalle.
 
@@ -742,16 +748,19 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionTotalDia(){
+	function insertRemuneracionTotalDia($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_total_dia()');	//B�sca los registros de tipo Remuneraci�n en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_total_dia(?)',array($idArc));
+			//B�sca los registros de tipo Remuneraci�n en la BD.
 		//echo "insert Rutas Ingresos";
+        //dd($rows);
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_total_dia.
 
 			$remTotalDia = new sw_remuneracion_total_dia;
 			$remTotalDia->rtd_car_id = $row->ddr_car_id;
 			$remTotalDia->rtd_zon_acronimo = $row->ddr_zon_acronimo;
 			$remTotalDia->rtd_tip_nombre_tr = $row->tip_nombre_tr;
+            $remTotalDia->rtd_tip_nombre_veh = $row->ddr_tip_nombre_veh;
 			$remTotalDia->rtd_fecha_registro = $row->ddr_fecha_registro;
 			$remTotalDia->rtd_remuneracion_veh_dia = $row->remuneracion_veh_dia;
 			$remTotalDia->rdt_remuneracion_km_dia = $row->remuneracion_km_dia;
@@ -773,9 +782,9 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionTotalSemanaDetalle(){
+	function insertRemuneracionTotalSemanaDetalle($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_total_semana_detalle()');	//B�sca los registros de tipo Cantidad por semana en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_total_semana_detalle(?)',array($idArc));	//B�sca los registros de tipo Cantidad por semana en la BD.
 		//echo "insert Rutas Ingresos";
 
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_total_semana_detalle.
@@ -805,9 +814,9 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionTotalSemana(){
+	function insertRemuneracionTotalSemana($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_total_semana()');	//B�sca los registros totales de ingresos y cantidades por semana en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_total_semana(?)',array($idArc));	//B�sca los registros totales de ingresos y cantidades por semana en la BD.
 		//echo "insert Rutas Ingresos";
 		//dd($rows);
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_total_semana.
@@ -841,9 +850,9 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionZonaDia(){
+	function insertRemuneracionZonaDia($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_zona_dia()');	//B�sca los registros de remuneraci�n zonal por d�a en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_zona_dia(?)',array($idArc));	//B�sca los registros de remuneraci�n zonal por d�a en la BD.
 		//echo "insert Rutas Ingresos";
 
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_zona_dia.
@@ -874,9 +883,9 @@ class CargueKmsController extends Controller {
 	 * @return boolean $complete
 	 */
 
-	function insertRemuneracionZonaSemana(){
+	function insertRemuneracionZonaSemana($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones_zona_semana()');	//B�sca los registros de remuneraci�n zonal por semana en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones_zona_semana(?)',array($idArc));	//B�sca los registros de remuneraci�n zonal por semana en la BD.
 		//echo "insert Rutas Ingresos";
 
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracion_zona_semana.
@@ -907,12 +916,12 @@ class CargueKmsController extends Controller {
 	 *
 	 * @return boolean $complete
 	 */
-	function insertRemuneraciones(){
+	function insertRemuneraciones($idArc){
 		$complete = true;
-		$rows = \DB::select('SELECT * FROM fn_remuneraciones()');	//B�sca los registros de remuneraci�n zonal por semana en la BD.
+		$rows = \DB::select('SELECT * FROM fn_remuneraciones(?)',array($idArc));	//B�sca los registros de remuneraci�n zonal por semana en la BD.
 		//echo "insert Rutas Ingresos";
 		foreach($rows as $key => $row){	//Recorre los registros encontrados y los alamacena en la tabla sw_remuneracione.
-			$rem = new sw_remuneraciones();
+			$rem = new sw_remuneraciones;
 			$rem->rmc_car_id = $row->car_id;
 			$rem->rmc_zon_acronimo = $row->zon_acronimo;
 			$rem->rmc_fecha_inicio = $row->fecha_inicio;
@@ -926,7 +935,7 @@ class CargueKmsController extends Controller {
 			$rem->rmc_creado_en = new DateTime();
 			$rem->rmc_creado_por = Auth::user()->usr_name;
 			$rem->save();
-            echo '1';
+
 		}
 
 		return $complete;
@@ -948,6 +957,7 @@ class CargueKmsController extends Controller {
         //dd($dateIni,$dateFin);
         //Se b�scan los registros correspondientes al rchivo cargado para el almacenamiento de los registros del reporte JDE
         $rows = \DB::select("SELECT * FROM fn_remuneraciones_reporte_jde('".$dateIni."','".$dateFin."')");
+        //dd($rows);
 		$count = \DB::select("SELECT tip_valor3, tip_valor2 FROM sw_detalle_tipos WHERE tip_nombre = 'ING'");   //Valor ingreso por veh�culos
         $cue = \DB::select("SELECT tip_valor2 FROM sw_detalle_tipos WHERE tip_nombre = 'COU'"); //C�digo para cuenta
 		//dd($count[0], $cue, $rows);
