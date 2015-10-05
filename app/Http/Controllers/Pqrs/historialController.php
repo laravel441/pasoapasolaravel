@@ -60,7 +60,12 @@ class historialController extends Controller {
 
         $hist  = \DB::select('select * from fn_prueba_historicos(?)',array($id));
         $adj_pqrs = \DB::select('select adj_id as id, adj_ruta as ruta, adj_nombre as nombre from sw_adjuntos_pqrs where adj_pqrs_id ='.$id);
-        return view('pqrs.historicos.adicional', compact('menus','hist','adj_pqrs'));
+        $formato = array();
+        foreach ($adj_pqrs as $archivo) {
+
+            $formato[] = explode('.', $archivo->nombre);
+        }
+        return view('pqrs.historicos.adicional', compact('menus','hist','adj_pqrs','formato'));
 	}
 
 	/**

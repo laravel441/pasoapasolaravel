@@ -51,12 +51,12 @@ class formularioController extends Controller {
         $num = $consec[0]->numero;
         if($num==null){
             $num=1;
-        }       
-                  
+        }
+
 
         return view('pqrs.registros.indexp',compact('menus','canales','tipos','incidencias','estados','prioridad',
             'vehiculos','patios','areass','registros','rutas','empl','x','num'));
-}
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -69,7 +69,7 @@ class formularioController extends Controller {
         $menus = \DB::select('select * from
                             fn_get_modules(?)',array($id));
 
-     return view('pqrs.registros.registro',compact('menus'));
+        return view('pqrs.registros.registro',compact('menus'));
     }
 
     /**
@@ -89,26 +89,29 @@ class formularioController extends Controller {
         $pqrs->pqrs_typ_id                  = $request->typo_id;
         $pqrs->pqrs_stp_id                  = $request->estap_id;
         $pqrs->pqrs_inc_id                  = $request->inciden_id;
-        $pqrs->pqrs_rut_id                  = $request->ruta_id;
-        $pqrs->pqrs_veh_id                  = $request->vehic_id; 
+        if(!$request->ruta_id=="")          $pqrs->pqrs_rut_id   = $request->ruta_id; else $pqrs->pqrs_rut_id =0;
+        if(!$request->vehic_id=="")         $pqrs->pqrs_veh_id   = $request->vehic_id; else $pqrs->pqrs_veh_id = 0;
         $pqrs->pqrs_can_id                  = $request->canal_id;
-        $pqrs->pqrs_pto_id                  = $request->patio_id;
+        if(!$request->patio_id=="" )        $pqrs->pqrs_pto_id   = $request->patio_id; else $pqrs->pqrs_pto_id =0;
         $pqrs->pqrs_pri_id                  = $request->priorid_id;
-        $pqrs->pqrs_area_id                 = $request->area_id;
+        if(!$pqrs->pqrs_area_id =="")       $pqrs->pqrs_area_id   = $request->area_id;  else $pqrs->pqrs_area_id =0;
         $pqrs->pqrs_fecha_vencimiento       = $request->fecha_asignacion;
-        $pqrs->pqrs_afectado                = $request->afectado;
-        $pqrs->pqrs_num_celuar_afectado     = $request->celuar_afectado;
-        $pqrs->pqrs_num_correo_afectado     = $request->correo_afectado;
+        if(!$request->afectado=="")         $pqrs->pqrs_afectado = $request->afectado; else $pqrs->pqrs_afectado="";
+        if(!$request->celuar_afectado=="")  $pqrs->pqrs_num_celuar_afectado  = $request->celuar_afectado; else $pqrs->pqrs_num_celuar_afectado="";
+        if(!$request->correo_afectado="")   $pqrs->pqrs_num_correo_afectado     = $request->correo_afectado; else $pqrs->pqrs_num_correo_afectado="";
         $pqrs->pqrs_creado_en               = new DateTime();
         $pqrs->pqrs_creado_por              = Auth::user()->usr_name;
         $pqrs->pqrs_modificado_en           = new DateTime();
         $pqrs->pqrs_modificado_por          = Auth::user()->usr_name;
+        //$pqrs->pqrs_desc_id          = 0;
+        $pqrs->pqrs_emp_an8          = 0;
+
         $pqrs ->save();
 
         $pqrs_id = \DB::select('select max(pqrs_id) from sw_registro_pqrs');
         $pqrs_id = $pqrs_id[0]->max;
         $array_nombre   =$_FILES["archivos"]['name'];
-        $ruta1          = 'Z:\adjuntos_swcapital\pqrs_adjuntos';
+        $ruta1 = 'Z:\adjuntos_swcapital\pqrs_adjuntos ';
         $rutafac        = '\ ';
         $rutafac        = rtrim($rutafac);
         $ruta11         = rtrim($ruta1).$rutafac.$pqrs_id;
@@ -129,12 +132,12 @@ class formularioController extends Controller {
                 }
             }
         }
-      
+
         if($array_nombre[0]== null){
 
         }else {
             foreach ($array_nombre as $datos){
-                $ruta1          = 'Z:\adjuntos_swcapital\pqrs_adjuntos';
+                $ruta1 = 'Z:\adjuntos_swcapital\pqrs_adjuntos ';
                 $pqrs_id    = $pqrs_id;
                 $rutafac    = '\ ';
                 $rutafac    = rtrim($rutafac);
@@ -144,20 +147,20 @@ class formularioController extends Controller {
 
                 $adjunto_pqrs = new sw_adjuntos_pqrs;
 
-            $adjunto_pqrs->adj_nombre              =   $datos;
-            $adjunto_pqrs->adj_ruta                =   $ruta;
-            $adjunto_pqrs->adj_pqrs_id             =   $pqrs_id;
-            $adjunto_pqrs->adj_creado_en           =   new DateTime();
-            $adjunto_pqrs->adj_creado_por          =   Auth::user()->usr_name;
-            $adjunto_pqrs->adj_modificado_en       =   new DateTime();
-            $adjunto_pqrs->adj_modificado_por      =   Auth::user()->usr_name;
-            $adjunto_pqrs->save();
+                $adjunto_pqrs->adj_nombre              =   $datos;
+                $adjunto_pqrs->adj_ruta                =   $ruta;
+                $adjunto_pqrs->adj_pqrs_id             =   $pqrs_id;
+                $adjunto_pqrs->adj_creado_en           =   new DateTime();
+                $adjunto_pqrs->adj_creado_por          =   Auth::user()->usr_name;
+                $adjunto_pqrs->adj_modificado_en       =   new DateTime();
+                $adjunto_pqrs->adj_modificado_por      =   Auth::user()->usr_name;
+                $adjunto_pqrs->save();
+            }
         }
-    }
 
         Session::flash('message', 'Se ha Guardado Exitosamente la Solicitud ');
         return redirect()->back();
-}
+    }
 
     /**
      * Display the specified resource.
@@ -175,18 +178,22 @@ class formularioController extends Controller {
         $regi = sw_registro_pqrs::find($id);
         $pqrs_id= $regi->pqrs_id;
         $adj_pqrs = \DB::select('select adj_id as id, adj_ruta as ruta, adj_nombre as nombre from sw_adjuntos_pqrs where adj_pqrs_id ='.$id);
+        $formato = array();
+        foreach ($adj_pqrs as $archivo) {
 
+            $formato[] = explode('.', $archivo->nombre);
+        }
         $operador = \DB::select('select * from fn_operadores()');
-        return view('pqrs.registros.indexrespuesta', compact('operador','menus','regi','pqrs_id','adj_pqrs'));
+        return view('pqrs.registros.indexrespuesta', compact('operador','menus','regi','pqrs_id','adj_pqrs','formato'));
     }
     public function saver(EditarRespuestaRequest $request){
 
         $descargo = new sw_descargo;
         $descargo->desc_emp_an8         = $request->emp_an8;
-        $descargo->desc_descargo        = true;     
-        $descargo->desc_creado_en       = new DateTime();        
-        $descargo->desc_creado_por      = Auth::user()->usr_name;        
-        $descargo->desc_modificado_en   = new DateTime();         
+        $descargo->desc_descargo        = true;
+        $descargo->desc_creado_en       = new DateTime();
+        $descargo->desc_creado_por      = Auth::user()->usr_name;
+        $descargo->desc_modificado_en   = new DateTime();
         $descargo->desc_modificado_por  = Auth::user()->usr_name;
         $descargo->save();
 
@@ -197,12 +204,13 @@ class formularioController extends Controller {
         $respuesta->rta_creado_por      = Auth::user()->usr_name;
         $respuesta->rta_modificado_en   = new DateTime();
         $respuesta->rta_modificado_por  = Auth::user()->usr_name;
-                 
+
         $respuesta->save();
 
         $registro = sw_registro_pqrs::find($request['escondido']);
-        $registro->pqrs_rta_id = $respuesta->rta_id;
-        $registro->pqrs_desc_id        = $descargo->desc_id;
+        $registro->pqrs_rta_id          = $respuesta->rta_id;
+        $registro->pqrs_desc_id         = $descargo->desc_id;
+        $registro->pqrs_emp_an8         = $request->emp_an8;
         $registro->save();
 
 
@@ -225,13 +233,16 @@ class formularioController extends Controller {
                             select * from
                             fn_get_modules(?)',array($iduser));
 
-        $regis      = sw_registro_pqrs::find($id);
+        $regis = sw_registro_pqrs::find($id);
 
         if ($regis->pqrs_fecha_hora_suceso == ''){
 
         }else{
             $regis->pqrs_fecha_hora_suceso = $regis->pqrs_fecha_hora_suceso;
         }
+
+
+
 
         $cnal_id = $regis->pqrs_can_id;
         $typo_id = $regis->pqrs_typ_id;
@@ -266,12 +277,17 @@ class formularioController extends Controller {
         $patio_r    = sw_patio::find($regis->pqrs_pto_id);
         $area_r     = sw_area::find($regis->pqrs_area_id);
 
+        $formato = array();
+        foreach ($adj_pqrs as $archivo) {
+
+            $formato[] = explode('.', $archivo->nombre);
+        }
 
 
         return view('pqrs.registros.edit', compact( 'menus','idpqrs','regis','cnal_id','typo_id','incp_id','stpq_id','priop_id','rutap_id','vehp_id','ptop_id','arep_id',
-                                                    'canal_nombre','tipo_nombre','incidenc_nombre','estado_nombre','prioridad_nombre','ruta_nombre','vehiculo_nombre',
-                                                    'patio_nombre','area_nombre','canalesp','tiposp','incidenciasp','estadosp','prioridadesp','rutasp','vehiculosp',
-                                                    'patiosp','areasp','pqrsregs', 'ruta_r','placa_r','patio_r','area_r', 'adj_pqrs'));
+            'canal_nombre','tipo_nombre','incidenc_nombre','estado_nombre','prioridad_nombre','ruta_nombre','vehiculo_nombre',
+            'patio_nombre','area_nombre','canalesp','tiposp','incidenciasp','estadosp','prioridadesp','rutasp','vehiculosp',
+            'patiosp','areasp','pqrsregs', 'ruta_r','placa_r','patio_r','area_r', 'adj_pqrs','formato'));
     }
 
     /**
@@ -287,42 +303,42 @@ class formularioController extends Controller {
 
 
 
-                $array_nombre=$_FILES["archivos"]['name'];
-                $ruta1 = 'C:\xampp\htdocs\pasoapasolaravel\public\images\pqrs_adjuntos';
-                $pqrs_id    = $request->pqrs_id;
-                $rutafac = '\ ';
-                $rutafac= rtrim($rutafac);
-                $ruta11 = rtrim($ruta1).$rutafac.$pqrs_id;
-                if (!file_exists($ruta11)) {
+            $array_nombre=$_FILES["archivos"]['name'];
+            $ruta1 = 'Z:\adjuntos_swcapital\pqrs_adjuntos ';
+            $pqrs_id    = $request->pqrs_id;
+            $rutafac = '\ ';
+            $rutafac= rtrim($rutafac);
+            $ruta11 = rtrim($ruta1).$rutafac.$pqrs_id;
+            if (!file_exists($ruta11)) {
 
-                    mkdir($ruta11, 0777);
-                }
+                mkdir($ruta11, 0777);
+            }
 
 
-                for($i=0;$i<count($_FILES["archivos"]['name']);$i++){
-                    $tmpFilePath = $_FILES["archivos"]['tmp_name'][$i];
+            for($i=0;$i<count($_FILES["archivos"]['name']);$i++){
+                $tmpFilePath = $_FILES["archivos"]['tmp_name'][$i];
 
-                    if ($tmpFilePath != ""){
-                        $ruta2 = $_FILES['archivos']['name'][$i];
-                        $ruta = $ruta11.$rutafac.$ruta2;
-                        if(move_uploaded_file($tmpFilePath, $ruta)){
-                        }
+                if ($tmpFilePath != ""){
+                    $ruta2 = $_FILES['archivos']['name'][$i];
+                    $ruta = $ruta11.$rutafac.$ruta2;
+                    if(move_uploaded_file($tmpFilePath, $ruta)){
                     }
                 }
-              
-                if($array_nombre[0]== null){
+            }
 
-                }else {
-                    foreach ($array_nombre as $datos){
-                        $ruta1      = '\images\pqrs_adjuntos';
-                        $pqrs_id    = $request->pqrs_id;
-                        $rutafac    = '\ ';
-                        $rutafac    = rtrim($rutafac);
-                        $ruta11     = rtrim($ruta1).$rutafac;
-                        $route      = $datos;
-                        $ruta       = $ruta11.$pqrs_id.$rutafac.$route;
+            if($array_nombre[0]== null){
 
-                        $adjunto_pqrs = new sw_adjuntos_pqrs;
+            }else {
+                foreach ($array_nombre as $datos){
+                    $ruta1 = 'Z:\adjuntos_swcapital\pqrs_adjuntos ';
+                    $pqrs_id    = $request->pqrs_id;
+                    $rutafac    = '\ ';
+                    $rutafac    = rtrim($rutafac);
+                    $ruta11     = rtrim($ruta1).$rutafac;
+                    $route      = $datos;
+                    $ruta       = $ruta11.$pqrs_id.$rutafac.$route;
+
+                    $adjunto_pqrs = new sw_adjuntos_pqrs;
 
                     $adjunto_pqrs->adj_nombre              =   $datos;
                     $adjunto_pqrs->adj_ruta                =   $ruta;
@@ -335,7 +351,7 @@ class formularioController extends Controller {
                 }
             }
         }
-       
+
         $regis = sw_registro_pqrs::find($request->pqrs_id);
 
         $regis->pqrs_fecha_asignacion = $request->pqrs_fecha_asignacion;
@@ -363,8 +379,8 @@ class formularioController extends Controller {
         $request->session()->flash('status', 'El registro se actualizo Exitosamente');
         return redirect()->route('registros');
 
-    
-}
+
+    }
 
 
 

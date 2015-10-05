@@ -82,14 +82,40 @@
                                            <div class="form-group-danger ">
                                                 <div class="form-control-wrapper col-md-10 col-md-offset-1">
                                                      <div class="text-center"><h4>Archivos Adjuntos</h4></div>
-                                                       <ul id="list" class="adj">
-                                                        <?php foreach ($adj_pqrs as $key => $adjuntos): ?>
-                                                            <li><a class="thumb" href="#" data-image-id="" data-toggle="modal" data-title="{{ $adjuntos->nombre }}"  data-image="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}" data-target="#image-gallery"> <img src="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}" class="thumb"></a></li>
-                                                              <?php endforeach ?>
-                                                        </ul>
+
+
+                                                          <ul id="list" class="adj">
+
+                                                              @foreach($adj_pqrs as $key => $adjuntos)
+
+                                                                          @if($formato[$key][1]=='jpg'||$formato[$key][1]=='bmp'||$formato[$key][1]=='jpeg'||$formato[$key][1]=='gif'||$formato[$key][1]=='png')
+                                                                          <li>
+                                                                              <a class="thumb" href="#" data-image-id="" data-toggle="modal" data-title="{{ $adjuntos->nombre }}"  data-image="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}" data-target="#image-gallery"> <img src="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}" class="thumb"></a>
+                                                                          </li>
+                                                                        @endif
+
+                                                              @endforeach
+
+
+
+                                                          </ul>
+                                                          <ul  id="list" class="adj" >
+                                                          @foreach($adj_pqrs as $key => $adjuntos)
+                                                                @if($formato[$key][1]=='doc'||$formato[$key][1]=='docx')
+                                                                           <div class="fa fa-file-word-o"><a class="media" href="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br><br>
+                                                                @endif
+                                                                @if($formato[$key][1]=='xls'||$formato[$key][1]=='xlsx')
+                                                                            <div class="fa fa-file-excel-o"><a class="media" href="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br><br>
+                                                                @endif
+                                                                @if($formato[$key][1]=='pdf')
+                                                                             <div class="fa fa-file-pdf-o"><a class="media" href="/pqrs_adjuntos/{{$histo->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br><br>
+                                                                @endif
+
+                                                             @endforeach
+                                                             </ul>
 
                                             </div>
-                                                            
+
 <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -184,13 +210,41 @@ $(document).ready(function() {
             updateGallery(selector);
         });
 
-        function updateGallery(selector) {
+         function updateGallery(selector) {
             var $sel = selector;
+            prueba = $sel.data('image');
+            prueba2 = prueba.split('.').pop();
             current_image = $sel.data('image-id');
-            $('#image-gallery-caption').text($sel.data('caption'));
-            $('#image-gallery-title').text($sel.data('title'));
-            $('#image-gallery-image').attr('src', $sel.data('image'));
-            disableButtons(counter, $sel.data('image-id'));
+            if(prueba2=='jpg'||prueba2=='png'||prueba2=='jpeg'||prueba2=='gif'||prueba2=='bmp'){
+                $('#image-gallery-caption').text($sel.data('caption'));
+                $('#image-gallery-title').text($sel.data('title'));
+                $('#image-gallery-image').attr('src', $sel.data('image'));
+                disableButtons(counter, $sel.data('image-id'));
+
+            }else if(prueba2=='xlsx'||prueba2=='xls'){
+
+                $('#archivo').attr('class', 'fa fa-file-excel-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+
+            }else if(prueba2=='doc'||prueba2=='docx'){
+
+                $('#archivo').attr('class', 'fa fa-file-word-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+            }else if(prueba2=='pdf'){
+
+                $('#archivo').attr('class', 'fa fa-file-pdf-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+            }
+
         }
 
         if(setIDs == true){

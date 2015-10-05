@@ -110,24 +110,23 @@ Route::group(['prefix'=>'/','middleware'=>'auth','namespace'=>'Remuneracion'], f
 Route::group(['prefix'=>'pqrs','middleware'=>'auth','namespace'=>'Pqrs'], function()
 {
     //sresource('registros','formularioController');
-      Route::get('registros',['as'=>'registros','uses'=>'formularioController@index']);
-      Route::post('registros',['as'=>'ingresar','uses'=>'formularioController@store']);
+    Route::get('registros',['as'=>'registros','uses'=>'formularioController@index']);
+    Route::post('registros',['as'=>'ingresar','uses'=>'formularioController@store']);
 
-      Route::get('registros/respuesta/{id}',['as'=>'registros-id','uses'=>'formularioController@show']);
-      Route::post('registros/respuesta/{id}',['as'=>'editar-idP','uses'=>'formularioController@saver']);
+    Route::get('registros/respuesta/{id}',['as'=>'registros-id','uses'=>'formularioController@show']);
+    Route::post('registros/respuesta/{id}',['as'=>'editar-idP','uses'=>'formularioController@saver']);
 
-      Route::get('registros/editar/{id}',['as'=>'editar-id','uses'=>'formularioController@edit']);
-      Route::post('registros/actualizar/{id}',['as'=>'actualizar-id','uses'=>'formularioController@update']);
+    Route::get('registros/editar/{id}',['as'=>'editar-id','uses'=>'formularioController@edit']);
+    Route::post('registros/actualizar/{id}',['as'=>'actualizar-id','uses'=>'formularioController@update']);
 
-      Route::get('reportes',['as'=>'reportes','uses'=>'excelreporteController@index']);
-      Route::post('reportes',['as'=>'reportesPost','uses'=>'excelreporteController@show']);
-      Route::get('reportes/{tipo}/{ini}/{fin}',['as'=>'etsel','uses'=>'excelreporteController@ExcelExport']);
+    Route::get('reportes',['as'=>'reportes','uses'=>'excelreporteController@index']);
+    Route::post('reportes',['as'=>'reportesPost','uses'=>'excelreporteController@show']);
+    Route::get('reportes/{tipo}/{ini}/{fin}',['as'=>'excel','uses'=>'excelreporteController@ExcelExport']);
 
-      Route::get('historicos',['as'=>'historico','uses'=>'historialController@index']);
-      Route::get('historicos/{id}',['as'=>'reporte','uses'=>'historialController@show']);
+    Route::get('historicos',['as'=>'historico','uses'=>'historialController@index']);
+    Route::get('historicos/{id}',['as'=>'reporte','uses'=>'historialController@show']);
 
 });
-
 
 
 

@@ -3,7 +3,7 @@
                   {!! Html::script('bower_components/calendario/moment.min.js') !!}
                   {!! Html::script('bower_components/calendario/daterangepicker.js') !!}
                   {!! Html::style('bower_components/calendario/daterangepicker.css') !!}
-                 
+
                   <!--<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />-->
                   <!-- Include Date Range Picker -->
 
@@ -150,19 +150,26 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
    <select class="form-control combobox" name="pqrs_rut_id">
-    <option value="{{$regis->pqrs_rut_id}}">{{$ruta_r->rut_nombre}}</option>
+    <?php if ($regis->pqrs_rut_id==0) {?>
+      <option value="{{$regis->pqrs_rut_id}}">Ruta:</option>
+      <?php } else { ?>
+      <option value="{{$regis->pqrs_rut_id}}">{{$ruta_r->rut_nombre}}</option>
+      <?php }?>
     <?php foreach ($rutasp as $key => $rutaspqrs):?>
     <option value="{{ $rutaspqrs->rut_id }}">{{ $rutaspqrs->rut_nombre }}</option>
   <?php endforeach ?>
+  <div class="floating-label">Ruta:</div>
 </select>
 </div>
 </div>
-
-
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-0">
    <select class="form-control combobox" name="pqrs_veh_id" id="placa">
+    @if($regis->pqrs_veh_id==0)
+    <option value="{{$regis->pqrs_veh_id}}">Placa:</option>
+    @else
     <option value="{{$regis->pqrs_veh_id}}">{{$placa_r->veh_placa}}</option>
+    @endif
     <?php foreach ($vehiculosp as $key => $placaspqrs):?>
     <option value="{{ $placaspqrs->veh_id }}">{{ $placaspqrs->veh_placa }}</option>
   <?php endforeach ?>
@@ -172,8 +179,14 @@
 
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
+
    <select class="form-control combobox" name="pqrs_veh_id" id="sitp">
-    <option value="{{$regis->pqrs_veh_id}}">{{$placa_r->veh_movil}}</option>
+     @if($regis->pqrs_veh_id==0)
+
+    <option value="{{$regis->pqrs_veh_id}}">N° SITP:</option>
+     @else
+     <option value="{{$regis->pqrs_veh_id}}">{{$placa_r->veh_movil}}</option>
+      @endif
     <?php foreach ($vehiculosp as $key => $sitpqrs): ?>
     <option value="{{ $sitpqrs->veh_id }}">{{ $sitpqrs->veh_movil }}</option>
   <?php endforeach ?>
@@ -187,7 +200,11 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
    <select class="form-control combobox" name="pqrs_pto_id">
+    @if($regis->pqrs_pto_id==0)
+    <option value="{{$regis->pqrs_pto_id}}" selected>Patio:</option>
+    @else
     <option value="{{$regis->pqrs_pto_id}}" selected>{{$patio_r->pto_nombre}}</option>
+    @endif
     <?php foreach ($patiosp as $key => $patiospqrs): ?>
     <option value="{{ $patiospqrs->pto_id }}">{{ $patiospqrs->pto_descripcion }}</option>
   <?php endforeach ?>
@@ -198,7 +215,11 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-0">
    <select class="form-control combobox" name="pqrs_area_id">
+    @if($regis->pqrs_area_id==0)
+    <option value="{{$regis->pqrs_area_id}}">Proceso Asignado:</option>
+    @else
     <option value="{{$regis->pqrs_area_id}}">{{$area_r->area_nombre}}</option>
+    @endif
     <?php foreach ($areasp as $key => $areaspqrs): ?>
     <option value="{{ $areaspqrs->area_id }}">{{ $areaspqrs->area_nombre }}</option>
   <?php endforeach ?>
@@ -236,14 +257,34 @@
 
 
   <ul id="list" class="adj">
-    <?php foreach ($adj_pqrs as $key => $adjuntos): ?>
-    
-      <li>
-          <a class="thumb" href="#" data-image-id="" data-toggle="modal" data-title="{{ $adjuntos->nombre }}"  data-image="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}" data-target="#image-gallery"> <img src="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}" class="thumb"></a>
-      </li>
 
-  <?php endforeach ?>
+    @foreach($adj_pqrs as $key => $adjuntos)
+
+                @if($formato[$key][1]=='jpg'||$formato[$key][1]=='bmp'||$formato[$key][1]=='jpeg'||$formato[$key][1]=='gif'||$formato[$key][1]=='png')
+                <li>
+                    <a class="thumb" href="#" data-image-id="" data-toggle="modal" data-title="{{ $adjuntos->nombre }}"  data-image="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}" data-target="#image-gallery"> <img src="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}" class="thumb"></a>
+                </li>
+              @endif
+
+    @endforeach
+
+
+
 </ul>
+<ul  id="list" class="adj" >
+@foreach($adj_pqrs as $key => $adjuntos)
+      @if($formato[$key][1]=='doc'||$formato[$key][1]=='docx')
+                 <div class="fa fa-file-word-o"><a class="media" href="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br><br>
+      @endif
+      @if($formato[$key][1]=='xls'||$formato[$key][1]=='xlsx')
+                  <div class="fa fa-file-excel-o"><a class="media" href="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br><br>
+      @endif
+      @if($formato[$key][1]=='pdf')
+                   <div class="fa fa-file-pdf-o"><a class="media" href="/pqrs_adjuntos/{{$regis->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br>
+      @endif
+
+   @endforeach
+   </ul>
 
 <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -325,7 +366,7 @@ $( "#sitp" ).change(function() {
 
 $(document).ready(function() {
   $('#files').click(function(){ // The $ is not necessary - you already have it
-       $('#list').empty();  
+       $('#list').empty();
        $("#files").val("");
     });
 });
@@ -368,13 +409,42 @@ $(document).ready(function(){
             updateGallery(selector);
         });
 
+
         function updateGallery(selector) {
             var $sel = selector;
+            prueba = $sel.data('image');
+            prueba2 = prueba.split('.').pop();
             current_image = $sel.data('image-id');
-            $('#image-gallery-caption').text($sel.data('caption'));
-            $('#image-gallery-title').text($sel.data('title'));
-            $('#image-gallery-image').attr('src', $sel.data('image'));
-            disableButtons(counter, $sel.data('image-id'));
+            if(prueba2=='jpg'||prueba2=='png'||prueba2=='jpeg'||prueba2=='gif'||prueba2=='bmp'){
+                $('#image-gallery-caption').text($sel.data('caption'));
+                $('#image-gallery-title').text($sel.data('title'));
+                $('#image-gallery-image').attr('src', $sel.data('image'));
+                disableButtons(counter, $sel.data('image-id'));
+
+            }else if(prueba2=='xlsx'||prueba2=='xls'){
+
+                $('#archivo').attr('class', 'fa fa-file-excel-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+
+            }else if(prueba2=='doc'||prueba2=='docx'){
+
+                $('#archivo').attr('class', 'fa fa-file-word-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+            }else if(prueba2=='pdf'){
+
+                $('#archivo').attr('class', 'fa fa-file-pdf-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+            }
+
         }
 
         if(setIDs == true){
@@ -399,15 +469,18 @@ $(document).ready(function(){
 }
 .adj{
   list-style: none;
+  padding-bottom: 20px;
 }
 .adj li
 {
   display: inline-block;
+  padding-bottom: 20px;
 }
 
 .adj li img
 {
   display: block;
+
 }
 </style>
 

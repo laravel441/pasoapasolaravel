@@ -1,7 +1,7 @@
 
  {!!Form::open(['route'=>['registros-id'], 'method'=> 'POST'])!!}
                        @if (count($errors) > 0)
-                        
+
                                   <div class="alert alert-danger">
                                    Debe digitar los siguientes campos:  <br><br>
                                     <ul>
@@ -16,6 +16,7 @@
                                         <div class="text-default"><strong>Numero de Requerimiento:</strong></div>
                                         </br>
                                         <label class="form-control" disabled="disabled" name="pqrs_num_requerimiento">{{ $regi->pqrs_num_requerimiento }}</label>
+                                        <input type="hidden" name="pqrs_id" value="{{ $regi->pqrs_id }}">
                                         <span class="material-input"></span>
                                     </div>
                                 </div>
@@ -45,14 +46,36 @@
 
 
   <ul id="list" class="adj">
-    <?php foreach ($adj_pqrs as $key => $adjuntos): ?>
-    
-      <li>
-                    <a class="thumb" href="#" data-image-id="" data-toggle="modal" data-title="{{ $adjuntos->nombre }}"  data-image="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}" data-target="#image-gallery"> <img src="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}" class="thumb"></a>
-      </li>
 
-  <?php endforeach ?>
+    @foreach($adj_pqrs as $key => $adjuntos)
+
+                @if($formato[$key][1]=='jpg'||$formato[$key][1]=='bmp'||$formato[$key][1]=='jpeg'||$formato[$key][1]=='gif'||$formato[$key][1]=='png')
+                <li>
+                    <a class="thumb" href="#" data-image-id="" data-toggle="modal" data-title="{{ $adjuntos->nombre }}"  data-image="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}" data-target="#image-gallery"> <img src="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}" class="thumb"></a>
+                </li>
+              @endif
+
+    @endforeach
+
+
+
 </ul>
+<ul  id="list" class="adj" >
+@foreach($adj_pqrs as $key => $adjuntos)
+      @if($formato[$key][1]=='doc'||$formato[$key][1]=='docx')
+                 <div class="fa fa-file-word-o"><a class="media" href="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br>
+      @endif
+      @if($formato[$key][1]=='xls'||$formato[$key][1]=='xlsx')
+                  <div class="fa fa-file-excel-o"><a class="media" href="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br>
+      @endif
+      @if($formato[$key][1]=='pdf')
+                   <div class="fa fa-file-pdf-o"><a class="media" href="/pqrs_adjuntos/{{$regi->pqrs_id}}/{{ $adjuntos->nombre }}">   {{ $adjuntos->nombre }}</a> </div><br>
+      @endif
+
+   @endforeach
+   </ul>
+<output id="prueba"></output>
+
 
 <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -63,6 +86,7 @@
             </div>
             <div class="modal-body">
                 <center><img id="image-gallery-image" class="img-responsive" src=""></center>
+                <center><div id="archivo"></div></center>
             </div>
             <div class="modal-footer">
 
@@ -116,16 +140,45 @@ $(document).ready(function(){
             }
 
             selector = $('[data-image-id="' + current_image + '"]');
+
             updateGallery(selector);
         });
 
         function updateGallery(selector) {
             var $sel = selector;
+            prueba = $sel.data('image');
+            prueba2 = prueba.split('.').pop();
             current_image = $sel.data('image-id');
-            $('#image-gallery-caption').text($sel.data('caption'));
-            $('#image-gallery-title').text($sel.data('title'));
-            $('#image-gallery-image').attr('src', $sel.data('image'));
-            disableButtons(counter, $sel.data('image-id'));
+            if(prueba2=='jpg'||prueba2=='png'||prueba2=='jpeg'||prueba2=='gif'||prueba2=='bmp'){
+                $('#image-gallery-caption').text($sel.data('caption'));
+                $('#image-gallery-title').text($sel.data('title'));
+                $('#image-gallery-image').attr('src', $sel.data('image'));
+                disableButtons(counter, $sel.data('image-id'));
+
+            }else if(prueba2=='xlsx'||prueba2=='xls'){
+
+                $('#archivo').attr('class', 'fa fa-file-excel-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+
+            }else if(prueba2=='doc'||prueba2=='docx'){
+
+                $('#archivo').attr('class', 'fa fa-file-word-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+            }else if(prueba2=='pdf'){
+
+                $('#archivo').attr('class', 'fa fa-file-pdf-o fa-4x');
+                $('#image-gallery-title').text($sel.data('title'));
+
+                $('#image-gallery-image').attr('src','');
+                disableButtons(counter, $sel.data('image-id'));
+            }
+
         }
 
         if(setIDs == true){

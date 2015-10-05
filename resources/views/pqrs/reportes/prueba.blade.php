@@ -54,11 +54,11 @@
 
                    <td>
                     @if($tipo == 4)
-                      <a href="{{route('etsel',[$tipo,$ini,$fin])}}"><button type="button" class="btn btn-primary" style="margin:0px" name="1"   title="Exportar" id="btnExport" disabled>
+                      <a href="{{route('excel',[$tipo,$ini,$fin])}}"><button type="button" class="btn btn-primary" style="margin:0px" name="1"   title="Exportar" id="btnExport" disabled>
                          <span class="fa fa-file-excel-o fa-1x"></span>
                      </button></a>
                      @else
-                     <a href="{{route('etsel',[$tipo,$ini,$fin])}}"><button type="button" class="btn btn-primary" style="margin:0px" name="4"   title="Exportar" id="btnExport">
+                     <a href="{{route('excel',[$tipo,$ini,$fin])}}"><button type="button" class="btn btn-primary" style="margin:0px" name="4"   title="Exportar" id="btnExport">
                          <span class="fa fa-file-excel-o fa-1x"></span>
                      </button></a>
                     @endif 

@@ -487,6 +487,8 @@ class CargueKmsController extends Controller {
 				\DB::select('DELETE FROM sw_remuneracion_zona_semana WHERE rzs_car_id ='.$idArc);
 				\DB::select('DELETE FROM sw_remuneraciones WHERE rmc_car_id ='.$idArc);
                 \DB::select('DELETE FROM sw_remuneracion_reporte_jde WHERE rjd_car_id ='.$idArc);
+                \DB::select('DELETE FROM sw_remuneracion_detalle_dia WHERE  ddr_car_id='.$idArc);
+                \DB::select('DELETE FROM sw_remuneracion_detalle_semana WHERE  rds_car_id='.$idArc);
 			}
 
 			//\DB::select('DELETE FROM sw_remuneracion_detalle_dia');	//Eliminar los registros de sw_remuneracion_detalle_dia
@@ -497,7 +499,7 @@ class CargueKmsController extends Controller {
 			$rowDay = $request->firtsRowRem;
 			//dd($rowDay, $frow, $rows);
 
-            //dd($rows);
+            //dd($rows[1]);
 			foreach($rows as $key => $reg){	//Recorre los registros para su almacenamiento en la BD
 
 				if($reg->tipo != 'DIA' ) {	//Se valida que no sea registros de tipo DIA
@@ -645,7 +647,7 @@ class CargueKmsController extends Controller {
 							if($complete){
 								$complete = $this->insertRemuneracionTotalSemana($idArc);	//Almacenamiento de los registros da tipo cantidad por semana en la tabla sw_remuneracion_total_semana.
 								if($complete){
-									$complete= $this->insertRemuneracionZonaDia();	//Almacenamiento de los registros da tipo remuneraci�n por semana en la tabla sw_remuneracion_zona_semana.
+									$complete= $this->insertRemuneracionZonaDia($idArc);	//Almacenamiento de los registros da tipo remuneraci�n por semana en la tabla sw_remuneracion_zona_semana.
 									if($complete){
 										$complete = $this->insertRemuneracionZonaSemana($idArc);	//Almacenamiento de los registros da tipo remuneraci�n por d�a en la tabla sw_remuneracion_zona_dia.
 										if($complete){
@@ -701,7 +703,7 @@ class CargueKmsController extends Controller {
             $remRuta->save();
 
 		}
-        //dd('remuneracion_ruta');
+
 		return $complete;
 	}
 
@@ -734,8 +736,10 @@ class CargueKmsController extends Controller {
             $remRutaDet->save();
 
 
-		}
 
+
+		}
+        //dd('remuneracion_ruta');
 		return $complete;
 	}
 

@@ -117,7 +117,7 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
     <div class="form-control-wrapper">
-      <input class="form-control" name="afectado" type="text" required>
+      <input class="form-control" name="afectado" type="text">
       <div class="floating-label">Nombre del Usuario:</div>
     </div>
   </div>
@@ -126,7 +126,7 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-0">
     <div class="form-control-wrapper">
-      <input type="number" class="form-control"  name="celuar_afectado" type="text" required>
+      <input type="number" class="form-control"  name="celuar_afectado" type="text">
       <div class="floating-label">N° Celular del Usuario:</div>
     </div>
   </div>
@@ -135,7 +135,7 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
     <div class="form-control-wrapper">
-      <input type="email" class="form-control"  name="correo_afectado" type="text" required>
+      <input type="email" class="form-control"  name="correo_afectado" type="text">
       <div class="floating-label">Correo del Usuario:</div>
     </div>
   </div>
@@ -146,7 +146,7 @@
 </br>
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
-   <select class="form-control combobox" name="ruta_id" required>
+   <select class="form-control combobox" name="ruta_id">
     <option value="" disabled selected>Ruta:</option>
     <?php foreach ($rutas as $key => $ruta): ?>
     <option value="{{ $ruta->rut_id }}">{{ $ruta->rut_nombre }}</option>
@@ -158,7 +158,7 @@
 
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-0">
-   <select class="form-control combobox" name="vehic_id" id="vehic_id" required>
+   <select class="form-control combobox" name="vehic_id" id="vehic_id" >
     <option value="" id="plaka" disabled selected>Placa:</option>
     <?php foreach ($vehiculos as $plak):?>
     <option value="{{ $plak->veh_id }}">{{ $plak->veh_placa }}</option>
@@ -169,7 +169,7 @@
 
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
-   <select class="form-control combobox" name="sitp_id" id="sitp" required>
+   <select class="form-control combobox" name="sitp_id" id="sitp" >
     <option value="" id="nsitp" disabled selected>N° SITP:</option>
     <?php foreach ($vehiculos as  $sitp): ?>
     <option value="{{ $sitp->veh_id }}">{{ $sitp->veh_movil }}</option>
@@ -183,7 +183,7 @@
 </br>
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
-   <select class="form-control combobox" name="patio_id" required>
+   <select class="form-control combobox" name="patio_id" >
     <option value="" disabled selected>Patio:</option>
     <?php foreach ($patios as $key => $ptio): ?>
     <option value="{{ $ptio->pto_id }}">{{ $ptio->pto_descripcion }}</option>
@@ -194,7 +194,7 @@
 
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-0">
-   <select class="form-control combobox" name="area_id" required>
+   <select class="form-control combobox" name="area_id" >
     <option value="" disabled selected>Proceso Asignado:</option>
     <?php foreach ($areass as $key => $area): ?>
     <option value="{{ $area->area_id }}">{{ $area->area_nombre }}</option>
@@ -223,13 +223,15 @@
  <div class="col-md-18 col-md-offset-0">
   <div class="floating-label">Descripción:</div>
 </br>
-<textarea class="form-control" rows="4" maxlength="10000" placeholder="Digite lo Sucedido..." name="descrip" ></textarea>
+<textarea class="form-control" rows="4" maxlength="10000" placeholder="Digite lo Sucedido..." name="descrip" required></textarea>
 <h6>Cantidad maxima de caracteres 10.000</h6>
 </div>
 </div>
 
 <div class="form-group">
     <ul class="adj" id="list">
+    </ul>
+    <ul class="adju" id="listDoc">
     </ul>
   <i class="fa fa-folder-open"></i>
   <input type="file" name="archivos[]" id="files" multiple="multiple"/>
@@ -303,14 +305,16 @@ $( "#sitp" ).change(function() {
 $(document).ready(function() {
   $('#files').click(function(){ // The $ is not necessary - you already have it
 
-       $('#list').empty();  
+       $('#list').empty();
        $("#files").val("");
+       $("#listDoc").empty();
+
     });
 });
 
 
 
-   
+
 </script>
 
 <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -320,31 +324,78 @@ function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
 
     // Loop through the FileList and render image files as thumbnails.
-    for (var i = 0, f; f = files[i]; i++) {
-      // Only process image files.
-      if (f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')) {
 
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')||f.type.match('application/pdf')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')||f.type.match('application/msword')) {
+        filesize= this.files[0].size;
+        if(filesize<1500000){
 
       var reader = new FileReader();
 
       // Closure to capture the file information.
+      if(f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')){
       reader.onload = (function(theFile) {
-        return function(e) {
-          // Render thumbnail.
-          var span = document.createElement('li');
-          span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                            '" title="', escape(theFile.name), '"/>'].join('');
-          document.getElementById('list').insertBefore(span, null);
-        };
-      })(f);
-
+              return function(e) {
+                // Render thumbnail.
+                var span = document.createElement('li');
+                texto = escape(theFile.name);
+                textoEsp = decodeURI(texto)
+                span.innerHTML = ['<br><i id="alt" class="fa fa-file-excel-o">',textoEsp,'<i/><br>'].join('');
+                document.getElementById('listDoc').insertBefore(span, null);
+              };
+            })(f);}
+            if(f.type.match('application/pdf')){
+      reader.onload = (function(theFile) {
+              return function(e) {
+                // Render thumbnail.
+                var span = document.createElement('li');
+                                texto = escape(theFile.name);
+                textoEsp = decodeURI(texto)
+                span.innerHTML = ['<br><i id="alt" class="fa fa-file-pdf-o">',textoEsp,'<i/><br>'].join('');
+                document.getElementById('listDoc').insertBefore(span, null);
+              };
+            })(f);}
+            if(f.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')){
+      reader.onload = (function(theFile) {
+              return function(e) {
+                // Render thumbnail.
+                var span = document.createElement('li');
+                span.attr('id', 'prueba');
+                texto = escape(theFile.name);
+                textoEsp = decodeURI(texto)
+                span.innerHTML = ['<br><i id="alt" class="fa fa-file-word-o">',textoEsp,'<i/><br>'].join('');
+                document.getElementById('listDoc').insertBefore(span, null);
+              };
+            })(f);}
+            else if(f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')){
+            reader.onload = (function(theFile) {
+              return function(e) {
+                // Render thumbnail.
+                var span = document.createElement('li');
+                span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                  '" title="', escape(theFile.name), '"/>'].join('');
+                document.getElementById('list').insertBefore(span, null);
+              };
+            })(f);}
       // Read in the image file as a data URL.
       reader.readAsDataURL(f);
     }
     else{
-    alert('Formato de archivo no permitido');
-    $('#list').empty();  
+    alert('tamaño del archivo "'+files[i].name+'" no permitido');
+    $('#list').empty();
     $("#files").val("");
+    $("#listDoc").empty();
+    return;
+  }
+  }
+    else{
+    alert('Solo se permiten archivos: jpeg, png, bmp, gif, doc, docx, xls, xlsx');
+
+    $("#files").val("");
+    $("#listDoc").empty();
+    $('#list').empty();
     return;
   }
   }
@@ -358,6 +409,10 @@ function handleFileSelect(evt) {
 
 
 <style>
+#alt{
+  padding: 5px 5px 5px 5px;
+
+}
 .thumb {
   height:75px;
   margin: 5px 5px 0 0;;
@@ -393,6 +448,12 @@ function handleFileSelect(evt) {
 }
 .adj li{
   display: inline-block;
+}
+
+.adju{
+      line-height: 0;
+  padding: 0;
+    list-style-type: none;
 }
 </style>
 <script>
