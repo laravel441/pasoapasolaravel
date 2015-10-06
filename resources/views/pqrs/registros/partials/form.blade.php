@@ -21,16 +21,17 @@
     <div class="form-control-wrapper">
       <input  class="form-control"  name="pqrs_num_requerimiento" id="pqrs_num_requerimiento" type="text" required>
       <input type='hidden' name="consecutivo" value="{{$num}}">
-      <div class="floating-label">Número Requerimiento:</div>
+      <div class="floating-label">N&uacute;mero Requerimiento:</div>
     </div>
   </div>
 </div>
+<div id="divhidden"></div>
 <div class="form-group-danger" id="dateRangeFormDate">
  <div class="col-md-3 col-md-offset-1">
    <div class="form-control-wrapper">
     <div class="input-group input-append date">
       <input type="text" class="form-control" name="fecha_asignacion" id="dateRangePicker" required>
-      <div class="floating-label">Fecha de Asignacion:</div>
+      <div class="floating-label">Fecha de Asignaci&oacute;n:</div>
       <span class="input-group-addon add-on">
         <span class="text-danger fa fa-calendar fa-9x"></span></span>
       </div>
@@ -221,7 +222,7 @@
 </br>
 <div class="bs-example" data-example-id="textarea-form-control">
  <div class="col-md-18 col-md-offset-0">
-  <div class="floating-label">Descripción:</div>
+  <div class="floating-label">Descripci&oacute;n:</div>
 </br>
 <textarea class="form-control" rows="4" maxlength="10000" placeholder="Digite lo Sucedido..." name="descrip" required></textarea>
 <h6>Cantidad maxima de caracteres 10.000</h6>
@@ -245,8 +246,7 @@
 
 <script>
 $(document).ready(function() {
-  $('#dateRangePicker').daterangepicker({
-   singleDatePicker: true,
+  $('#dateRangePicker').daterangepicker({   singleDatePicker: true,
    timePicker: false,
    timePickerIncrement: 1,
    showDropdowns: true,
@@ -281,11 +281,19 @@ $(document).ready(function() {
 });
 $( "#canal_id" ).change(function() {
   var canal = $("option:selected",this).attr("class");
+
   if(canal == 1){
-    $( "#pqrs_num_requerimiento" ).val("MC-"+{{$num}});
+    var numero = $("#canal_id").val();
+    $( "#pqrs_num_requerimiento" ).val("MC-"+numero);
+    $( ".auxiliar" ).remove();
+    $("#divhidden").append('<input class="auxiliar" type="hidden" name="pqrs_num_requerimiento" value="'+"MC-"+numero+'" />');
+    $("#pqrs_num_requerimiento").prop('disabled', true);
+
     //$("#pqrs_num_requerimiento").prop('disabled', true);
   }
   else if(canal== 2){
+    $("#pqrs_num_requerimiento").prop('disabled', false);
+    $( ".auxiliar" ).remove();
     $( "#pqrs_num_requerimiento" ).val('');
     //$("#pqrs_num_requerimiento").prop('disabled', false);
   }

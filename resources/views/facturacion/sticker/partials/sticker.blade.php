@@ -104,6 +104,21 @@ $(document).ready(function() {
 
 
 });
+
+
+$( "#s2" ).change(function() {
+  var canal = $('#s2').val();
+
+  if(canal == 3){
+    $( "#s3" ).prop('disabled', true);
+    //$("#pqrs_num_requerimiento").prop('disabled', true);
+  }
+  else{
+  $( "#s3" ).prop('disabled', false);
+  $( "#s3" ).val('');
+  }
+
+});
 function justNumbers(e)
         {
         var keynum = window.event ? window.event.keyCode : e.which;

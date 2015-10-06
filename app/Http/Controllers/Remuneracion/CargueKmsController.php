@@ -633,7 +633,7 @@ class CargueKmsController extends Controller {
 				}
 
 			}
-            //dd('Ok Día y Semana');
+            dd('Ok Día y Semana');
 
 			//Redistribucion de la informacion en las tablas correspondientes, seg�n el tipo del registro.
 			if($complete){

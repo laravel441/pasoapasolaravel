@@ -31,7 +31,7 @@
 
 {!! Html::style('bower_components/bootstrap-table-filter/src/bootstrap-table-filter.css') !!}
 <link rel="../src/stylesheet" href="bootstrap-table-filter.css">
-}
+
 {!! Html::style('bower_components/bootstrap-fileinput/css/fileinput.css') !!}
 
 

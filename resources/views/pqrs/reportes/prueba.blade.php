@@ -66,7 +66,7 @@
                   </tr>
                 </table>
               </div>
-              <div id="dvData">
+
               {!! Form::close() !!}   
                  @if($tipo == 1)
                  @include('pqrs.reportes.partials.reporte')
@@ -76,9 +76,7 @@
                 @include('pqrs.reportes.partials.historicos')
                 @else
                  @endif
-               </div>
-             
-				</div>
+            </div>
 			</div>
 		</div>
 	</div>
