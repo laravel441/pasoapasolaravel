@@ -128,7 +128,7 @@
   <div class="col-md-3 col-md-offset-0">
     <div class="form-control-wrapper">
       <input type="number" class="form-control"  name="celuar_afectado" type="text">
-      <div class="floating-label">N° Celular del Usuario:</div>
+      <div class="floating-label">N&ordm; Celular del Usuario:</div>
     </div>
   </div>
 </div>
@@ -171,7 +171,7 @@
 <div class="form-group-danger">
   <div class="col-md-3 col-md-offset-1">
    <select class="form-control combobox" name="sitp_id" id="sitp" >
-    <option value="" id="nsitp" disabled selected>N° SITP:</option>
+    <option value="" id="nsitp" disabled selected>N&ordm; SITP:</option>
     <?php foreach ($vehiculos as  $sitp): ?>
     <option value="{{ $sitp->veh_id }}">{{ $sitp->veh_movil }}</option>
   <?php endforeach ?>
@@ -246,7 +246,8 @@
 
 <script>
 $(document).ready(function() {
-  $('#dateRangePicker').daterangepicker({   singleDatePicker: true,
+  $('#dateRangePicker').daterangepicker({
+   singleDatePicker: true,
    timePicker: false,
    timePickerIncrement: 1,
    showDropdowns: true,
@@ -329,18 +330,36 @@ $(document).ready(function() {
 <script type="text/javascript">
 
 function handleFileSelect(evt) {
+  var aux = 0;
     var files = evt.target.files; // FileList object
-
-    // Loop through the FileList and render image files as thumbnails.
-
     for (var i = 0, f; f = files[i]; i++) {
+      filesize= this.files[0].size;
+         if (f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')||f.type.match('application/pdf')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')||f.type.match('application/msword')) {
+            if(filesize<1500000){
+                aux =1;
 
-      // Only process image files.
-      if (f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')||f.type.match('application/pdf')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')||f.type.match('application/msword')) {
+            }else{
+              aux=2;
+              break;
+            }
+         }else{
+
+            aux=3;
+            break;
+         }
+
+         if(i==20){
+          aux=4;
+          break;
+        }
+
+    };
+    console.log(aux);
+    // Loop through the FileList and render image files as thumbnails.
+    if(aux==1){
+      for (var i = 0, f; f = files[i]; i++) {
         filesize= this.files[0].size;
-        if(filesize<1500000){
-
-      var reader = new FileReader();
+              var reader = new FileReader();
 
       // Closure to capture the file information.
       if(f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')){
@@ -389,25 +408,109 @@ function handleFileSelect(evt) {
             })(f);}
       // Read in the image file as a data URL.
       reader.readAsDataURL(f);
-    }
-    else{
-    alert('tamaño del archivo "'+files[i].name+'" no permitido');
-    $('#list').empty();
-    $("#files").val("");
-    $("#listDoc").empty();
-    return;
-  }
-  }
-    else{
-    alert('Solo se permiten archivos: jpeg, png, bmp, gif, doc, docx, xls, xlsx');
+      }
 
-    $("#files").val("");
-    $("#listDoc").empty();
-    $('#list').empty();
-    return;
-  }
-  }
-  }
+    }else if(aux==2){
+        alert('tamaño del archivo "'+files[i].name+'" no permitido');
+          $('#list').empty();
+          $("#files").val("");
+          $("#listDoc").empty();
+          return;
+
+    }else if(aux==3){
+          alert('Solo se permiten archivos: jpeg, png, bmp, gif, doc, docx, xlsx');
+
+          $("#files").val("");
+          $("#listDoc").empty();
+          $('#list').empty();
+          return;
+
+    }else if(aux==4){
+          alert('Solo se permite adjuntar un maximo de 20 archivos');
+
+          $("#files").val("");
+          $("#listDoc").empty();
+          $('#list').empty();
+          return;
+
+    }
+}
+
+  //   for (var i = 0, f; f = files[i]; i++) {
+
+  //     // Only process image files.
+  //     if (f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')||f.type.match('application/pdf')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')||f.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')||f.type.match('application/msword')) {
+  //       filesize= this.files[0].size;
+  //       if(filesize<1500000){
+
+  //     var reader = new FileReader();
+
+  //     // Closure to capture the file information.
+  //     if(f.type.match('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')){
+  //     reader.onload = (function(theFile) {
+  //             return function(e) {
+  //               // Render thumbnail.
+  //               var span = document.createElement('li');
+  //               texto = escape(theFile.name);
+  //               textoEsp = decodeURI(texto)
+  //               span.innerHTML = ['<br><i id="alt" class="fa fa-file-excel-o">',textoEsp,'<i/><br>'].join('');
+  //               document.getElementById('listDoc').insertBefore(span, null);
+  //             };
+  //           })(f);}
+  //           if(f.type.match('application/pdf')){
+  //     reader.onload = (function(theFile) {
+  //             return function(e) {
+  //               // Render thumbnail.
+  //               var span = document.createElement('li');
+  //                               texto = escape(theFile.name);
+  //               textoEsp = decodeURI(texto)
+  //               span.innerHTML = ['<br><i id="alt" class="fa fa-file-pdf-o">',textoEsp,'<i/><br>'].join('');
+  //               document.getElementById('listDoc').insertBefore(span, null);
+  //             };
+  //           })(f);}
+  //           if(f.type.match('application/vnd.openxmlformats-officedocument.wordprocessingml.document')){
+  //     reader.onload = (function(theFile) {
+  //             return function(e) {
+  //               // Render thumbnail.
+  //               var span = document.createElement('li');
+  //               span.attr('id', 'prueba');
+  //               texto = escape(theFile.name);
+  //               textoEsp = decodeURI(texto)
+  //               span.innerHTML = ['<br><i id="alt" class="fa fa-file-word-o">',textoEsp,'<i/><br>'].join('');
+  //               document.getElementById('listDoc').insertBefore(span, null);
+  //             };
+  //           })(f);}
+  //           else if(f.type.match('image/jpeg')||f.type.match('image/gif')||f.type.match('image/bmp')||f.type.match('image/png')){
+  //           reader.onload = (function(theFile) {
+  //             return function(e) {
+  //               // Render thumbnail.
+  //               var span = document.createElement('li');
+  //               span.innerHTML = ['<img class="thumb" src="', e.target.result,
+  //                                 '" title="', escape(theFile.name), '"/>'].join('');
+  //               document.getElementById('list').insertBefore(span, null);
+  //             };
+  //           })(f);}
+  //     // Read in the image file as a data URL.
+  //     reader.readAsDataURL(f);
+  //   }
+  //   else{
+  //   alert('tamaño del archivo "'+files[i].name+'" no permitido');
+  //   $('#list').empty();
+  //   $("#files").val("");
+  //   $("#listDoc").empty();
+  //   return;
+  // }
+  // }
+  //   else{
+  //   alert('Solo se permiten archivos: jpeg, png, bmp, gif, doc, docx, xls, xlsx');
+
+  //   $("#files").val("");
+  //   $("#listDoc").empty();
+  //   $('#list').empty();
+  //   return;
+  // }
+  // }
+
 
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
