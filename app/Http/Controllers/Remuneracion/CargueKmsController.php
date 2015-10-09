@@ -329,13 +329,14 @@ class CargueKmsController extends Controller {
 			$archivo->car_creado_por = Auth::user()->usr_name;
 			$archivo->save();
 
-
+            $idArch = $archivo->car_id;
+            //dd($idArch);
 		} else {
 			//S� ya se encuentra, se modifica el registro.
 			\DB::table('sw_remuneracion_cargue_archivos')
 				->where('car_id', $arc[0]->car_id)
 				->update(['car_modificado_en' => new DateTime(), 'car_modificado_por' => Auth::user()->usr_name]);
-
+            $idArch = $arc[0]->car_id;
 		}
 
 
@@ -389,6 +390,7 @@ class CargueKmsController extends Controller {
                                                 if (is_numeric($reg->$date2[$x])){
                                                 $asigDia = new sw_remuneracion_asignacion_km_dia;
                                                 $asigDia->akd_rut_nombre = trim($reg->ruta);
+                                                $asigDia->akd_car_id = $idArch;
                                                 $asigDia->akd_tip_acronimo = trim($reg->tipo);
                                                 $asigDia->akd_veh_movil = trim($reg->vehiculo);
                                                 $asigDia->akd_veh_placa = trim($reg->placa);
@@ -633,7 +635,7 @@ class CargueKmsController extends Controller {
 				}
 
 			}
-            dd('Ok Día y Semana');
+
 
 			//Redistribucion de la informacion en las tablas correspondientes, seg�n el tipo del registro.
 			if($complete){
@@ -941,7 +943,7 @@ class CargueKmsController extends Controller {
 			$rem->save();
 
 		}
-
+        //dd('Antes JDE');
 		return $complete;
 	}
 

@@ -86,7 +86,10 @@ class BusquedaReportesController extends Controller {
                                     to_char(car_fecha_fin, 'DD TMMonth YYYY') fecha_fin
                                 FROM 	sw_remuneracion_cargue_archivos
                                 WHERE	car_tip_id = 2
-                                AND	to_char(car_fecha_inicio, 'YYYY-TMMonth') = '".$request->anio_id."-". $request->mes_id."'");
+                                AND	to_char(car_fecha_inicio, 'YYYY-TMMonth') = '".$request->anio_id."-". $request->mes_id."'
+                                ORDER BY  car_fecha_inicio");
+
+           // dd($periodo);
 
             if($request->mes_id == $request->m){    //Validaci�n correspondiente al cambio de mes.
 
@@ -123,7 +126,8 @@ class BusquedaReportesController extends Controller {
         //dd($request->all());
 
 		$date = $request->valores_buscar[0]."-".$request->valores_buscar[1]."-".substr($request->valores_buscar[2],0,2);    //Concatenaci�n de la fecha seleccionada.
-        $rem = \DB::select("SELECT * FROM fn_remuneraciones_reporte('".$date."')"); //B�squeda de los valores.
+        //dd($date);
+        $rem = \DB::select("SELECT * FROM fn_remuneraciones_reporte('".$date."')"); //B�squeda de los valores. formato fecha -> YYYY-Mes(Texto)-DD
 //dd($date,$rem);
         if(count($rem) > 0){
 
